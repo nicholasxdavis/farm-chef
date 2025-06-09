@@ -7,9 +7,13 @@ import ChefDashboard from '@/components/ChefDashboard';
 import { useAuth } from '@/hooks/useAuth';
 
 const Index = () => {
+  console.log('Index component loaded');
+  
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [showDashboard, setShowDashboard] = useState(false);
   const { user, loading } = useAuth();
+
+  console.log('Auth state:', { user: !!user, loading });
 
   const handleAuthClick = () => {
     if (user) {
@@ -24,6 +28,7 @@ const Index = () => {
   };
 
   if (loading) {
+    console.log('Still loading auth...');
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-lg">Loading...</div>
@@ -31,6 +36,7 @@ const Index = () => {
     );
   }
 
+  console.log('Rendering main app');
   return (
     <div className="min-h-screen bg-gray-50">
       <Header 
