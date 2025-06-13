@@ -655,7 +655,14 @@ function getCategoryDisplayName(category) {
         'beverages': 'BEVERAGES',
         'other': 'OTHER ITEMS'
     };
-    return categoryNames[category] || category.toUpperCase();
+    
+    // If it's a predefined category, use the mapping
+    if (categoryNames[category]) {
+        return categoryNames[category];
+    }
+    
+    // For custom categories, convert underscores back to spaces and uppercase
+    return category.replace(/_/g, ' ').toUpperCase();
 }
 
 function createMenuItemHTML(item) {
