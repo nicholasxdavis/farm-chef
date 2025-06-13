@@ -208,7 +208,7 @@ h1, h2, h3, h4, p1 {
     <div class="flex items-center justify-center min-h-screen p-4">
         <div class="bg-white rounded-xl shadow-2xl w-full max-w-6xl max-h-[90vh] overflow-y-auto">
             <div class="flex justify-between items-center p-6 border-b border-gray-200">
-                <h2 class="text-2xl font-bold text-gray-900">Menu Management Dashboard</h2>
+                <h2 id="modal-main-title" class="text-2xl font-bold text-gray-900">Menu Management Dashboard</h2>
                 <button id="close-modal" class="text-gray-400 hover:text-gray-600 text-2xl">&times;</button>
             </div>
             
@@ -258,104 +258,107 @@ h1, h2, h3, h4, p1 {
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
 
-<!-- Add/Edit Item Modal -->
-<div id="item-modal" class="fixed inset-0 bg-black/50 z-60 hidden">
-    <div class="flex items-center justify-center min-h-screen p-4">
-        <div class="bg-white rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
-            <div class="flex justify-between items-center p-6 border-b border-gray-200">
-                <h3 id="item-modal-title" class="text-xl font-bold text-gray-900">Add New Item</h3>
-                <button id="close-item-modal" class="text-gray-400 hover:text-gray-600 text-2xl">&times;</button>
-            </div>
-            
-            <form id="item-form" class="p-6">
-                <div class="grid md:grid-cols-2 gap-6">
-                    <!-- Basic Info -->
-                    <div class="space-y-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Item Name *</label>
-                            <input type="text" id="item-name" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Price *</label>
-                            <input type="number" id="item-price" step="0.01" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Category *</label>
-                            <select id="item-category" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
-                                <option value="">Select Category</option>
-                                <option value="tortas">Tortas & Wraps</option>
-                                <option value="salads">Salads</option>
-                                <option value="bowls">Bowls</option>
-                                <option value="enchiladas">Enchiladas</option>
-                                <option value="sides">Sides</option>
-                                <option value="desserts">Desserts</option>
-                                <option value="beverages">Beverages</option>
-                            </select>
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Image URL</label>
-                            <input type="url" id="item-image-url" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                        </div>
-                        
-                        <div class="flex items-center">
-                            <input type="checkbox" id="item-available" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
-                            <label for="item-available" class="ml-2 block text-sm text-gray-700">Available</label>
-                        </div>
-                    </div>
-                    
-                    <!-- Description and Tags -->
-                    <div class="space-y-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
-                            <textarea id="item-description" rows="3" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"></textarea>
-                        </div>
-                        
-                        <!-- Dietary Tags -->
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Dietary Tags</label>
-                            <div class="space-y-2">
-                                <label class="flex items-center">
-                                    <input type="checkbox" id="tag-gf" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
-                                    <span class="ml-2 text-sm text-gray-700">Gluten Free (GF)</span>
-                                </label>
-                                <label class="flex items-center">
-                                    <input type="checkbox" id="tag-v" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
-                                    <span class="ml-2 text-sm text-gray-700">Vegan (V)</span>
-                                </label>
-                                <label class="flex items-center">
-                                    <input type="checkbox" id="tag-n" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
-                                    <span class="ml-2 text-sm text-gray-700">Contains Nuts (N)</span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Add-ons Section -->
-                <div class="mt-6 border-t pt-6">
-                    <div class="flex justify-between items-center mb-4">
-                        <h4 class="text-lg font-medium text-gray-900">Add-ons</h4>
-                        <button type="button" id="add-addon-btn" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors text-sm">
-                            Add Add-on
+            <!-- Item Form Section (Hidden by default) -->
+            <div id="item-form-section" class="hidden">
+                <div class="p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 id="item-form-title" class="text-xl font-bold text-gray-900">Add New Item</h3>
+                        <button id="back-to-dashboard" class="text-gray-400 hover:text-gray-600 flex items-center">
+                            <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                            </svg>
+                            Back to Dashboard
                         </button>
                     </div>
-                    <div id="addons-container" class="space-y-3">
-                        <!-- Add-ons will be dynamically added here -->
-                    </div>
+                    
+                    <form id="item-form">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <!-- Basic Info -->
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Item Name *</label>
+                                    <input type="text" id="item-name" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Price *</label>
+                                    <input type="number" id="item-price" step="0.01" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Category *</label>
+                                    <select id="item-category" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                                        <option value="">Select Category</option>
+                                        <option value="tortas">Tortas & Wraps</option>
+                                        <option value="salads">Salads</option>
+                                        <option value="bowls">Bowls</option>
+                                        <option value="enchiladas">Enchiladas</option>
+                                        <option value="sides">Sides</option>
+                                        <option value="desserts">Desserts</option>
+                                        <option value="beverages">Beverages</option>
+                                    </select>
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Image URL</label>
+                                    <input type="url" id="item-image-url" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                </div>
+                                
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="item-available" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                                    <label for="item-available" class="ml-2 block text-sm text-gray-700">Available</label>
+                                </div>
+                            </div>
+                            
+                            <!-- Description and Tags -->
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                                    <textarea id="item-description" rows="3" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"></textarea>
+                                </div>
+                                
+                                <!-- Dietary Tags -->
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Dietary Tags</label>
+                                    <div class="space-y-2">
+                                        <label class="flex items-center">
+                                            <input type="checkbox" id="tag-gf" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                                            <span class="ml-2 text-sm text-gray-700">Gluten Free (GF)</span>
+                                        </label>
+                                        <label class="flex items-center">
+                                            <input type="checkbox" id="tag-v" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                                            <span class="ml-2 text-sm text-gray-700">Vegan (V)</span>
+                                        </label>
+                                        <label class="flex items-center">
+                                            <input type="checkbox" id="tag-n" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                                            <span class="ml-2 text-sm text-gray-700">Contains Nuts (N)</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Add-ons Section -->
+                        <div class="mt-6 border-t pt-6">
+                            <div class="flex justify-between items-center mb-4">
+                                <h4 class="text-lg font-medium text-gray-900">Add-ons</h4>
+                                <button type="button" id="add-addon-btn" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors text-sm">
+                                    Add Add-on
+                                </button>
+                            </div>
+                            <div id="addons-container" class="space-y-3">
+                                <!-- Add-ons will be dynamically added here -->
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-end space-x-4 mt-8 pt-6 border-t">
+                            <button type="button" id="cancel-item" class="px-6 py-3 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition-colors">Cancel</button>
+                            <button type="submit" id="save-item" class="px-6 py-3 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors">Save Item</button>
+                        </div>
+                    </form>
                 </div>
-                
-                <div class="flex justify-end space-x-4 mt-8 pt-6 border-t">
-                    <button type="button" id="cancel-item" class="px-6 py-3 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition-colors">Cancel</button>
-                    <button type="submit" id="save-item" class="px-6 py-3 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors">Save Item</button>
-                </div>
-            </form>
+            </div>
         </div>
     </div>
 </div>
@@ -787,13 +790,22 @@ function displayDashboardItems(items) {
     }).join('');
 }
 
-// Item Modal Functions
+// Item Modal Functions - Updated to use single popup
 function showItemModal(item = null) {
-    const modal = document.getElementById('item-modal');
-    const title = document.getElementById('item-modal-title');
+    const authSection = document.getElementById('auth-section');
+    const dashboardSection = document.getElementById('dashboard-section');
+    const itemFormSection = document.getElementById('item-form-section');
+    const modalTitle = document.getElementById('modal-main-title');
+    const itemFormTitle = document.getElementById('item-form-title');
+    
+    // Hide dashboard, show item form
+    authSection.classList.add('hidden');
+    dashboardSection.classList.add('hidden');
+    itemFormSection.classList.remove('hidden');
     
     editingItemId = item ? item.id : null;
-    title.textContent = item ? 'Edit Item' : 'Add New Item';
+    modalTitle.textContent = item ? 'Edit Menu Item' : 'Add New Menu Item';
+    itemFormTitle.textContent = item ? 'Edit Item' : 'Add New Item';
     
     // Reset form
     document.getElementById('item-form').reset();
@@ -819,12 +831,24 @@ function showItemModal(item = null) {
         currentAddons = item.addons || [];
         updateAddonsDisplay();
     }
-    
-    modal.classList.remove('hidden');
 }
 
 function hideItemModal() {
-    document.getElementById('item-modal').classList.add('hidden');
+    const authSection = document.getElementById('auth-section');
+    const dashboardSection = document.getElementById('dashboard-section');
+    const itemFormSection = document.getElementById('item-form-section');
+    const modalTitle = document.getElementById('modal-main-title');
+    
+    // Show dashboard, hide item form
+    itemFormSection.classList.add('hidden');
+    if (currentUser) {
+        dashboardSection.classList.remove('hidden');
+        modalTitle.textContent = 'Menu Management Dashboard';
+    } else {
+        authSection.classList.remove('hidden');
+        modalTitle.textContent = 'Menu Management Dashboard';
+    }
+    
     editingItemId = null;
     currentAddons = [];
 }
@@ -863,7 +887,7 @@ function updateAddonsDisplay() {
     `).join('');
 }
 
-// Event listeners setup
+// Event listeners setup - Updated
 function setupEventListeners() {
     // Account modal
     document.getElementById('account-btn').addEventListener('click', () => {
@@ -878,9 +902,9 @@ function setupEventListeners() {
         document.getElementById('account-modal').classList.add('hidden');
     });
 
-    // Item modal
+    // Item form navigation
     document.getElementById('add-item-btn').addEventListener('click', () => showItemModal());
-    document.getElementById('close-item-modal').addEventListener('click', hideItemModal);
+    document.getElementById('back-to-dashboard').addEventListener('click', hideItemModal);
     document.getElementById('cancel-item').addEventListener('click', hideItemModal);
     document.getElementById('add-addon-btn').addEventListener('click', addAddon);
     document.getElementById('item-form').addEventListener('submit', handleSaveItem);
@@ -1095,12 +1119,22 @@ function setupCollapsibleSections() {
     });
 }
 
+// Updated setupOrderCalculation with ORDER NOW button
 function setupOrderCalculation() {
     let selectedItems = [];
 
     document.addEventListener('change', function(e) {
         if (e.target.classList.contains('menu-qty-input') || e.target.classList.contains('addon-select')) {
             updateOrderSummary();
+            handleOrderNowButton(); // Add this line to trigger ORDER NOW button
+        }
+    });
+
+    // Also listen to input events for real-time updates
+    document.addEventListener('input', function(e) {
+        if (e.target.classList.contains('menu-qty-input')) {
+            updateOrderSummary();
+            handleOrderNowButton(); // Add this line to trigger ORDER NOW button
         }
     });
 
@@ -1197,6 +1231,56 @@ function showWelcomePopup() {
         if (e.target === welcomePopup) welcomePopup.remove();
     });
 }
+
+function checkSelectedItems() {
+    const quantityInputs = document.querySelectorAll('.menu-qty-input');
+    let hasSelectedItems = false;
+    
+    quantityInputs.forEach(input => {
+        if (parseInt(input.value) > 0) {
+            hasSelectedItems = true;
+        }
+    });
+    
+    return hasSelectedItems;
+}
+
+// Function to handle the ORDER NOW button
+function handleOrderNowButton() {
+    // Remove existing button if it exists
+    const existingButton = document.getElementById('order-now-button');
+    if (existingButton) {
+        existingButton.remove();
+    }
+    
+    // If items are selected, add the button
+    if (checkSelectedItems()) {
+        const button = document.createElement('button');
+        button.id = 'order-now-button';
+        button.textContent = 'ORDER NOW';
+        button.className = 'fixed bottom-6 right-6 bg-secondary text-primary px-6 py-3 rounded-full hover:bg-accent outline outline-2 outline-primary transition duration-300 tracking-wider shadow-lg z-50';
+
+        button.addEventListener('click', () => {
+            const orderForm = document.querySelector('.max-w-4xl.mx-auto.bg-primary');
+            if (orderForm) {
+                orderForm.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+        
+        document.body.appendChild(button);
+    }
+}
+
+// Set up event listeners for all quantity inputs (will be called after menu loads)
+function setupOrderNowButton() {
+    document.querySelectorAll('input[type="number"]').forEach(input => {
+        input.addEventListener('change', handleOrderNowButton);
+        input.addEventListener('input', handleOrderNowButton);
+    });
+}
+
+// Initial check in case items are already selected
+document.addEventListener('DOMContentLoaded', handleOrderNowButton);
 </script>
 
 <script>
@@ -1381,7 +1465,7 @@ function handleOrderNowButton() {
         const button = document.createElement('button');
         button.id = 'order-now-button';
         button.textContent = 'ORDER NOW';
-        button.className = 'fixed bottom-6 right-6 bg-secondary text-white px-6 py-3 rounded-full hover:bg-accent outline outline-2 outline-primary transition duration-300 tracking-wider shadow-lg z-50';
+        button.className = 'fixed bottom-6 right-6 bg-secondary text-primary px-6 py-3 rounded-full hover:bg-accent outline outline-2 outline-primary transition duration-300 tracking-wider shadow-lg z-50';
 
         button.addEventListener('click', () => {
             const orderForm = document.querySelector('.max-w-4xl.mx-auto.bg-primary');
