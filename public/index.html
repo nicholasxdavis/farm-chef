@@ -162,8 +162,9 @@ h1, h2, h3, h4, p1 {
 </style>
 </head>
 
-<body class="text-secondary">
+<body class="text-secondary" style="background-color: #f5dfbf; background-image: url('https://www.transparenttextures.com/patterns/soft-wallpaper.png'); background-repeat: repeat; background-size: auto; background-blend-mode: multiply;">
 
+<!-- Account Icon (added to navigation) -->
 <nav class="bg-secondary top-0 z-50 shadow-md">
     <div class="container mx-auto px-4 sm:px-6 py-3 md:py-4">
         <div class="flex items-center justify-between">
@@ -184,7 +185,7 @@ h1, h2, h3, h4, p1 {
                 <a href="#catering-form" class="bg-primary text-secondary px-4 py-2 rounded-full hover:bg-accent transition duration-300 text-sm tracking-wider font-title">ORDER NOW</a>
                 
                 <!-- Account Icon -->
-                <button id="account-btn" class="text-primary hover:text-accent transition duration-300">
+                <button id="account-btn" class="text-primary hover:text-accent transition duration-300 p-2">
                     <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                     </svg>
@@ -194,7 +195,7 @@ h1, h2, h3, h4, p1 {
             <!-- Mobile menu button -->
             <div class="md:hidden flex items-center space-x-4">
                 <!-- Mobile Account Icon -->
-                <button id="mobile-account-btn" class="text-primary hover:text-accent transition duration-300">
+                <button id="mobile-account-btn" class="text-primary hover:text-accent transition duration-300 p-2">
                     <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                     </svg>
@@ -222,905 +223,700 @@ h1, h2, h3, h4, p1 {
 </nav>
 
 <!-- Account/Dashboard Modal -->
-<div id="account-modal" class="modal-overlay hidden">
-    <div class="modal-content">
-        <button class="close-btn" onclick="closeAccountModal()">&times;</button>
-        
-        <!-- Authentication Section -->
-        <div id="auth-section">
-            <h2 class="text-2xl font-bold mb-4 text-center">Account Access</h2>
-            <div class="max-w-md mx-auto">
-                <div class="mb-4">
-                    <label class="block text-sm font-medium mb-2">Email</label>
-                    <input type="email" id="auth-email" class="w-full px-3 py-2 border border-gray-300 rounded-md">
-                </div>
-                <div class="mb-4">
-                    <label class="block text-sm font-medium mb-2">Password</label>
-                    <input type="password" id="auth-password" class="w-full px-3 py-2 border border-gray-300 rounded-md">
-                </div>
-                <div class="flex space-x-2">
-                    <button onclick="handleLogin()" class="flex-1 bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700">Login</button>
-                    <button onclick="handleSignup()" class="flex-1 bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700">Sign Up</button>
-                </div>
-                <div id="auth-message" class="mt-4 text-center text-sm"></div>
+<div id="account-modal" class="fixed inset-0 bg-black/50 z-50 hidden">
+    <div class="flex items-center justify-center min-h-screen p-4">
+        <div class="bg-primary rounded-lg p-6 w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-2xl font-title">Account Dashboard</h2>
+                <button id="close-modal" class="text-secondary hover:text-accent text-2xl">&times;</button>
             </div>
-        </div>
-        
-        <!-- Dashboard Section (hidden initially) -->
-        <div id="dashboard-section" class="hidden">
-            <h2 class="text-2xl font-bold mb-4">Menu Management Dashboard</h2>
             
-            <!-- Add New Item Form -->
-            <div class="bg-gray-50 p-4 rounded-lg mb-4">
-                <h3 class="text-lg font-semibold mb-3">Add New Menu Item</h3>
-                <div class="edit-form">
-                    <input type="text" id="new-item-name" placeholder="Item name" required>
-                    <textarea id="new-item-description" placeholder="Description" rows="2"></textarea>
-                    <input type="number" id="new-item-price" placeholder="Price" step="0.01" required>
-                    <input type="url" id="new-item-image" placeholder="Image URL">
-                    <select id="new-item-category" required>
-                        <option value="">Select category</option>
-                        <option value="tortas">Tortas & Wraps</option>
-                        <option value="salads">Salads</option>
-                        <option value="bowls">Bowls</option>
-                        <option value="enchiladas">Enchiladas</option>
-                        <option value="sides">Sides</option>
-                        <option value="desserts">Desserts</option>
-                        <option value="beverages">Beverages</option>
-                    </select>
-                    <label class="flex items-center">
-                        <input type="checkbox" id="new-item-available" checked class="mr-2"> Available
-                    </label>
-                    <button onclick="addMenuItem()" class="save-btn">Add Item</button>
+            <!-- Auth Section -->
+            <div id="auth-section">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <!-- Login Form -->
+                    <div class="bg-white p-4 rounded">
+                        <h3 class="text-lg font-title mb-4">Login</h3>
+                        <form id="login-form">
+                            <input type="email" id="login-email" placeholder="Email" class="w-full p-2 border rounded mb-3" required>
+                            <input type="password" id="login-password" placeholder="Password" class="w-full p-2 border rounded mb-3" required>
+                            <button type="submit" class="w-full bg-secondary text-white p-2 rounded hover:bg-accent">Login</button>
+                        </form>
+                    </div>
+                    
+                    <!-- Signup Form -->
+                    <div class="bg-white p-4 rounded">
+                        <h3 class="text-lg font-title mb-4">Sign Up</h3>
+                        <form id="signup-form">
+                            <input type="email" id="signup-email" placeholder="Email" class="w-full p-2 border rounded mb-3" required>
+                            <input type="password" id="signup-password" placeholder="Password" class="w-full p-2 border rounded mb-3" required>
+                            <button type="submit" class="w-full bg-secondary text-white p-2 rounded hover:bg-accent">Sign Up</button>
+                        </form>
+                    </div>
                 </div>
             </div>
             
-            <!-- Menu Items List -->
-            <div id="menu-items-list">
-                <h3 class="text-lg font-semibold mb-3">Current Menu Items</h3>
-                <div id="editable-menu-items"></div>
-            </div>
-            
-            <div class="mt-4">
-                <button onclick="handleLogout()" class="bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700">Logout</button>
+            <!-- Dashboard Section -->
+            <div id="dashboard-section" class="hidden">
+                <div class="mb-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-title">Menu Management</h3>
+                        <button id="logout-btn" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Logout</button>
+                    </div>
+                    
+                    <!-- Add New Item Form -->
+                    <div class="bg-white p-4 rounded mb-4">
+                        <h4 class="font-title mb-3">Add New Menu Item</h4>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <input type="text" id="new-name" placeholder="Item Name" class="p-2 border rounded">
+                            <input type="number" id="new-price" placeholder="Price" class="p-2 border rounded">
+                            <textarea id="new-description" placeholder="Description" class="p-2 border rounded"></textarea>
+                            <select id="new-category" class="p-2 border rounded">
+                                <option value="">Select Category</option>
+                                <option value="tortas">Tortas & Wraps</option>
+                                <option value="salads">Salads</option>
+                                <option value="bowls">Bowls</option>
+                                <option value="enchiladas">Enchiladas</option>
+                                <option value="sides">Sides</option>
+                                <option value="desserts">Desserts</option>
+                                <option value="beverages">Beverages</option>
+                            </select>
+                        </div>
+                        <button id="add-item-btn" class="mt-3 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Add Item</button>
+                    </div>
+                    
+                    <!-- Menu Items List -->
+                    <div id="menu-items-dashboard" class="bg-white p-4 rounded">
+                        <h4 class="font-title mb-3">Current Menu Items</h4>
+                        <div id="items-list"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 <!-- Catering Menu Section -->
-<section id="catering-menu" class="py-12 md:py-20 section-curve">
+<section id="catering-menu" class="py-12 md:py-20">
     <form action="https://formspree.io/f/meogonnn" method="POST" id="catering-form">
-    <div class="container mx-auto px-4 sm:px-6 section-content">
-
-        <!-- Menu Intro -->
-        <div class="max-w-4xl mx-auto mb-12 md:mb-16 text-center">
-            <h1 class="text-3xl md:text-4xl font-display mb-4 md:mb-6 tracking-wider">GATHER YOUR CREW</h1>
-            <p class="mb-4 md:mb-6 text-sm md:text-base">
-                Our <strong>FARM-2-GO</strong> order form is perfect for GROUP ORDERS, offering shared platters of good choices
-                <span class="hidden sm:inline"><br></span>
-                like farm-fresh salads, protein bowls and healthy snacks & desserts, all made from scratch.
-                <img src="assets/leaf.svg" alt="Leaf icon" class="inline-block h-4 w-4 align-text-bottom fill-current text-inherit">
-            </p>
-            <p class="text-xs md:text-sm tracking-wider"><strong>#eatgoodfeelgood &nbsp; #eatgoodworkhappy &nbsp; #FARMesilla</strong></p>
-        </div>
-
-        <div class="text-center mb-8 md:mb-12">
-            <h2 class="text-2xl md:text-3xl mb-3 md:mb-4 tracking-widest">CATERING MENU</h2>
-            <div class="w-20 h-1 bg-accent mx-auto mb-4 md:mb-6"></div>
-            <div class="flex flex-wrap justify-center gap-2 md:gap-4 mb-4 md:mb-6 text-xs md:text-sm">
-                <span class="bg-secondary text-primary px-2 md:px-3 py-1 rounded-full dietary-tag">GF = GLUTEN FREE</span>
-                <span class="bg-secondary text-primary px-2 md:px-3 py-1 rounded-full dietary-tag">V = VEGAN</span>
-                <span class="bg-secondary text-primary px-2 md:px-3 py-1 rounded-full dietary-tag">N = CONTAINS NUTS</span>
+        <div class="container mx-auto px-4 sm:px-6 section-content">
+            <!-- Menu Intro -->
+            <div class="max-w-4xl mx-auto mb-12 md:mb-16 text-center">
+                <h1 class="text-3xl md:text-4xl font-display mb-4 md:mb-6 tracking-wider">GATHER YOUR CREW</h1>
+                <p class="mb-4 md:mb-6 text-sm md:text-base">
+                    Our <strong>FARM-2-GO</strong> order form is perfect for GROUP ORDERS, offering shared platters of good choices
+                    <span class="hidden sm:inline"><br></span>
+                    like farm-fresh salads, protein bowls and healthy snacks & desserts, all made from scratch.
+                    <img src="assets/leaf.svg" alt="Leaf icon" class="inline-block h-4 w-4 align-text-bottom fill-current text-inherit">
+                </p>
+                <p class="text-xs md:text-sm tracking-wider"><strong>#eatgoodfeelgood &nbsp; #eatgoodworkhappy &nbsp; #FARMesilla</strong></p>
             </div>
-        </div>
 
-        <!-- Portion Size Selector -->
-        <div class="max-w-xs mx-auto mb-10 text-center">
-            <p class="mb-3 font-medium">SELECT PORTION SIZE</p>
-            <div class="relative flex items-center justify-center">
-                <button type="button" class="portion-btn" onclick="adjustPortion(-1)">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z" clip-rule="evenodd" />
-                    </svg>
-                </button>
-                
-                <div class="mx-4 px-6 py-2 border-b-2 border-accent text-center min-w-[120px]">
-                    <span id="portion-size" class="text-2xl font-display">10</span>
-                    <span class="ml-1 text-sm">people</span>
+            <div class="text-center mb-8 md:mb-12">
+                <h2 class="text-2xl md:text-3xl mb-3 md:mb-4 tracking-widest">CATERING MENU</h2>
+                <div class="w-20 h-1 bg-accent mx-auto mb-4 md:mb-6"></div>
+                <div class="flex flex-wrap justify-center gap-2 md:gap-4 mb-4 md:mb-6 text-xs md:text-sm">
+                    <span class="bg-secondary text-primary px-2 md:px-3 py-1 rounded-full">GF = GLUTEN FREE</span>
+                    <span class="bg-secondary text-primary px-2 md:px-3 py-1 rounded-full">V = VEGAN</span>
+                    <span class="bg-secondary text-primary px-2 md:px-3 py-1 rounded-full">N = CONTAINS NUTS</span>
                 </div>
-                
-                <button type="button" class="portion-btn" onclick="adjustPortion(1)">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
-                    </svg>
-                </button>
             </div>
-            <p class="mt-2 text-xs text-secondary-500">Standard portion sizes: 5, 10 or 20 people</p>
-        </div>
 
-        <!-- Dynamic Menu Categories will be inserted here -->
-        <div id="menu-categories-container">
-            <!-- Fallback static content in case API fails -->
-            <div class="max-w-4xl mx-auto mb-12 md:mb-16">
-                <div class="flex items-center mb-3 md:mb-4">
-                    <div class="flex-grow border-t border-secondary/20"></div>
-                    <h3 class="text-xl md:text-2xl mx-2 md:mx-4 tracking-wider whitespace-nowrap">FARMHOUSE TORTAS & WRAPS</h3>
-                    <div class="flex-grow border-t border-secondary/20"></div>
+            <!-- Portion Size Selector -->
+            <div class="max-w-xs mx-auto mb-10 text-center">
+                <p class="mb-3 font-medium">SELECT PORTION SIZE</p>
+                <div class="relative flex items-center justify-center">
+                    <button type="button" class="portion-btn" onclick="adjustPortion(-1)">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                    
+                    <div class="mx-4 px-6 py-2 border-b-2 border-accent text-center min-w-[120px]">
+                        <span id="portion-size" class="text-2xl font-display">10</span>
+                        <span class="ml-1 text-sm">people</span>
+                    </div>
+                    
+                    <button type="button" class="portion-btn" onclick="adjustPortion(1)">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
                 </div>
-                <p class="text-center mb-4 md:mb-6 text-xs md:text-sm">(PLATTER SERVES 5)</p>
-                
-                <div class="collapsible-content" style="max-height: 0;">
-                    <div class="space-y-6">
-                        <!-- Static fallback items -->
-                        <div class="flex items-start gap-4">
-                            <div class="flex-grow">
-                                <div class="flex items-start justify-between">
-                                    <div class="flex items-start">
-                                        <input type="number" min="0" name="achiote_turkey_qty" class="w-12 md:w-16 mr-3 px-2 py-1 border border-secondary/20 bg-primary2 rounded text-center menu-quantity-input" placeholder="QTY" data-price="62" data-name="ACHIOTE-LIME TURKEY TORTA">
-                                        <div>
-                                            <p class="font-medium"><span class="font-title">ACHIOTE-LIME TURKEY TORTA</span> ↣ 62</p>
-                                            <p class="text-xs md:text-sm mt-1">TUCUMCARI WHITE CHEDDAR, SERRANO BACON, RED CABBAGE, RED CHILE MAYO, TOASTED TALERA</p>
-                                        </div>
-                                    </div>
-                                    <div class="flex gap-2">
-                                        <span class="dietary-tag bg-secondary/10 px-2 py-0.5 rounded text-xs">gf</span>
-                                        <span class="dietary-tag bg-secondary/10 px-2 py-0.5 rounded text-xs">n</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <img src="assets/farm.jpg" alt="Achiote-Lime Turkey Torta" class="menu-item-image">
+                <p class="mt-2 text-xs text-secondary-500">Standard portion sizes: 5, 10 or 20 people</p>
+            </div>
+
+            <!-- Dynamic Menu Items Container -->
+            <div id="menu-categories-container"></div>
+
+            <!-- Order Form -->
+            <div class="max-w-4xl mx-auto bg-primary p-4 md:p-8 rounded-lg shadow-md">
+                <div class="mb-6 md:mb-8">
+                    <h4 class="text-lg md:text-xl mb-3 md:mb-4 font-bold tracking-wider">YOUR SELECTED ITEMS</h4>
+                    <div id="order-items-display" class="border border-secondary/20 rounded-lg p-3 md:p-4 mb-3 md:mb-4 min-h-24 md:min-h-32">
+                        <p class="text-center text-secondary/60 text-sm md:text-base">Your selected items will appear here</p>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <p class="font-bold tracking-wider text-sm md:text-base">SUBTOTAL:</p>
+                            <p class="text-xs md:text-sm">18% PREPARATION FEE WILL BE ADDED</p>
                         </div>
+                        <p id="subtotal-display" class="text-xl md:text-2xl">$0.00</p>
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <!-- Combined Order Form -->
-        <div class="max-w-4xl mx-auto bg-primary p-4 md:p-8 rounded-lg shadow-md">
-            <div class="mb-6 md:mb-8">
-                <h4 class="text-lg md:text-xl mb-3 md:mb-4 font-bold tracking-wider">YOUR SELECTED ITEMS</h4>
-                <div id="order-items-display" class="border border-secondary/20 rounded-lg p-3 md:p-4 mb-3 md:mb-4 min-h-24 md:min-h-32">
-                    <p class="text-center text-secondary/60 text-sm md:text-base">Your selected items will appear here</p>
-                </div>
-                <div class="flex justify-between items-center">
+                
+                <h3 class="text-xl md:text-2xl mb-4 md:mb-6 text-center tracking-wider">CLIENT INFORMATION</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-4 md:mb-6">
                     <div>
-                        <p class="font-bold tracking-wider text-sm md:text-base">SUBTOTAL:</p>
-                        <p class="text-xs md:text-sm">18% PREPARATION FEE WILL BE ADDED</p>
+                        <label class="block mb-1 md:mb-2 font-bold tracking-wider text-sm md:text-base">CLIENT NAME</label>
+                        <input type="text" name="client_name" class="w-full px-3 md:px-4 py-1 md:py-2 border border-secondary/60 bg-secondary bg-opacity-20 rounded-lg text-sm md:text-base" required>
                     </div>
-                    <p id="subtotal-display" class="text-xl md:text-2xl">$0.00</p>
+                    <div>
+                        <label class="block mb-1 md:mb-2 font-bold tracking-wider text-sm md:text-base">CLIENT EMAIL</label>
+                        <input type="email" name="client_email" class="w-full px-3 md:px-4 py-1 md:py-2 border border-secondary/60 bg-secondary bg-opacity-20 rounded-lg text-sm md:text-base" required>
+                    </div>
+                    <div>
+                        <label class="block mb-1 md:mb-2 font-bold tracking-wider text-sm md:text-base">PHONE #</label>
+                        <input type="tel" name="client_phone" class="w-full px-3 md:px-4 py-1 md:py-2 border border-secondary/60 bg-secondary bg-opacity-20 rounded-lg text-sm md:text-base" required>
+                    </div>
+                    <div>
+                        <label class="block mb-1 md:mb-2 font-bold tracking-wider text-sm md:text-base">ORDER DATE</label>
+                        <input type="date" name="order_date" class="w-full px-3 md:px-4 py-1 md:py-2 border border-secondary/60 bg-secondary bg-opacity-20 rounded-lg text-sm md:text-base" required>
+                    </div>
+                    <div>
+                        <label class="block mb-1 md:mb-2 font-bold tracking-wider text-sm md:text-base">PICK-UP/DELIVERY DATE</label>
+                        <input type="date" name="delivery_date" class="w-full px-3 md:px-4 py-1 md:py-2 border border-secondary/60 bg-secondary bg-opacity-20 rounded-lg text-sm md:text-base" required>
+                    </div>
+                    <div>
+                        <label class="block mb-1 md:mb-2 font-bold tracking-wider text-sm md:text-base">PICK-UP/DELIVERY TIME</label>
+                        <input type="time" name="delivery_time" class="w-full px-3 md:px-4 py-1 md:py-2 border border-secondary/60 bg-secondary bg-opacity-20 rounded-lg text-sm md:text-base" required>
+                    </div>
+                </div>
+                <div class="mb-4 md:mb-6">
+                    <label class="block mb-1 md:mb-2 font-bold tracking-wider text-sm md:text-base">DELIVERY ADDRESS (IF APPLICABLE)</label>
+                    <textarea name="delivery_address" rows="2" class="w-full px-3 md:px-4 py-1 md:py-2 border border-secondary/20 bg-secondary bg-opacity-20 rounded-lg text-sm md:text-base" required></textarea>
+                </div>
+                <div class="text-center">
+                    <p class="text-xs md:text-sm mb-4 md:mb-6 tracking-wider">ONCE SUBMITTED, A STAFF MEMBER WILL REVIEW YOUR FORM AND WILL REACH OUT FOR CONFIRMATION.</p>
+                    <p class="text-xs md:text-sm mb-4 md:mb-6 tracking-wider">FOR ANY QUESTIONS, EMAIL CHEF@FARMESILLA.COM</p>
+                    <button type="submit" class="bg-secondary text-primary px-6 md:px-8 py-2 md:py-3 rounded-full hover:bg-accent transition duration-300 tracking-wider text-sm md:text-base">SUBMIT ORDER</button>
                 </div>
             </div>
-            
-            <h3 class="text-xl md:text-2xl mb-4 md:mb-6 text-center tracking-wider">CLIENT INFORMATION</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-4 md:mb-6">
-                <div>
-                    <label class="block mb-1 md:mb-2 font-bold tracking-wider text-sm md:text-base">CLIENT NAME</label>
-                    <input type="text" name="client_name" class="w-full px-3 md:px-4 py-1 md:py-2 border border-secondary/60 bg-secondary bg-opacity-20 rounded-lg text-sm md:text-base" required>
-                </div>
-                <div>
-                    <label class="block mb-1 md:mb-2 font-bold tracking-wider text-sm md:text-base">CLIENT EMAIL</label>
-                    <input type="email" name="client_email" class="w-full px-3 md:px-4 py-1 md:py-2 border border-secondary/60 bg-secondary bg-opacity-20 rounded-lg text-sm md:text-base" required>
-                </div>
-                <div>
-                    <label class="block mb-1 md:mb-2 font-bold tracking-wider text-sm md:text-base">PHONE #</label>
-                    <input type="tel" name="client_phone" class="w-full px-3 md:px-4 py-1 md:py-2 border border-secondary/60 bg-secondary bg-opacity-20 rounded-lg text-sm md:text-base" required>
-                </div>
-                <div>
-                    <label class="block mb-1 md:mb-2 font-bold tracking-wider text-sm md:text-base">ORDER DATE</label>
-                    <input type="date" name="order_date" class="w-full px-3 md:px-4 py-1 md:py-2 border border-secondary/60 bg-secondary bg-opacity-20 rounded-lg text-sm md:text-base" required>
-                </div>
-                <div>
-                    <label class="block mb-1 md:mb-2 font-bold tracking-wider text-sm md:text-base">PICK-UP/DELIVERY DATE</label>
-                    <input type="date" name="delivery_date" class="w-full px-3 md:px-4 py-1 md:py-2 border border-secondary/60 bg-secondary bg-opacity-20 rounded-lg text-sm md:text-base" required>
-                </div>
-                <div>
-                    <label class="block mb-1 md:mb-2 font-bold tracking-wider text-sm md:text-base">PICK-UP/DELIVERY TIME</label>
-                    <input type="time" name="delivery_time" class="w-full px-3 md:px-4 py-1 md:py-2 border border-secondary/60 bg-secondary bg-opacity-20 rounded-lg text-sm md:text-base" required>
-                </div>
-            </div>
-            <div class="mb-4 md:mb-6">
-                <label class="block mb-1 md:mb-2 font-bold tracking-wider text-sm md:text-base">DELIVERY ADDRESS (IF APPLICABLE)</label>
-                <textarea name="delivery_address" rows="2" class="w-full px-3 md:px-4 py-1 md:py-2 border border-secondary/20 bg-secondary bg-opacity-20 rounded-lg text-sm md:text-base" required></textarea>
-            </div>
-            <div class="text-center">
-                <p class="text-xs md:text-sm mb-4 md:mb-6 tracking-wider">ONCE SUBMITTED, A STAFF MEMBER WILL REVIEW YOUR FORM AND WILL REACH OUT FOR CONFIRMATION.</p>
-                <p class="text-xs md:text-sm mb-4 md:mb-6 tracking-wider">FOR ANY QUESTIONS, EMAIL CHEF@FARMESILLA.COM</p>
-                <button type="submit" class="bg-secondary text-primary px-6 md:px-8 py-2 md:py-3 rounded-full hover:bg-accent transition duration-300 tracking-wider text-sm md:text-base">SUBMIT ORDER</button>
-            </div>
-        </div>
 
-        <!-- PDF Download at Bottom -->
-        <div class="max-w-4xl mx-auto mt-12 md:mt-16 text-center">
-            <a href="assets/farmesilla-catering-menu.pdf" download class="inline-flex items-center bg-secondary text-primary px-4 md:px-6 py-2 md:py-3 rounded-full hover:bg-accent transition duration-300 mx-auto text-sm md:text-base">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 md:h-5 md:w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
-                </svg>
-                DOWNLOAD FULL MENU (PDF)
-            </a>
+            <!-- PDF Download -->
+            <div class="max-w-4xl mx-auto mt-12 md:mt-16 text-center">
+                <a href="assets/farmesilla-catering-menu.pdf" download class="inline-flex items-center bg-secondary text-primary px-4 md:px-6 py-2 md:py-3 rounded-full hover:bg-accent transition duration-300 mx-auto text-sm md:text-base">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 md:h-5 md:w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    </svg>
+                    DOWNLOAD FULL MENU (PDF)
+                </a>
+            </div>
         </div>
-    </div>
     </form>
 </section>
 
 <!-- Include Supabase -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 
 <script>
-    // Supabase configuration
-    const SUPABASE_URL = 'https://xyzcompany.supabase.co';
-    const SUPABASE_ANON_KEY = 'your-anon-key';
-    
-    let supabase;
-    let currentUser = null;
-    let menuItems = [];
+// Initialize Supabase with correct configuration
+const SUPABASE_URL = 'https://genodqiyehczgiqgxekv.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdlbm9kcWl5ZWhjemdpcWd4ZWt2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDkzMjE4NDUsImV4cCI6MjA2NDg5Nzg0NX0.DFtdiPpjtSvWBqb92IQ1catvkhOGAu0n1NEIPj4g91E';
 
-    // Initialize everything when DOM loads
-    document.addEventListener('DOMContentLoaded', function() {
-        initializeSupabase();
-        setupEventListeners();
-        setupPortionSelector();
-        loadMenuItems();
-        showWelcomePopup();
-        setupDietaryTagHandlers();
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+let currentUser = null;
+let menuItems = [];
+
+// Initialize everything
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Initializing application...');
+    initializeAuth();
+    loadMenuItems();
+    setupEventListeners();
+    setupPortionSelector();
+    setupMobileMenu();
+    
+    // Show welcome popup
+    showWelcomePopup();
+});
+
+// Auth functions
+function initializeAuth() {
+    // Check current session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+        if (session) {
+            currentUser = session.user;
+            updateAuthUI();
+        }
     });
 
-    function initializeSupabase() {
-        try {
-            if (typeof window.supabase !== 'undefined') {
-                supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-                console.log('Supabase initialized successfully');
-            } else {
-                console.warn('Supabase not available, using mock data');
-            }
-        } catch (error) {
-            console.error('Error initializing Supabase:', error);
+    // Listen for auth changes
+    supabase.auth.onAuthStateChange((event, session) => {
+        if (event === 'SIGNED_IN') {
+            currentUser = session.user;
+            updateAuthUI();
+        } else if (event === 'SIGNED_OUT') {
+            currentUser = null;
+            updateAuthUI();
         }
+    });
+}
+
+function updateAuthUI() {
+    const authSection = document.getElementById('auth-section');
+    const dashboardSection = document.getElementById('dashboard-section');
+    
+    if (currentUser) {
+        authSection.classList.add('hidden');
+        dashboardSection.classList.remove('hidden');
+        loadMenuItemsForDashboard();
+    } else {
+        authSection.classList.remove('hidden');
+        dashboardSection.classList.add('hidden');
     }
+}
 
-    function setupEventListeners() {
-        // Mobile menu toggle
-        const mobileMenuButton = document.querySelector('.mobile-menu-button');
-        const mobileMenu = document.querySelector('.mobile-menu');
-        
-        if (mobileMenuButton && mobileMenu) {
-            mobileMenuButton.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-            });
-        }
+// Menu loading functions
+async function loadMenuItems() {
+    try {
+        console.log('Loading menu items...');
+        const { data, error } = await supabase
+            .from('menu_items')
+            .select('*')
+            .eq('is_available', true)
+            .order('created_at', { ascending: false });
 
-        // Account buttons
-        const accountBtn = document.getElementById('account-btn');
-        const mobileAccountBtn = document.getElementById('mobile-account-btn');
-        
-        if (accountBtn) accountBtn.addEventListener('click', openAccountModal);
-        if (mobileAccountBtn) mobileAccountBtn.addEventListener('click', openAccountModal);
-
-        // Form submission
-        const cateringForm = document.getElementById('catering-form');
-        if (cateringForm) {
-            cateringForm.addEventListener('submit', handleFormSubmission);
-        }
-    }
-
-    function setupPortionSelector() {
-        const portionSizes = [5, 10, 20];
-        let currentIndex = 1;
-
-        window.adjustPortion = function(change) {
-            currentIndex = Math.max(0, Math.min(portionSizes.length - 1, currentIndex + change));
-            const portionSizeElement = document.getElementById('portion-size');
-            if (portionSizeElement) {
-                portionSizeElement.textContent = portionSizes[currentIndex];
-                localStorage.setItem('selectedPortion', portionSizes[currentIndex]);
-            }
-        }
-
-        // Initialize from localStorage
-        const savedSize = localStorage.getItem('selectedPortion');
-        if (savedSize) {
-            const index = portionSizes.indexOf(parseInt(savedSize));
-            if (index !== -1) {
-                currentIndex = index;
-                const portionSizeElement = document.getElementById('portion-size');
-                if (portionSizeElement) {
-                    portionSizeElement.textContent = savedSize;
-                }
-            }
-        }
-    }
-
-    async function loadMenuItems() {
-        try {
-            let items = [];
-            
-            if (supabase) {
-                const { data, error } = await supabase
-                    .from('menu_items')
-                    .select('*')
-                    .eq('is_available', true)
-                    .order('category', { ascending: true });
-                
-                if (error) throw error;
-                items = data || [];
-            } else {
-                // Mock data fallback
-                items = [
-                    {
-                        id: 1,
-                        name: 'ACHIOTE-LIME TURKEY TORTA',
-                        description: 'TUCUMCARI WHITE CHEDDAR, SERRANO BACON, RED CABBAGE, RED CHILE MAYO, TOASTED TALERA',
-                        price: 62,
-                        category: 'tortas',
-                        image_url: 'assets/farm.jpg',
-                        dietary_info: ['gf', 'n'],
-                        is_available: true
-                    },
-                    {
-                        id: 2,
-                        name: 'HAM & SMOKED GOUDA TORTA',
-                        description: 'SMOKED HAM & TUCUMCARI SMOKED GOUDA, BABY ARUGULA, HONEYCUP DIJON on TOASTED TALERA',
-                        price: 58,
-                        category: 'tortas',
-                        image_url: 'assets/farm.jpg',
-                        dietary_info: ['gf'],
-                        is_available: true
-                    }
-                ];
-            }
-
-            menuItems = items;
-            renderMenuCategories(items);
-            setupCollapsibleSections();
-            setupOrderCalculation();
-            
-        } catch (error) {
+        if (error) {
             console.error('Error loading menu items:', error);
-            // Keep fallback static content
+            return;
         }
+
+        console.log('Loaded menu items:', data);
+        menuItems = data || [];
+        displayMenuItems();
+    } catch (err) {
+        console.error('Failed to load menu items:', err);
     }
+}
 
-    function renderMenuCategories(items) {
-        const container = document.getElementById('menu-categories-container');
-        if (!container || !items || items.length === 0) return;
+function displayMenuItems() {
+    const container = document.getElementById('menu-categories-container');
+    if (!container) return;
 
-        // Group items by category
-        const categories = items.reduce((acc, item) => {
-            const category = item.category || 'other';
-            if (!acc[category]) acc[category] = [];
-            acc[category].push(item);
-            return acc;
-        }, {});
+    // Group items by category
+    const categories = {};
+    menuItems.forEach(item => {
+        const category = item.category || 'other';
+        if (!categories[category]) {
+            categories[category] = [];
+        }
+        categories[category].push(item);
+    });
 
-        const categoryTitles = {
-            'tortas': 'FARMHOUSE TORTAS & WRAPS',
-            'salads': 'FRESH FARM SALADS',
-            'bowls': 'PROTEIN BOWLS',
-            'enchiladas': 'ENCHILADAS',
-            'sides': 'SIDES & SNACKS',
-            'desserts': 'DESSERTS',
-            'beverages': 'BEVERAGES'
-        };
+    // Clear container
+    container.innerHTML = '';
 
-        let html = '';
+    // Create category sections
+    Object.keys(categories).forEach(categoryKey => {
+        const items = categories[categoryKey];
+        const categoryName = getCategoryDisplayName(categoryKey);
         
-        Object.entries(categories).forEach(([categoryKey, categoryItems]) => {
-            const categoryTitle = categoryTitles[categoryKey] || categoryKey.toUpperCase();
-            
-            html += `
-                <div class="max-w-4xl mx-auto mb-12 md:mb-16" data-category="${categoryKey}">
-                    <div class="flex items-center mb-3 md:mb-4 category-header" style="cursor: pointer;">
-                        <div class="flex-grow border-t border-secondary/20"></div>
-                        <h3 class="text-xl md:text-2xl mx-2 md:mx-4 tracking-wider whitespace-nowrap">${categoryTitle}<span class="toggle-arrow" style="transform: rotate(-90deg);"> ↣</span></h3>
-                        <div class="flex-grow border-t border-secondary/20"></div>
-                    </div>
+        const categoryHTML = `
+            <div class="max-w-4xl mx-auto mb-12 md:mb-16">
+                <div class="flex items-center mb-3 md:mb-4 cursor-pointer category-header">
+                    <div class="flex-grow border-t border-secondary/20"></div>
+                    <h3 class="text-xl md:text-2xl mx-2 md:mx-4 tracking-wider whitespace-nowrap">
+                        ${categoryName}
+                        <span class="toggle-arrow inline-block transition-transform duration-300" style="transform: rotate(-90deg);"> ↣</span>
+                    </h3>
+                    <div class="flex-grow border-t border-secondary/20"></div>
+                </div>
+                <div class="collapsible-content transition-all duration-300 overflow-hidden" style="max-height: 0;">
                     <p class="text-center mb-4 md:mb-6 text-xs md:text-sm">(PLATTER SERVES 5)</p>
-                    
-                    <div class="collapsible-content" style="max-height: 0;">
-                        <div class="space-y-6">
-            `;
-
-            categoryItems.forEach(item => {
-                const dietaryTags = (item.dietary_info || []).map(tag => 
-                    `<span class="dietary-tag bg-secondary/10 px-2 py-0.5 rounded text-xs">${tag}</span>`
-                ).join('');
-
-                html += `
-                    <div class="flex items-start gap-4">
-                        <div class="flex-grow">
-                            <div class="flex items-start justify-between">
-                                <div class="flex items-start">
-                                    <input type="number" min="0" name="item_${item.id}_qty" class="w-12 md:w-16 mr-3 px-2 py-1 border border-secondary/20 bg-primary2 rounded text-center menu-quantity-input" placeholder="QTY" data-price="${item.price}" data-name="${item.name}">
-                                    <div>
-                                        <p class="font-medium"><span class="font-title">${item.name}</span> ↣ ${item.price}</p>
-                                        <p class="text-xs md:text-sm mt-1">${item.description}</p>
-                                    </div>
-                                </div>
-                                <div class="flex gap-2">
-                                    ${dietaryTags}
-                                </div>
-                            </div>
-                        </div>
-                        <img src="${item.image_url || 'assets/farm.jpg'}" alt="${item.name}" class="menu-item-image">
+                    <div class="space-y-6">
+                        ${items.map(item => createMenuItemHTML(item)).join('')}
                     </div>
-                `;
-            });
+                </div>
+            </div>
+        `;
+        
+        container.insertAdjacentHTML('beforeend', categoryHTML);
+    });
 
-            html += `
+    // Setup collapsible functionality
+    setupCollapsibleSections();
+    setupOrderCalculation();
+}
+
+function getCategoryDisplayName(category) {
+    const categoryNames = {
+        'tortas': 'FARMHOUSE TORTAS & WRAPS',
+        'salads': 'FRESH SALADS',
+        'bowls': 'PROTEIN BOWLS',
+        'enchiladas': 'ENCHILADAS',
+        'sides': 'SIDES & SNACKS',
+        'desserts': 'DESSERTS',
+        'beverages': 'BEVERAGES',
+        'other': 'OTHER ITEMS'
+    };
+    return categoryNames[category] || category.toUpperCase();
+}
+
+function createMenuItemHTML(item) {
+    return `
+        <div class="flex items-start gap-4">
+            <div class="flex-grow">
+                <div class="flex items-start justify-between">
+                    <div class="flex items-start">
+                        <input type="number" min="0" name="${item.id}_qty" class="w-12 md:w-16 mr-3 px-2 py-1 border border-secondary/20 bg-primary2 rounded text-center menu-qty-input" placeholder="QTY" data-price="${item.price}" data-name="${item.name}">
+                        <div>
+                            <p class="font-medium">
+                                <span class="font-title">${item.name}</span> ↣ ${item.price}
+                            </p>
+                            <p class="text-xs md:text-sm mt-1">${item.description || ''}</p>
                         </div>
                     </div>
                 </div>
-            `;
-        });
+            </div>
+            <img src="${item.image_url || 'assets/farm.jpg'}" alt="${item.name}" class="menu-item-image w-24 h-24 object-cover rounded-lg border-2 border-accent">
+        </div>
+    `;
+}
 
-        container.innerHTML = html;
-    }
+// Dashboard functions
+async function loadMenuItemsForDashboard() {
+    try {
+        const { data, error } = await supabase
+            .from('menu_items')
+            .select('*')
+            .order('created_at', { ascending: false });
 
-    function setupCollapsibleSections() {
-        setTimeout(() => {
-            const categoryHeaders = document.querySelectorAll('.category-header');
-            
-            categoryHeaders.forEach(header => {
-                header.addEventListener('click', function() {
-                    const content = this.parentNode.querySelector('.collapsible-content');
-                    const arrow = this.querySelector('.toggle-arrow');
-                    
-                    if (content && arrow) {
-                        const isCollapsed = content.style.maxHeight === '0px';
-                        content.style.maxHeight = isCollapsed ? `${content.scrollHeight}px` : '0';
-                        arrow.style.transform = isCollapsed ? 'rotate(0deg)' : 'rotate(-90deg)';
-                    }
-                });
-            });
-        }, 100);
-    }
-
-    function setupOrderCalculation() {
-        let selectedItems = [];
-
-        function updateSelectedItems() {
-            selectedItems = [];
-            document.querySelectorAll('.menu-quantity-input').forEach(input => {
-                const quantity = parseInt(input.value) || 0;
-                if (quantity > 0) {
-                    selectedItems.push({
-                        name: input.dataset.name,
-                        quantity: quantity,
-                        price: parseFloat(input.dataset.price),
-                        total: quantity * parseFloat(input.dataset.price)
-                    });
-                }
-            });
-            updateOrderSummary();
-        }
-
-        function updateOrderSummary() {
-            const orderItemsContainer = document.getElementById('order-items-display');
-            const subtotalDisplay = document.getElementById('subtotal-display');
-
-            if (!orderItemsContainer || !subtotalDisplay) return;
-
-            if (selectedItems.length === 0) {
-                orderItemsContainer.innerHTML = '<p class="text-center text-secondary/60 text-sm md:text-base">Your selected items will appear here</p>';
-                subtotalDisplay.textContent = '$0.00';
-                return;
-            }
-
-            let subtotal = 0;
-            const itemsList = document.createElement('div');
-            itemsList.className = 'space-y-2';
-
-            selectedItems.forEach(item => {
-                subtotal += item.total;
-
-                const itemElement = document.createElement('div');
-                itemElement.className = 'flex justify-between items-center text-sm md:text-base';
-
-                const itemName = document.createElement('span');
-                itemName.textContent = `${item.quantity} × ${item.name}`;
-
-                const itemTotal = document.createElement('span');
-                itemTotal.textContent = `$${item.total.toFixed(2)}`;
-                itemTotal.className = 'font-medium';
-
-                itemElement.appendChild(itemName);
-                itemElement.appendChild(itemTotal);
-                itemsList.appendChild(itemElement);
-            });
-
-            orderItemsContainer.innerHTML = '';
-            orderItemsContainer.appendChild(itemsList);
-
-            const preparationFee = subtotal * 0.18;
-            const totalWithTax = subtotal + preparationFee;
-            subtotalDisplay.textContent = `$${totalWithTax.toFixed(2)}`;
-        }
-
-        // Add event listeners to quantity inputs
-        setTimeout(() => {
-            document.querySelectorAll('.menu-quantity-input').forEach(input => {
-                input.addEventListener('change', function() {
-                    if(this.value < 0) this.value = 0;
-                    updateSelectedItems();
-                });
-            });
-        }, 200);
-    }
-
-    function handleFormSubmission(e) {
-        // Form submission logic remains the same
-        const formData = new FormData(e.target);
-        // Add order message generation logic here
-    }
-
-    // Account Management Functions
-    function openAccountModal() {
-        document.getElementById('account-modal').classList.remove('hidden');
-    }
-
-    function closeAccountModal() {
-        document.getElementById('account-modal').classList.add('hidden');
-    }
-
-    async function handleLogin() {
-        const email = document.getElementById('auth-email').value;
-        const password = document.getElementById('auth-password').value;
-        const messageDiv = document.getElementById('auth-message');
-
-        if (!email || !password) {
-            messageDiv.textContent = 'Please fill in all fields';
-            messageDiv.className = 'mt-4 text-center text-sm text-red-600';
+        if (error) {
+            console.error('Error loading dashboard items:', error);
             return;
         }
 
-        try {
-            if (supabase) {
-                const { data, error } = await supabase.auth.signInWithPassword({
-                    email: email,
-                    password: password,
-                });
-
-                if (error) throw error;
-                
-                currentUser = data.user;
-                showDashboard();
-                messageDiv.textContent = 'Login successful!';
-                messageDiv.className = 'mt-4 text-center text-sm text-green-600';
-            } else {
-                // Mock login for demo
-                if (email === 'admin@farmesilla.com' && password === 'admin') {
-                    currentUser = { email: email };
-                    showDashboard();
-                    messageDiv.textContent = 'Login successful!';
-                    messageDiv.className = 'mt-4 text-center text-sm text-green-600';
-                } else {
-                    throw new Error('Invalid credentials');
-                }
-            }
-        } catch (error) {
-            messageDiv.textContent = error.message;
-            messageDiv.className = 'mt-4 text-center text-sm text-red-600';
-        }
+        displayDashboardItems(data || []);
+    } catch (err) {
+        console.error('Failed to load dashboard items:', err);
     }
+}
 
-    async function handleSignup() {
-        const email = document.getElementById('auth-email').value;
-        const password = document.getElementById('auth-password').value;
-        const messageDiv = document.getElementById('auth-message');
+function displayDashboardItems(items) {
+    const container = document.getElementById('items-list');
+    if (!container) return;
 
-        if (!email || !password) {
-            messageDiv.textContent = 'Please fill in all fields';
-            messageDiv.className = 'mt-4 text-center text-sm text-red-600';
-            return;
-        }
-
-        try {
-            if (supabase) {
-                const { data, error } = await supabase.auth.signUp({
-                    email: email,
-                    password: password,
-                });
-
-                if (error) throw error;
-                
-                messageDiv.textContent = 'Account created successfully! Please check your email for verification.';
-                messageDiv.className = 'mt-4 text-center text-sm text-green-600';
-            } else {
-                messageDiv.textContent = 'Account created successfully! (Demo mode)';
-                messageDiv.className = 'mt-4 text-center text-sm text-green-600';
-            }
-        } catch (error) {
-            messageDiv.textContent = error.message;
-            messageDiv.className = 'mt-4 text-center text-sm text-red-600';
-        }
-    }
-
-    function handleLogout() {
-        currentUser = null;
-        showAuthSection();
-        if (supabase) {
-            supabase.auth.signOut();
-        }
-    }
-
-    function showDashboard() {
-        document.getElementById('auth-section').style.display = 'none';
-        document.getElementById('dashboard-section').classList.remove('hidden');
-        loadEditableMenuItems();
-    }
-
-    function showAuthSection() {
-        document.getElementById('auth-section').style.display = 'block';
-        document.getElementById('dashboard-section').classList.add('hidden');
-    }
-
-    async function loadEditableMenuItems() {
-        try {
-            let items = [];
-            
-            if (supabase) {
-                const { data, error } = await supabase
-                    .from('menu_items')
-                    .select('*')
-                    .order('category', { ascending: true });
-                
-                if (error) throw error;
-                items = data || [];
-            } else {
-                items = menuItems; // Use loaded menu items
-            }
-
-            const container = document.getElementById('editable-menu-items');
-            if (container) {
-                container.innerHTML = items.map(item => createEditableItemHTML(item)).join('');
-            }
-        } catch (error) {
-            console.error('Error loading editable menu items:', error);
-        }
-    }
-
-    function createEditableItemHTML(item) {
-        return `
-            <div class="editable-item" data-item-id="${item.id}">
-                <div class="view-mode">
-                    <h4 class="font-semibold text-lg">${item.name}</h4>
-                    <p class="text-gray-600 mb-2">${item.description || ''}</p>
-                    <p class="font-bold text-green-600">$${item.price.toFixed(2)}</p>
-                    <p class="text-sm text-gray-500">Category: ${item.category}</p>
+    container.innerHTML = items.map(item => `
+        <div class="border p-3 rounded mb-3 bg-gray-50">
+            <div class="flex justify-between items-start">
+                <div>
+                    <h5 class="font-semibold">${item.name}</h5>
+                    <p class="text-sm text-gray-600">${item.description || ''}</p>
+                    <p class="text-sm">Price: $${item.price} | Category: ${item.category}</p>
                     <p class="text-sm ${item.is_available ? 'text-green-600' : 'text-red-600'}">
                         ${item.is_available ? 'Available' : 'Not Available'}
                     </p>
-                    <div class="mt-2">
-                        <button onclick="toggleEditMode('${item.id}')" class="edit-btn">Edit</button>
-                        <button onclick="deleteMenuItem('${item.id}')" class="delete-btn">Delete</button>
-                    </div>
                 </div>
-                
-                <div class="edit-mode hidden">
-                    <div class="edit-form">
-                        <input type="text" class="item-name" value="${item.name}" required>
-                        <textarea class="item-description" rows="2">${item.description || ''}</textarea>
-                        <input type="number" class="item-price" value="${item.price}" step="0.01" required>
-                        <input type="url" class="item-image-url" value="${item.image_url || ''}" placeholder="Image URL">
-                        <select class="item-category" required>
-                            <option value="tortas" ${item.category === 'tortas' ? 'selected' : ''}>Tortas & Wraps</option>
-                            <option value="salads" ${item.category === 'salads' ? 'selected' : ''}>Salads</option>
-                            <option value="bowls" ${item.category === 'bowls' ? 'selected' : ''}>Bowls</option>
-                            <option value="enchiladas" ${item.category === 'enchiladas' ? 'selected' : ''}>Enchiladas</option>
-                            <option value="sides" ${item.category === 'sides' ? 'selected' : ''}>Sides</option>
-                            <option value="desserts" ${item.category === 'desserts' ? 'selected' : ''}>Desserts</option>
-                            <option value="beverages" ${item.category === 'beverages' ? 'selected' : ''}>Beverages</option>
-                        </select>
-                        <label class="flex items-center">
-                            <input type="checkbox" class="item-available" ${item.is_available ? 'checked' : ''}> Available
-                        </label>
-                        <button onclick="saveMenuItem('${item.id}')" class="save-btn">Save</button>
-                        <button onclick="toggleEditMode('${item.id}')" class="edit-btn">Cancel</button>
-                    </div>
+                <div>
+                    <button onclick="toggleItemAvailability('${item.id}', ${!item.is_available})" 
+                            class="text-sm px-2 py-1 rounded ${item.is_available ? 'bg-red-500 text-white' : 'bg-green-500 text-white'}">
+                        ${item.is_available ? 'Disable' : 'Enable'}
+                    </button>
+                    <button onclick="deleteItem('${item.id}')" class="text-sm px-2 py-1 bg-red-500 text-white rounded ml-2">
+                        Delete
+                    </button>
                 </div>
             </div>
-        `;
-    }
+        </div>
+    `).join('');
+}
 
-    function toggleEditMode(itemId) {
-        const itemElement = document.querySelector(`[data-item-id="${itemId}"]`);
-        if (itemElement) {
-            const viewMode = itemElement.querySelector('.view-mode');
-            const editMode = itemElement.querySelector('.edit-mode');
-            
-            viewMode.classList.toggle('hidden');
-            editMode.classList.toggle('hidden');
-        }
-    }
+// Event listeners setup
+function setupEventListeners() {
+    // Account modal
+    document.getElementById('account-btn').addEventListener('click', () => {
+        document.getElementById('account-modal').classList.remove('hidden');
+    });
+    
+    document.getElementById('mobile-account-btn').addEventListener('click', () => {
+        document.getElementById('account-modal').classList.remove('hidden');
+    });
+    
+    document.getElementById('close-modal').addEventListener('click', () => {
+        document.getElementById('account-modal').classList.add('hidden');
+    });
 
-    async function saveMenuItem(itemId) {
-        try {
-            const itemElement = document.querySelector(`[data-item-id="${itemId}"]`);
-            
-            const updates = {
-                name: itemElement.querySelector('.item-name').value,
-                description: itemElement.querySelector('.item-description').value,
-                price: parseFloat(itemElement.querySelector('.item-price').value),
-                image_url: itemElement.querySelector('.item-image-url').value,
-                category: itemElement.querySelector('.item-category').value,
-                is_available: itemElement.querySelector('.item-available').checked
-            };
-            
-            if (supabase) {
-                const { error } = await supabase
-                    .from('menu_items')
-                    .update(updates)
-                    .eq('id', itemId);
-                
-                if (error) throw error;
+    // Auth forms
+    document.getElementById('login-form').addEventListener('submit', handleLogin);
+    document.getElementById('signup-form').addEventListener('submit', handleSignup);
+    document.getElementById('logout-btn').addEventListener('click', handleLogout);
+    document.getElementById('add-item-btn').addEventListener('click', handleAddItem);
+}
+
+// Auth handlers
+async function handleLogin(e) {
+    e.preventDefault();
+    const email = document.getElementById('login-email').value;
+    const password = document.getElementById('login-password').value;
+
+    try {
+        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        if (error) throw error;
+        alert('Login successful!');
+    } catch (error) {
+        alert('Login failed: ' + error.message);
+    }
+}
+
+async function handleSignup(e) {
+    e.preventDefault();
+    const email = document.getElementById('signup-email').value;
+    const password = document.getElementById('signup-password').value;
+
+    try {
+        const { error } = await supabase.auth.signUp({
+            email,
+            password,
+            options: {
+                emailRedirectTo: window.location.origin
             }
-            
-            alert('Item updated successfully!');
-            loadEditableMenuItems();
-            loadMenuItems(); // Refresh main menu display
-            
-        } catch (error) {
-            console.error('Error saving menu item:', error);
-            alert('Error saving item: ' + error.message);
-        }
+        });
+        if (error) throw error;
+        alert('Signup successful! Please check your email for verification.');
+    } catch (error) {
+        alert('Signup failed: ' + error.message);
+    }
+}
+
+async function handleLogout() {
+    try {
+        const { error } = await supabase.auth.signOut();
+        if (error) throw error;
+        document.getElementById('account-modal').classList.add('hidden');
+    } catch (error) {
+        alert('Logout failed: ' + error.message);
+    }
+}
+
+// Menu management handlers
+async function handleAddItem() {
+    const name = document.getElementById('new-name').value;
+    const price = parseFloat(document.getElementById('new-price').value);
+    const description = document.getElementById('new-description').value;
+    const category = document.getElementById('new-category').value;
+
+    if (!name || !price || !category) {
+        alert('Please fill in all required fields');
+        return;
     }
 
-    async function deleteMenuItem(itemId) {
-        if (confirm('Are you sure you want to delete this menu item?')) {
-            try {
-                if (supabase) {
-                    const { error } = await supabase
-                        .from('menu_items')
-                        .delete()
-                        .eq('id', itemId);
-                    
-                    if (error) throw error;
-                }
-                
-                alert('Item deleted successfully!');
-                loadEditableMenuItems();
-                loadMenuItems(); // Refresh main menu display
-                
-            } catch (error) {
-                console.error('Error deleting menu item:', error);
-                alert('Error deleting item: ' + error.message);
-            }
-        }
-    }
+    try {
+        const { error } = await supabase
+            .from('menu_items')
+            .insert([{
+                name,
+                price,
+                description,
+                category,
+                is_available: true
+            }]);
 
-    async function addMenuItem() {
-        try {
-            const newItem = {
-                name: document.getElementById('new-item-name').value,
-                description: document.getElementById('new-item-description').value,
-                price: parseFloat(document.getElementById('new-item-price').value),
-                image_url: document.getElementById('new-item-image').value,
-                category: document.getElementById('new-item-category').value,
-                is_available: document.getElementById('new-item-available').checked
-            };
-            
-            if (!newItem.name || !newItem.price || !newItem.category) {
-                alert('Please fill in all required fields (name, price, category)');
-                return;
-            }
-            
-            if (supabase) {
-                const { error } = await supabase
-                    .from('menu_items')
-                    .insert(newItem);
-                
-                if (error) throw error;
-            }
-            
-            alert('Item added successfully!');
-            
-            // Clear form
-            document.getElementById('new-item-name').value = '';
-            document.getElementById('new-item-description').value = '';
-            document.getElementById('new-item-price').value = '';
-            document.getElementById('new-item-image').value = '';
-            document.getElementById('new-item-category').value = '';
-            document.getElementById('new-item-available').checked = true;
-            
-            loadEditableMenuItems();
-            loadMenuItems(); // Refresh main menu display
-            
-        } catch (error) {
-            console.error('Error adding menu item:', error);
-            alert('Error adding item: ' + error.message);
-        }
-    }
-
-    // Popup Functions
-    function showWelcomePopup() {
-        const welcomePopup = document.createElement('div');
-        welcomePopup.className = 'fixed inset-0 flex items-center justify-center bg-black/50 z-50';
-        welcomePopup.innerHTML = `
-            <div class="bg-primary2 border border-secondary/20 rounded-lg p-6 w-80 md:w-[30rem] max-w-[90vw] mx-4 relative">
-                <button class="absolute top-2.5 right-2.5 text-secondary hover:text-accent text-3xl leading-none w-8 h-8 flex items-center justify-center focus:outline-none" id="close-popup">
-                    &times;
-                </button>
-                
-                <div class="text-center">
-                    <div class="flex justify-center mb-4">
-                        <img src="assets/logo.png" alt="Your Logo" class="h-16 w-auto invert">
-                    </div>
-                    
-                    <h4 class="font-medium text-lg mb-4">Welcome to FARM-2-GO</h4>
-                    
-                    <p class="text-sm mb-6">Our FARM-2-GO menu is designed for group orders, with each platter serving 5 people by default. Choose from farm-fresh salads, protein bowls, wraps, and healthy snacks!</p>
-
-                    <button id="continue-btn" class="bg-secondary text-white hover:bg-accent px-4 py-2 rounded-md transition-colors">Continue</button>
-                </div>
-            </div>
-        `;
-        document.body.appendChild(welcomePopup);
+        if (error) throw error;
         
-        const closeBtn = welcomePopup.querySelector('#close-popup');
-        const continueBtn = welcomePopup.querySelector('#continue-btn');
+        alert('Item added successfully!');
+        
+        // Clear form
+        document.getElementById('new-name').value = '';
+        document.getElementById('new-price').value = '';
+        document.getElementById('new-description').value = '';
+        document.getElementById('new-category').value = '';
+        
+        // Reload items
+        loadMenuItemsForDashboard();
+        loadMenuItems();
+    } catch (error) {
+        alert('Failed to add item: ' + error.message);
+    }
+}
 
-        closeBtn.addEventListener('click', () => welcomePopup.remove());
-        continueBtn.addEventListener('click', () => welcomePopup.remove());
+async function toggleItemAvailability(id, isAvailable) {
+    try {
+        const { error } = await supabase
+            .from('menu_items')
+            .update({ is_available: isAvailable })
+            .eq('id', id);
 
-        welcomePopup.addEventListener('click', (e) => {
-            if (e.target === welcomePopup) welcomePopup.remove();
-        });
+        if (error) throw error;
+        
+        loadMenuItemsForDashboard();
+        loadMenuItems();
+    } catch (error) {
+        alert('Failed to update item: ' + error.message);
+    }
+}
+
+async function deleteItem(id) {
+    if (!confirm('Are you sure you want to delete this item?')) return;
+
+    try {
+        const { error } = await supabase
+            .from('menu_items')
+            .delete()
+            .eq('id', id);
+
+        if (error) throw error;
+        
+        loadMenuItemsForDashboard();
+        loadMenuItems();
+    } catch (error) {
+        alert('Failed to delete item: ' + error.message);
+    }
+}
+
+// Utility functions
+function setupPortionSelector() {
+    const portionSizes = [5, 10, 20];
+    let currentIndex = 1;
+
+    window.adjustPortion = function(change) {
+        currentIndex = Math.max(0, Math.min(portionSizes.length - 1, currentIndex + change));
+        document.getElementById('portion-size').textContent = portionSizes[currentIndex];
+        localStorage.setItem('selectedPortion', portionSizes[currentIndex]);
     }
 
-    function setupDietaryTagHandlers() {
-        const explanations = {
-            'gf': 'GLUTEN FREE',
-            'v': 'VEGAN',
-            'n': 'CONTAINS NUTS'
-        };
+    const savedSize = localStorage.getItem('selectedPortion');
+    if (savedSize) {
+        const index = portionSizes.indexOf(parseInt(savedSize));
+        if (index !== -1) {
+            currentIndex = index;
+            document.getElementById('portion-size').textContent = savedSize;
+        }
+    }
+}
 
-        // Create popup element
-        const popup = document.createElement('div');
-        popup.className = 'fixed inset-0 flex items-center justify-center bg-black/50 z-50 hidden';
-        popup.innerHTML = `
-            <div class="bg-primary2 border border-secondary/20 rounded-lg p-6 w-80 md:w-[30rem] max-w-[90vw] mx-4 relative">
-                <button class="absolute top-2.5 right-2.5 text-secondary hover:text-accent text-3xl leading-none w-8 h-8 flex items-center justify-center focus:outline-none" id="close-dietary">
-                    &times;
-                </button>
+function setupMobileMenu() {
+    const mobileMenuButton = document.querySelector('.mobile-menu-button');
+    const mobileMenu = document.querySelector('.mobile-menu');
+    
+    mobileMenuButton.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+    });
+}
 
-                <div class="text-center">
-                    <div class="flex justify-center mb-4">
-                        <img src="assets/logo.png" alt="Your Logo" class="h-16 w-auto invert">
-                    </div>
+function setupCollapsibleSections() {
+    document.querySelectorAll('.category-header').forEach(header => {
+        header.addEventListener('click', function() {
+            const content = this.nextElementSibling;
+            const arrow = this.querySelector('.toggle-arrow');
+            const isCollapsed = content.style.maxHeight === '0px';
+            
+            content.style.maxHeight = isCollapsed ? `${content.scrollHeight}px` : '0';
+            arrow.style.transform = isCollapsed ? 'rotate(0deg)' : 'rotate(-90deg)';
+        });
+    });
+}
 
-                    <h4 class="font-medium text-lg mb-4">Dietary Information</h4>
+function setupOrderCalculation() {
+    let selectedItems = [];
 
-                    <p class="text-sm mb-6"></p>
+    document.querySelectorAll('.menu-qty-input').forEach(input => {
+        input.addEventListener('change', function() {
+            if (this.value < 0) this.value = 0;
+            updateOrderSummary();
+        });
+    });
 
-                    <button id="continue-dietary" class="bg-secondary text-white hover:bg-accent px-4 py-2 rounded-md transition-colors">Continue</button>
-                </div>
-            </div>
-        `;
-        document.body.appendChild(popup);
-
-        // Set up event delegation for dietary tags
-        document.addEventListener('click', function(e) {
-            if (e.target.classList.contains('dietary-tag')) {
-                const key = e.target.textContent.toLowerCase().trim().split('=')[0].trim();
-                const content = explanations[key] || 'No information available';
-                
-                popup.querySelector('p').textContent = content;
-                popup.classList.remove('hidden');
+    function updateOrderSummary() {
+        selectedItems = [];
+        document.querySelectorAll('.menu-qty-input').forEach(input => {
+            const quantity = parseInt(input.value) || 0;
+            if (quantity > 0) {
+                const price = parseFloat(input.dataset.price);
+                const name = input.dataset.name;
+                selectedItems.push({
+                    name,
+                    quantity,
+                    price,
+                    total: quantity * price
+                });
             }
         });
 
-        // Close popup handlers
-        const closeBtn = popup.querySelector('#close-dietary');
-        const continueBtn = popup.querySelector('#continue-dietary');
+        const orderItemsContainer = document.getElementById('order-items-display');
+        const subtotalDisplay = document.getElementById('subtotal-display');
 
-        closeBtn.addEventListener('click', () => popup.classList.add('hidden'));
-        continueBtn.addEventListener('click', () => popup.classList.add('hidden'));
+        if (selectedItems.length === 0) {
+            orderItemsContainer.innerHTML = '<p class="text-center text-secondary/60 text-sm md:text-base">Your selected items will appear here</p>';
+            subtotalDisplay.textContent = '$0.00';
+            return;
+        }
 
-        popup.addEventListener('click', (e) => {
-            if (e.target === popup) popup.classList.add('hidden');
+        let subtotal = 0;
+        const itemsList = document.createElement('div');
+        itemsList.className = 'space-y-2';
+
+        selectedItems.forEach(item => {
+            subtotal += item.total;
+            const itemElement = document.createElement('div');
+            itemElement.className = 'flex justify-between items-center text-sm md:text-base';
+            itemElement.innerHTML = `
+                <span>${item.quantity} × ${item.name}</span>
+                <span class="font-medium">$${item.total.toFixed(2)}</span>
+            `;
+            itemsList.appendChild(itemElement);
         });
+
+        orderItemsContainer.innerHTML = '';
+        orderItemsContainer.appendChild(itemsList);
+
+        const preparationFee = subtotal * 0.18;
+        const totalWithTax = subtotal + preparationFee;
+        subtotalDisplay.textContent = `$${totalWithTax.toFixed(2)}`;
     }
+}
+
+function showWelcomePopup() {
+    const welcomePopup = document.createElement('div');
+    welcomePopup.className = 'fixed inset-0 flex items-center justify-center bg-black/50 z-50';
+    welcomePopup.innerHTML = `
+        <div class="bg-primary2 border border-secondary/20 rounded-lg p-6 w-80 md:w-[30rem] max-w-[90vw] mx-4 relative">
+            <button class="absolute top-2.5 right-2.5 text-secondary hover:text-accent text-3xl leading-none w-8 h-8 flex items-center justify-center focus:outline-none" id="close-popup">
+                &times;
+            </button>
+            <div class="text-center">
+                <div class="flex justify-center mb-4">
+                    <img src="assets/logo.png" alt="Your Logo" class="h-16 w-auto invert">
+                </div>
+                <h4 class="font-medium text-lg mb-4">Welcome to FARM-2-GO</h4>
+                <p class="text-sm mb-6">Our FARM-2-GO menu is designed for group orders, with each platter serving 5 people by default. Choose from farm-fresh salads, protein bowls, wraps, and healthy snacks!</p>
+                <button id="continue-btn" class="bg-secondary text-white hover:bg-accent px-4 py-2 rounded-md transition-colors">Continue</button>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(welcomePopup);
+    
+    const closeBtn = welcomePopup.querySelector('#close-popup');
+    const continueBtn = welcomePopup.querySelector('#continue-btn');
+
+    closeBtn.addEventListener('click', () => welcomePopup.remove());
+    continueBtn.addEventListener('click', () => welcomePopup.remove());
+
+    welcomePopup.addEventListener('click', (e) => {
+        if (e.target === welcomePopup) welcomePopup.remove();
+    });
+}
 </script>
+
+<style>
+.portion-btn {
+    @apply rounded-full w-8 h-8 flex items-center justify-center 
+           border border-primary text-primary hover:bg-accent 
+           hover:text-white transition-colors duration-200
+           focus:outline-none focus:ring-2 focus:ring-accent;
+}
+</style>
 
 </body>
 </html>
