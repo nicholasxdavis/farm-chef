@@ -242,14 +242,14 @@ h1, h2, h3, h4, p1 {
                 <div class="p-6">
                     <div class="flex justify-between items-center mb-6">
                         <div class="flex space-x-4">
-                            <button id="add-item-btn" class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors flex items-center">
+                            <button id="add-item-btn" class="bg-black text-white px-6 py-3 rounded-lg hover:bg-gray-800 transition-colors flex items-center">
                                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                                 </svg>
                                 Add New Item
                             </button>
                         </div>
-                        <button id="logout-btn" class="bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700 transition-colors">Logout</button>
+                        <button id="logout-btn" class="bg-black text-white px-6 py-3 rounded-lg hover:bg-gray-800 transition-colors">Logout</button>
                     </div>
                     
                     <!-- Menu Items Grid -->
@@ -282,22 +282,26 @@ h1, h2, h3, h4, p1 {
                                 </div>
                                 
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-2">Price *</label>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Price (for 5 people) *</label>
                                     <input type="number" id="item-price" step="0.01" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
                                 </div>
                                 
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-2">Category *</label>
-                                    <select id="item-category" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
-                                        <option value="">Select Category</option>
-                                        <option value="tortas">Tortas & Wraps</option>
-                                        <option value="salads">Salads</option>
-                                        <option value="bowls">Bowls</option>
-                                        <option value="enchiladas">Enchiladas</option>
-                                        <option value="sides">Sides</option>
-                                        <option value="desserts">Desserts</option>
-                                        <option value="beverages">Beverages</option>
-                                    </select>
+                                    <div class="space-y-2">
+                                        <select id="item-category" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent" onchange="handleCategoryChange(this)">
+                                            <option value="">Select Category</option>
+                                            <option value="tortas">Tortas & Wraps</option>
+                                            <option value="salads">Salads</option>
+                                            <option value="bowls">Bowls</option>
+                                            <option value="enchiladas">Enchiladas</option>
+                                            <option value="sides">Sides</option>
+                                            <option value="desserts">Desserts</option>
+                                            <option value="beverages">Beverages</option>
+                                            <option value="custom">+ Create New Category</option>
+                                        </select>
+                                        <input type="text" id="custom-category" placeholder="Enter new category name" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent hidden">
+                                    </div>
                                 </div>
                                 
                                 <div>
@@ -343,7 +347,7 @@ h1, h2, h3, h4, p1 {
                         <div class="mt-6 border-t pt-6">
                             <div class="flex justify-between items-center mb-4">
                                 <h4 class="text-lg font-medium text-gray-900">Add-ons</h4>
-                                <button type="button" id="add-addon-btn" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors text-sm">
+                                <button type="button" id="add-addon-btn" class="bg-black text-white px-4 py-2 rounded-md hover:bg-gray-800 transition-colors text-sm">
                                     Add Add-on
                                 </button>
                             </div>
@@ -354,7 +358,7 @@ h1, h2, h3, h4, p1 {
                         
                         <div class="flex justify-end space-x-4 mt-8 pt-6 border-t">
                             <button type="button" id="cancel-item" class="px-6 py-3 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition-colors">Cancel</button>
-                            <button type="submit" id="save-item" class="px-6 py-3 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors">Save Item</button>
+                            <button type="submit" id="save-item" class="px-6 py-3 bg-black text-white rounded-md hover:bg-gray-800 transition-colors">Save Item</button>
                         </div>
                     </form>
                 </div>
@@ -402,7 +406,7 @@ h1, h2, h3, h4, p1 {
     <div class="relative flex items-center justify-center">
         <button type="button" class="portion-btn" onclick="adjustPortion(-1)">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z" clip-rule="evenodd" />
+                <path fill-rule="evenodd" d="M5 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
             </svg>
         </button>
         
@@ -526,12 +530,14 @@ let currentUser = null;
 let menuItems = [];
 let editingItemId = null;
 let currentAddons = [];
+let availableCategories = ['tortas', 'salads', 'bowls', 'enchiladas', 'sides', 'desserts', 'beverages'];
 
 // Initialize everything
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Initializing application...');
     initializeAuth();
     loadMenuItems();
+    loadAvailableCategories();
     setupEventListeners();
     setupPortionSelector();
     setupMobileMenu();
@@ -665,6 +671,8 @@ function getCategoryDisplayName(category) {
 function createMenuItemHTML(item) {
     const addons = item.addons || [];
     const dietaryTags = item.dietary_tags || [];
+    const multiplier = getPortionMultiplier();
+    const adjustedPrice = (item.price * multiplier).toFixed(2);
     
     let addonHTML = '';
     if (addons.length > 0) {
@@ -672,7 +680,10 @@ function createMenuItemHTML(item) {
             <div class="mt-2">
                 <select name="${item.id}_addons" class="text-xs p-1 border border-secondary/20 rounded bg-primary2 addon-select" data-item-id="${item.id}">
                     <option value="">Add extras (+$0)</option>
-                    ${addons.map(addon => `<option value="${addon.name}" data-price="${addon.price}">${addon.name} (+$${addon.price})</option>`).join('')}
+                    ${addons.map(addon => {
+                        const addonPrice = (addon.price * multiplier).toFixed(2);
+                        return `<option value="${addon.name}" data-price="${addonPrice}">${addon.name} (+$${addonPrice})</option>`;
+                    }).join('')}
                 </select>
             </div>
         `;
@@ -692,10 +703,10 @@ function createMenuItemHTML(item) {
             <div class="flex-grow">
                 <div class="flex items-start justify-between">
                     <div class="flex items-start">
-                        <input type="number" min="0" name="${item.id}_qty" class="w-12 md:w-16 mr-3 px-2 py-1 border border-secondary/20 bg-primary2 rounded text-center menu-qty-input" placeholder="QTY" data-price="${item.price}" data-name="${item.name}" data-item-id="${item.id}">
+                        <input type="number" min="0" name="${item.id}_qty" class="w-12 md:w-16 mr-3 px-2 py-1 border border-secondary/20 bg-primary2 rounded text-center menu-qty-input" placeholder="QTY" data-price="${adjustedPrice}" data-base-price="${item.price}" data-name="${item.name}" data-item-id="${item.id}">
                         <div>
                             <p class="font-medium">
-                                <span class="font-title">${item.name}</span> ↣ ${item.price}
+                                <span class="font-title">${item.name}</span> ↣ $${adjustedPrice}
                             </p>
                             <p class="text-xs md:text-sm mt-1">${item.description || ''}</p>
                             ${addonHTML}
@@ -773,14 +784,14 @@ function displayDashboardItems(items) {
                     </div>
                     
                     <div class="flex gap-2">
-                        <button onclick="editItem('${item.id}')" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors text-sm">
+                        <button onclick="editItem('${item.id}')" class="bg-black text-white px-4 py-2 rounded-md hover:bg-gray-800 transition-colors text-sm">
                             Edit
                         </button>
                         <button onclick="toggleItemAvailability('${item.id}', ${!item.is_available})" 
-                                class="px-4 py-2 rounded-md text-sm transition-colors ${item.is_available ? 'bg-red-600 hover:bg-red-700 text-white' : 'bg-green-600 hover:bg-green-700 text-white'}">
+                                class="px-4 py-2 rounded-md text-sm transition-colors ${item.is_available ? 'bg-black hover:bg-gray-800 text-white' : 'bg-black hover:bg-gray-800 text-white'}">
                             ${item.is_available ? 'Disable' : 'Enable'}
                         </button>
-                        <button onclick="deleteItem('${item.id}')" class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors text-sm">
+                        <button onclick="deleteItem('${item.id}')" class="bg-black text-white px-4 py-2 rounded-md hover:bg-gray-800 transition-colors text-sm">
                             Delete
                         </button>
                     </div>
@@ -966,10 +977,24 @@ async function handleSaveItem(e) {
     
     const name = document.getElementById('item-name').value;
     const price = parseFloat(document.getElementById('item-price').value);
-    const category = document.getElementById('item-category').value;
+    let category = document.getElementById('item-category').value;
+    const customCategory = document.getElementById('custom-category').value.trim();
     const imageUrl = document.getElementById('item-image-url').value;
     const description = document.getElementById('item-description').value;
     const isAvailable = document.getElementById('item-available').checked;
+    
+    // Handle custom category
+    if (category === 'custom' && customCategory) {
+        category = customCategory.toLowerCase().replace(/\s+/g, '_');
+        
+        // Add to available categories for future use
+        if (!availableCategories.includes(category)) {
+            availableCategories.push(category);
+        }
+    } else if (category === 'custom' && !customCategory) {
+        alert('Please enter a category name or select an existing category');
+        return;
+    }
     
     // Get dietary tags
     const dietaryTags = [];
@@ -1014,9 +1039,10 @@ async function handleSaveItem(e) {
         alert(`Item ${editingItemId ? 'updated' : 'added'} successfully!`);
         hideItemModal();
         
-        // Reload items
+        // Reload items and categories
         loadMenuItemsForDashboard();
         loadMenuItems();
+        loadAvailableCategories();
     } catch (error) {
         alert(`Failed to ${editingItemId ? 'update' : 'add'} item: ` + error.message);
     }
@@ -1076,6 +1102,60 @@ async function deleteItem(id) {
     }
 }
 
+// Handle category selection
+function handleCategoryChange(select) {
+    const customInput = document.getElementById('custom-category');
+    if (select.value === 'custom') {
+        customInput.classList.remove('hidden');
+        customInput.focus();
+    } else {
+        customInput.classList.add('hidden');
+        customInput.value = '';
+    }
+}
+
+// Load unique categories from database
+async function loadAvailableCategories() {
+    try {
+        const { data, error } = await supabase
+            .from('menu_items')
+            .select('category')
+            .not('category', 'is', null);
+
+        if (error) throw error;
+
+        const uniqueCategories = [...new Set(data.map(item => item.category))];
+        availableCategories = [...new Set([...availableCategories, ...uniqueCategories])];
+        
+        updateCategoryDropdown();
+    } catch (error) {
+        console.error('Error loading categories:', error);
+    }
+}
+
+// Update category dropdown with available categories
+function updateCategoryDropdown() {
+    const categorySelect = document.getElementById('item-category');
+    if (!categorySelect) return;
+
+    const currentValue = categorySelect.value;
+    
+    // Clear existing options except the first one and custom option
+    categorySelect.innerHTML = `
+        <option value="">Select Category</option>
+        ${availableCategories.map(cat => {
+            const displayName = getCategoryDisplayName(cat);
+            return `<option value="${cat}">${displayName}</option>`;
+        }).join('')}
+        <option value="custom">+ Create New Category</option>
+    `;
+    
+    // Restore selection if it still exists
+    if (currentValue && availableCategories.includes(currentValue)) {
+        categorySelect.value = currentValue;
+    }
+}
+
 // Utility functions
 function setupPortionSelector() {
     const portionSizes = [5, 10, 20];
@@ -1085,6 +1165,9 @@ function setupPortionSelector() {
         currentIndex = Math.max(0, Math.min(portionSizes.length - 1, currentIndex + change));
         document.getElementById('portion-size').textContent = portionSizes[currentIndex];
         localStorage.setItem('selectedPortion', portionSizes[currentIndex]);
+        
+        // Refresh menu display with new prices
+        displayMenuItems();
     }
 
     const savedSize = localStorage.getItem('selectedPortion');
@@ -1119,35 +1202,48 @@ function setupCollapsibleSections() {
     });
 }
 
-// Updated setupOrderCalculation with ORDER NOW button
+// Function to get portion multiplier
+function getPortionMultiplier() {
+    const portionSize = parseInt(document.getElementById('portion-size').textContent);
+    switch(portionSize) {
+        case 5: return 1;
+        case 10: return 2;
+        case 20: return 4;
+        default: return 1;
+    }
+}
+
+// Update order calculation to use adjusted prices
 function setupOrderCalculation() {
     let selectedItems = [];
 
     document.addEventListener('change', function(e) {
         if (e.target.classList.contains('menu-qty-input') || e.target.classList.contains('addon-select')) {
             updateOrderSummary();
-            handleOrderNowButton(); // Add this line to trigger ORDER NOW button
+            handleOrderNowButton();
         }
     });
 
-    // Also listen to input events for real-time updates
     document.addEventListener('input', function(e) {
         if (e.target.classList.contains('menu-qty-input')) {
             updateOrderSummary();
-            handleOrderNowButton(); // Add this line to trigger ORDER NOW button
+            handleOrderNowButton();
         }
     });
 
     function updateOrderSummary() {
         selectedItems = [];
+        const multiplier = getPortionMultiplier();
+        
         document.querySelectorAll('.menu-qty-input').forEach(input => {
             const quantity = parseInt(input.value) || 0;
             if (quantity > 0) {
-                const price = parseFloat(input.dataset.price);
+                const basePrice = parseFloat(input.dataset.basePrice);
+                const adjustedPrice = basePrice * multiplier;
                 const name = input.dataset.name;
                 const itemId = input.dataset.itemId;
                 
-                let totalPrice = price;
+                let totalPrice = adjustedPrice;
                 let itemName = name;
                 
                 // Check for addon selection
@@ -1310,7 +1406,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const quantity = parseInt(input.value) || 0;
             if (quantity > 0) {
                 const itemName = input.dataset.name;
-                const itemPrice = parseFloat(input.dataset.price);
+                const itemPrice = parseFloat(input.dataset.basePrice);
                 const itemId = input.dataset.itemId;
                 
                 let totalPrice = itemPrice;
@@ -1327,7 +1423,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 selectedItems.push({
                     name: fullName,
-                    quantity: quantity,
+                    quantity,
                     price: totalPrice,
                     total: quantity * totalPrice
                 });
