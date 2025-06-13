@@ -11,9 +11,11 @@ export type Database = {
     Tables: {
       menu_items: {
         Row: {
+          addons: Json | null
           category: string | null
           created_at: string
           description: string | null
+          dietary_tags: string[] | null
           id: string
           image_url: string | null
           is_available: boolean | null
@@ -22,9 +24,11 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          addons?: Json | null
           category?: string | null
           created_at?: string
           description?: string | null
+          dietary_tags?: string[] | null
           id?: string
           image_url?: string | null
           is_available?: boolean | null
@@ -33,9 +37,11 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          addons?: Json | null
           category?: string | null
           created_at?: string
           description?: string | null
+          dietary_tags?: string[] | null
           id?: string
           image_url?: string | null
           is_available?: boolean | null

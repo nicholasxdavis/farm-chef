@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -207,32 +206,32 @@ h1, h2, h3, h4, p1 {
 <!-- Account/Dashboard Modal -->
 <div id="account-modal" class="fixed inset-0 bg-black/50 z-50 hidden">
     <div class="flex items-center justify-center min-h-screen p-4">
-        <div class="bg-primary rounded-lg p-6 w-full max-w-4xl max-h-[90vh] overflow-y-auto">
-            <div class="flex justify-between items-center mb-4">
-                <h2 class="text-2xl font-title">Account Dashboard</h2>
-                <button id="close-modal" class="text-secondary hover:text-accent text-2xl">&times;</button>
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-6xl max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center p-6 border-b border-gray-200">
+                <h2 class="text-2xl font-bold text-gray-900">Menu Management Dashboard</h2>
+                <button id="close-modal" class="text-gray-400 hover:text-gray-600 text-2xl">&times;</button>
             </div>
             
             <!-- Auth Section -->
-            <div id="auth-section">
+            <div id="auth-section" class="p-6">
                 <div class="grid md:grid-cols-2 gap-6">
                     <!-- Login Form -->
-                    <div class="bg-white p-4 rounded">
-                        <h3 class="text-lg font-title mb-4">Login</h3>
+                    <div class="bg-gray-50 p-6 rounded-lg">
+                        <h3 class="text-lg font-semibold mb-4 text-gray-900">Login</h3>
                         <form id="login-form">
-                            <input type="email" id="login-email" placeholder="Email" class="w-full p-2 border rounded mb-3" required>
-                            <input type="password" id="login-password" placeholder="Password" class="w-full p-2 border rounded mb-3" required>
-                            <button type="submit" class="w-full bg-secondary text-white p-2 rounded hover:bg-accent">Login</button>
+                            <input type="email" id="login-email" placeholder="Email" class="w-full p-3 border border-gray-300 rounded-md mb-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                            <input type="password" id="login-password" placeholder="Password" class="w-full p-3 border border-gray-300 rounded-md mb-4 focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                            <button type="submit" class="w-full bg-gray-900 text-white p-3 rounded-md hover:bg-gray-800 transition-colors">Login</button>
                         </form>
                     </div>
                     
                     <!-- Signup Form -->
-                    <div class="bg-white p-4 rounded">
-                        <h3 class="text-lg font-title mb-4">Sign Up</h3>
+                    <div class="bg-gray-50 p-6 rounded-lg">
+                        <h3 class="text-lg font-semibold mb-4 text-gray-900">Sign Up</h3>
                         <form id="signup-form">
-                            <input type="email" id="signup-email" placeholder="Email" class="w-full p-2 border rounded mb-3" required>
-                            <input type="password" id="signup-password" placeholder="Password" class="w-full p-2 border rounded mb-3" required>
-                            <button type="submit" class="w-full bg-secondary text-white p-2 rounded hover:bg-accent">Sign Up</button>
+                            <input type="email" id="signup-email" placeholder="Email" class="w-full p-3 border border-gray-300 rounded-md mb-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                            <input type="password" id="signup-password" placeholder="Password" class="w-full p-3 border border-gray-300 rounded-md mb-4 focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                            <button type="submit" class="w-full bg-gray-900 text-white p-3 rounded-md hover:bg-gray-800 transition-colors">Sign Up</button>
                         </form>
                     </div>
                 </div>
@@ -240,21 +239,55 @@ h1, h2, h3, h4, p1 {
             
             <!-- Dashboard Section -->
             <div id="dashboard-section" class="hidden">
-                <div class="mb-6">
-                    <div class="flex justify-between items-center mb-4">
-                        <h3 class="text-lg font-title">Menu Management</h3>
-                        <button id="logout-btn" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Logout</button>
+                <div class="p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <div class="flex space-x-4">
+                            <button id="add-item-btn" class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors flex items-center">
+                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                </svg>
+                                Add New Item
+                            </button>
+                        </div>
+                        <button id="logout-btn" class="bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700 transition-colors">Logout</button>
                     </div>
                     
-                    <!-- Add New Item Form -->
-                    <div class="bg-white p-4 rounded mb-4">
-                        <h4 class="font-title mb-3">Add New Menu Item</h4>
-                        <div class="grid md:grid-cols-2 gap-4">
-                            <input type="text" id="new-name" placeholder="Item Name" class="p-2 border rounded">
-                            <input type="number" id="new-price" placeholder="Price" step="0.01" class="p-2 border rounded">
-                            <textarea id="new-description" placeholder="Description" class="p-2 border rounded"></textarea>
-                            <input type="url" id="new-image-url" placeholder="Image URL" class="p-2 border rounded">
-                            <select id="new-category" class="p-2 border rounded">
+                    <!-- Menu Items Grid -->
+                    <div id="menu-items-dashboard" class="grid gap-6">
+                        <div id="items-list"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add/Edit Item Modal -->
+<div id="item-modal" class="fixed inset-0 bg-black/50 z-60 hidden">
+    <div class="flex items-center justify-center min-h-screen p-4">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center p-6 border-b border-gray-200">
+                <h3 id="item-modal-title" class="text-xl font-bold text-gray-900">Add New Item</h3>
+                <button id="close-item-modal" class="text-gray-400 hover:text-gray-600 text-2xl">&times;</button>
+            </div>
+            
+            <form id="item-form" class="p-6">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <!-- Basic Info -->
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Item Name *</label>
+                            <input type="text" id="item-name" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Price *</label>
+                            <input type="number" id="item-price" step="0.01" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Category *</label>
+                            <select id="item-category" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
                                 <option value="">Select Category</option>
                                 <option value="tortas">Tortas & Wraps</option>
                                 <option value="salads">Salads</option>
@@ -264,21 +297,65 @@ h1, h2, h3, h4, p1 {
                                 <option value="desserts">Desserts</option>
                                 <option value="beverages">Beverages</option>
                             </select>
-                            <div class="flex items-center">
-                                <input type="checkbox" id="new-available" checked class="mr-2">
-                                <label for="new-available">Available</label>
-                            </div>
                         </div>
-                        <button id="add-item-btn" class="mt-3 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Add Item</button>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Image URL</label>
+                            <input type="url" id="item-image-url" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                        
+                        <div class="flex items-center">
+                            <input type="checkbox" id="item-available" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                            <label for="item-available" class="ml-2 block text-sm text-gray-700">Available</label>
+                        </div>
                     </div>
                     
-                    <!-- Menu Items List -->
-                    <div id="menu-items-dashboard" class="bg-white p-4 rounded">
-                        <h4 class="font-title mb-3">Current Menu Items</h4>
-                        <div id="items-list"></div>
+                    <!-- Description and Tags -->
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                            <textarea id="item-description" rows="3" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"></textarea>
+                        </div>
+                        
+                        <!-- Dietary Tags -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Dietary Tags</label>
+                            <div class="space-y-2">
+                                <label class="flex items-center">
+                                    <input type="checkbox" id="tag-gf" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                                    <span class="ml-2 text-sm text-gray-700">Gluten Free (GF)</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" id="tag-v" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                                    <span class="ml-2 text-sm text-gray-700">Vegan (V)</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" id="tag-n" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                                    <span class="ml-2 text-sm text-gray-700">Contains Nuts (N)</span>
+                                </label>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
+                
+                <!-- Add-ons Section -->
+                <div class="mt-6 border-t pt-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h4 class="text-lg font-medium text-gray-900">Add-ons</h4>
+                        <button type="button" id="add-addon-btn" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors text-sm">
+                            Add Add-on
+                        </button>
+                    </div>
+                    <div id="addons-container" class="space-y-3">
+                        <!-- Add-ons will be dynamically added here -->
+                    </div>
+                </div>
+                
+                <div class="flex justify-end space-x-4 mt-8 pt-6 border-t">
+                    <button type="button" id="cancel-item" class="px-6 py-3 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition-colors">Cancel</button>
+                    <button type="submit" id="save-item" class="px-6 py-3 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors">Save Item</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -445,6 +522,7 @@ const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 let currentUser = null;
 let menuItems = [];
 let editingItemId = null;
+let currentAddons = [];
 
 // Initialize everything
 document.addEventListener('DOMContentLoaded', function() {
@@ -582,19 +660,45 @@ function getCategoryDisplayName(category) {
 }
 
 function createMenuItemHTML(item) {
+    const addons = item.addons || [];
+    const dietaryTags = item.dietary_tags || [];
+    
+    let addonHTML = '';
+    if (addons.length > 0) {
+        addonHTML = `
+            <div class="mt-2">
+                <select name="${item.id}_addons" class="text-xs p-1 border border-secondary/20 rounded bg-primary2 addon-select" data-item-id="${item.id}">
+                    <option value="">Add extras (+$0)</option>
+                    ${addons.map(addon => `<option value="${addon.name}" data-price="${addon.price}">${addon.name} (+$${addon.price})</option>`).join('')}
+                </select>
+            </div>
+        `;
+    }
+    
+    let tagsHTML = '';
+    if (dietaryTags.length > 0) {
+        tagsHTML = `
+            <div class="flex gap-2">
+                ${dietaryTags.map(tag => `<span class="dietary-tag bg-secondary/10 px-2 py-0.5 rounded text-xs">${tag}</span>`).join('')}
+            </div>
+        `;
+    }
+
     return `
         <div class="flex items-start gap-4">
             <div class="flex-grow">
                 <div class="flex items-start justify-between">
                     <div class="flex items-start">
-                        <input type="number" min="0" name="${item.id}_qty" class="w-12 md:w-16 mr-3 px-2 py-1 border border-secondary/20 bg-primary2 rounded text-center menu-qty-input" placeholder="QTY" data-price="${item.price}" data-name="${item.name}">
+                        <input type="number" min="0" name="${item.id}_qty" class="w-12 md:w-16 mr-3 px-2 py-1 border border-secondary/20 bg-primary2 rounded text-center menu-qty-input" placeholder="QTY" data-price="${item.price}" data-name="${item.name}" data-item-id="${item.id}">
                         <div>
                             <p class="font-medium">
                                 <span class="font-title">${item.name}</span> ↣ ${item.price}
                             </p>
                             <p class="text-xs md:text-sm mt-1">${item.description || ''}</p>
+                            ${addonHTML}
                         </div>
                     </div>
+                    ${tagsHTML}
                 </div>
             </div>
             <img src="${item.image_url || 'assets/farm.jpg'}" alt="${item.name}" class="menu-item-image w-24 h-24 object-cover rounded-lg border-2 border-accent">
@@ -625,114 +729,138 @@ function displayDashboardItems(items) {
     const container = document.getElementById('items-list');
     if (!container) return;
 
-    container.innerHTML = items.map(item => `
-        <div class="border p-3 rounded mb-3 bg-gray-50 editable-item" data-item-id="${item.id}">
-            <div id="view-${item.id}" class="view-mode">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <h5 class="font-semibold">${item.name}</h5>
-                        <p class="text-sm text-gray-600">${item.description || ''}</p>
-                        <p class="text-sm">Price: $${item.price} | Category: ${item.category}</p>
-                        <p class="text-sm ${item.is_available ? 'text-green-600' : 'text-red-600'}">
-                            ${item.is_available ? 'Available' : 'Not Available'}
-                        </p>
-                        ${item.image_url ? `<p class="text-sm">Image: <a href="${item.image_url}" target="_blank" class="text-blue-500">View</a></p>` : ''}
+    container.innerHTML = items.map(item => {
+        const addons = item.addons || [];
+        const dietaryTags = item.dietary_tags || [];
+        
+        return `
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-4">
+                <div class="flex items-start justify-between">
+                    <div class="flex-1">
+                        <div class="flex items-center gap-4 mb-3">
+                            <img src="${item.image_url || 'assets/farm.jpg'}" alt="${item.name}" class="w-16 h-16 object-cover rounded-lg">
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-900">${item.name}</h3>
+                                <p class="text-sm text-gray-600">${item.description || ''}</p>
+                                <div class="flex items-center gap-4 mt-1">
+                                    <span class="text-lg font-bold text-green-600">$${item.price}</span>
+                                    <span class="text-sm text-gray-500 bg-gray-100 px-2 py-1 rounded">${item.category}</span>
+                                    <span class="text-sm ${item.is_available ? 'text-green-600' : 'text-red-600'}">
+                                        ${item.is_available ? '● Available' : '● Unavailable'}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        ${dietaryTags.length > 0 ? `
+                            <div class="mb-3">
+                                <span class="text-sm text-gray-700 font-medium">Dietary Tags: </span>
+                                ${dietaryTags.map(tag => `<span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full mr-1">${tag.toUpperCase()}</span>`).join('')}
+                            </div>
+                        ` : ''}
+                        
+                        ${addons.length > 0 ? `
+                            <div class="mb-3">
+                                <span class="text-sm text-gray-700 font-medium">Add-ons: </span>
+                                <div class="text-sm text-gray-600">
+                                    ${addons.map(addon => `${addon.name} (+$${addon.price})`).join(', ')}
+                                </div>
+                            </div>
+                        ` : ''}
                     </div>
-                    <div>
-                        <button onclick="editItem('${item.id}')" class="edit-btn">
+                    
+                    <div class="flex gap-2">
+                        <button onclick="editItem('${item.id}')" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors text-sm">
                             Edit
                         </button>
                         <button onclick="toggleItemAvailability('${item.id}', ${!item.is_available})" 
-                                class="text-sm px-2 py-1 rounded ${item.is_available ? 'bg-red-500 text-white' : 'bg-green-500 text-white'}">
+                                class="px-4 py-2 rounded-md text-sm transition-colors ${item.is_available ? 'bg-red-600 hover:bg-red-700 text-white' : 'bg-green-600 hover:bg-green-700 text-white'}">
                             ${item.is_available ? 'Disable' : 'Enable'}
                         </button>
-                        <button onclick="deleteItem('${item.id}')" class="delete-btn">
+                        <button onclick="deleteItem('${item.id}')" class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors text-sm">
                             Delete
                         </button>
                     </div>
                 </div>
             </div>
-            
-            <div id="edit-${item.id}" class="edit-mode hidden">
-                <form class="edit-form" onsubmit="saveItem(event, '${item.id}')">
-                    <input type="text" id="edit-name-${item.id}" value="${item.name}" placeholder="Name" required>
-                    <textarea id="edit-description-${item.id}" placeholder="Description">${item.description || ''}</textarea>
-                    <input type="number" id="edit-price-${item.id}" value="${item.price}" step="0.01" placeholder="Price" required>
-                    <input type="url" id="edit-image-url-${item.id}" value="${item.image_url || ''}" placeholder="Image URL">
-                    <select id="edit-category-${item.id}" required>
-                        <option value="">Select Category</option>
-                        <option value="tortas" ${item.category === 'tortas' ? 'selected' : ''}>Tortas & Wraps</option>
-                        <option value="salads" ${item.category === 'salads' ? 'selected' : ''}>Salads</option>
-                        <option value="bowls" ${item.category === 'bowls' ? 'selected' : ''}>Bowls</option>
-                        <option value="enchiladas" ${item.category === 'enchiladas' ? 'selected' : ''}>Enchiladas</option>
-                        <option value="sides" ${item.category === 'sides' ? 'selected' : ''}>Sides</option>
-                        <option value="desserts" ${item.category === 'desserts' ? 'selected' : ''}>Desserts</option>
-                        <option value="beverages" ${item.category === 'beverages' ? 'selected' : ''}>Beverages</option>
-                    </select>
-                    <div>
-                        <input type="checkbox" id="edit-available-${item.id}" ${item.is_available ? 'checked' : ''}>
-                        <label for="edit-available-${item.id}">Available</label>
-                    </div>
-                    <div>
-                        <button type="submit" class="save-btn">Save</button>
-                        <button type="button" onclick="cancelEdit('${item.id}')" class="cancel-btn">Cancel</button>
-                    </div>
-                </form>
-            </div>
+        `;
+    }).join('');
+}
+
+// Item Modal Functions
+function showItemModal(item = null) {
+    const modal = document.getElementById('item-modal');
+    const title = document.getElementById('item-modal-title');
+    
+    editingItemId = item ? item.id : null;
+    title.textContent = item ? 'Edit Item' : 'Add New Item';
+    
+    // Reset form
+    document.getElementById('item-form').reset();
+    currentAddons = [];
+    updateAddonsDisplay();
+    
+    if (item) {
+        // Populate form with item data
+        document.getElementById('item-name').value = item.name || '';
+        document.getElementById('item-price').value = item.price || '';
+        document.getElementById('item-category').value = item.category || '';
+        document.getElementById('item-image-url').value = item.image_url || '';
+        document.getElementById('item-description').value = item.description || '';
+        document.getElementById('item-available').checked = item.is_available !== false;
+        
+        // Set dietary tags
+        const dietaryTags = item.dietary_tags || [];
+        document.getElementById('tag-gf').checked = dietaryTags.includes('gf');
+        document.getElementById('tag-v').checked = dietaryTags.includes('v');
+        document.getElementById('tag-n').checked = dietaryTags.includes('n');
+        
+        // Set addons
+        currentAddons = item.addons || [];
+        updateAddonsDisplay();
+    }
+    
+    modal.classList.remove('hidden');
+}
+
+function hideItemModal() {
+    document.getElementById('item-modal').classList.add('hidden');
+    editingItemId = null;
+    currentAddons = [];
+}
+
+function addAddon() {
+    currentAddons.push({ name: '', price: 0 });
+    updateAddonsDisplay();
+}
+
+function removeAddon(index) {
+    currentAddons.splice(index, 1);
+    updateAddonsDisplay();
+}
+
+function updateAddonsDisplay() {
+    const container = document.getElementById('addons-container');
+    
+    if (currentAddons.length === 0) {
+        container.innerHTML = '<p class="text-gray-500 text-sm italic">No add-ons added yet</p>';
+        return;
+    }
+    
+    container.innerHTML = currentAddons.map((addon, index) => `
+        <div class="flex gap-3 items-center bg-gray-50 p-3 rounded-md">
+            <input type="text" placeholder="Add-on name" value="${addon.name}" 
+                   onchange="currentAddons[${index}].name = this.value"
+                   class="flex-1 p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+            <input type="number" placeholder="Price" step="0.01" value="${addon.price}" 
+                   onchange="currentAddons[${index}].price = parseFloat(this.value) || 0"
+                   class="w-24 p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+            <button type="button" onclick="removeAddon(${index})" 
+                    class="bg-red-600 text-white px-3 py-2 rounded-md hover:bg-red-700 transition-colors">
+                Remove
+            </button>
         </div>
     `).join('');
-}
-
-// Edit functionality
-function editItem(itemId) {
-    editingItemId = itemId;
-    document.getElementById(`view-${itemId}`).classList.add('hidden');
-    document.getElementById(`edit-${itemId}`).classList.remove('hidden');
-}
-
-function cancelEdit(itemId) {
-    editingItemId = null;
-    document.getElementById(`view-${itemId}`).classList.remove('hidden');
-    document.getElementById(`edit-${itemId}`).classList.add('hidden');
-}
-
-async function saveItem(event, itemId) {
-    event.preventDefault();
-    
-    const name = document.getElementById(`edit-name-${itemId}`).value;
-    const description = document.getElementById(`edit-description-${itemId}`).value;
-    const price = parseFloat(document.getElementById(`edit-price-${itemId}`).value);
-    const imageUrl = document.getElementById(`edit-image-url-${itemId}`).value;
-    const category = document.getElementById(`edit-category-${itemId}`).value;
-    const isAvailable = document.getElementById(`edit-available-${itemId}`).checked;
-
-    try {
-        const { error } = await supabase
-            .from('menu_items')
-            .update({
-                name,
-                description,
-                price,
-                image_url: imageUrl,
-                category,
-                is_available: isAvailable,
-                updated_at: new Date().toISOString()
-            })
-            .eq('id', itemId);
-
-        if (error) throw error;
-
-        alert('Item updated successfully!');
-        editingItemId = null;
-        
-        // Reload both dashboard and menu display
-        loadMenuItemsForDashboard();
-        loadMenuItems();
-        
-    } catch (error) {
-        console.error('Error updating item:', error);
-        alert('Failed to update item: ' + error.message);
-    }
 }
 
 // Event listeners setup
@@ -750,11 +878,17 @@ function setupEventListeners() {
         document.getElementById('account-modal').classList.add('hidden');
     });
 
+    // Item modal
+    document.getElementById('add-item-btn').addEventListener('click', () => showItemModal());
+    document.getElementById('close-item-modal').addEventListener('click', hideItemModal);
+    document.getElementById('cancel-item').addEventListener('click', hideItemModal);
+    document.getElementById('add-addon-btn').addEventListener('click', addAddon);
+    document.getElementById('item-form').addEventListener('submit', handleSaveItem);
+
     // Auth forms
     document.getElementById('login-form').addEventListener('submit', handleLogin);
     document.getElementById('signup-form').addEventListener('submit', handleSignup);
     document.getElementById('logout-btn').addEventListener('click', handleLogout);
-    document.getElementById('add-item-btn').addEventListener('click', handleAddItem);
 }
 
 // Auth handlers
@@ -803,13 +937,24 @@ async function handleLogout() {
 }
 
 // Menu management handlers
-async function handleAddItem() {
-    const name = document.getElementById('new-name').value;
-    const price = parseFloat(document.getElementById('new-price').value);
-    const description = document.getElementById('new-description').value;
-    const imageUrl = document.getElementById('new-image-url').value;
-    const category = document.getElementById('new-category').value;
-    const isAvailable = document.getElementById('new-available').checked;
+async function handleSaveItem(e) {
+    e.preventDefault();
+    
+    const name = document.getElementById('item-name').value;
+    const price = parseFloat(document.getElementById('item-price').value);
+    const category = document.getElementById('item-category').value;
+    const imageUrl = document.getElementById('item-image-url').value;
+    const description = document.getElementById('item-description').value;
+    const isAvailable = document.getElementById('item-available').checked;
+    
+    // Get dietary tags
+    const dietaryTags = [];
+    if (document.getElementById('tag-gf').checked) dietaryTags.push('gf');
+    if (document.getElementById('tag-v').checked) dietaryTags.push('v');
+    if (document.getElementById('tag-n').checked) dietaryTags.push('n');
+    
+    // Validate addons
+    const validAddons = currentAddons.filter(addon => addon.name.trim() !== '');
 
     if (!name || !price || !category) {
         alert('Please fill in all required fields');
@@ -817,34 +962,59 @@ async function handleAddItem() {
     }
 
     try {
-        const { error } = await supabase
-            .from('menu_items')
-            .insert([{
-                name,
-                price,
-                description,
-                image_url: imageUrl,
-                category,
-                is_available: isAvailable
-            }]);
+        const itemData = {
+            name,
+            price,
+            category,
+            description,
+            image_url: imageUrl,
+            is_available: isAvailable,
+            dietary_tags: dietaryTags,
+            addons: validAddons
+        };
+        
+        let error;
+        if (editingItemId) {
+            ({ error } = await supabase
+                .from('menu_items')
+                .update(itemData)
+                .eq('id', editingItemId));
+        } else {
+            ({ error } = await supabase
+                .from('menu_items')
+                .insert([itemData]));
+        }
 
         if (error) throw error;
         
-        alert('Item added successfully!');
-        
-        // Clear form
-        document.getElementById('new-name').value = '';
-        document.getElementById('new-price').value = '';
-        document.getElementById('new-description').value = '';
-        document.getElementById('new-image-url').value = '';
-        document.getElementById('new-category').value = '';
-        document.getElementById('new-available').checked = true;
+        alert(`Item ${editingItemId ? 'updated' : 'added'} successfully!`);
+        hideItemModal();
         
         // Reload items
         loadMenuItemsForDashboard();
         loadMenuItems();
     } catch (error) {
-        alert('Failed to add item: ' + error.message);
+        alert(`Failed to ${editingItemId ? 'update' : 'add'} item: ` + error.message);
+    }
+}
+
+// Edit functionality
+function editItem(itemId) {
+    const item = menuItems.find(item => item.id === itemId) || 
+                 menuItems.find(item => item.id === itemId);
+    
+    if (!item) {
+        // If not found in menuItems, fetch from dashboard data
+        supabase.from('menu_items').select('*').eq('id', itemId).single()
+            .then(({ data, error }) => {
+                if (error) {
+                    console.error('Error fetching item:', error);
+                    return;
+                }
+                showItemModal(data);
+            });
+    } else {
+        showItemModal(item);
     }
 }
 
@@ -928,11 +1098,10 @@ function setupCollapsibleSections() {
 function setupOrderCalculation() {
     let selectedItems = [];
 
-    document.querySelectorAll('.menu-qty-input').forEach(input => {
-        input.addEventListener('change', function() {
-            if (this.value < 0) this.value = 0;
+    document.addEventListener('change', function(e) {
+        if (e.target.classList.contains('menu-qty-input') || e.target.classList.contains('addon-select')) {
             updateOrderSummary();
-        });
+        }
     });
 
     function updateOrderSummary() {
@@ -942,11 +1111,25 @@ function setupOrderCalculation() {
             if (quantity > 0) {
                 const price = parseFloat(input.dataset.price);
                 const name = input.dataset.name;
+                const itemId = input.dataset.itemId;
+                
+                let totalPrice = price;
+                let itemName = name;
+                
+                // Check for addon selection
+                const addonSelect = document.querySelector(`select[name="${itemId}_addons"]`);
+                if (addonSelect && addonSelect.value) {
+                    const selectedOption = addonSelect.options[addonSelect.selectedIndex];
+                    const addonPrice = parseFloat(selectedOption.dataset.price) || 0;
+                    totalPrice += addonPrice;
+                    itemName += ` + ${addonSelect.value}`;
+                }
+                
                 selectedItems.push({
-                    name,
+                    name: itemName,
                     quantity,
-                    price,
-                    total: quantity * price
+                    price: totalPrice,
+                    total: quantity * totalPrice
                 });
             }
         });
@@ -1044,11 +1227,25 @@ document.addEventListener('DOMContentLoaded', function() {
             if (quantity > 0) {
                 const itemName = input.dataset.name;
                 const itemPrice = parseFloat(input.dataset.price);
+                const itemId = input.dataset.itemId;
+                
+                let totalPrice = itemPrice;
+                let fullName = itemName;
+                
+                // Check for addon selection
+                const addonSelect = document.querySelector(`select[name="${itemId}_addons"]`);
+                if (addonSelect && addonSelect.value) {
+                    const selectedOption = addonSelect.options[addonSelect.selectedIndex];
+                    const addonPrice = parseFloat(selectedOption.dataset.price) || 0;
+                    totalPrice += addonPrice;
+                    fullName += ` + ${addonSelect.value}`;
+                }
+                
                 selectedItems.push({
-                    name: itemName,
+                    name: fullName,
                     quantity: quantity,
-                    price: itemPrice,
-                    total: quantity * itemPrice
+                    price: totalPrice,
+                    total: quantity * totalPrice
                 });
             }
         });
@@ -1141,6 +1338,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     document.getElementById('catering-form').addEventListener('submit', function(e) {
+        updateSelectedItems();
         const formData = new FormData(this);
         const orderMessage = generateOrderMessage(formData);
         const messageInput = document.createElement('input');
@@ -1246,16 +1444,15 @@ document.addEventListener('DOMContentLoaded', function() {
   `;
   document.body.appendChild(popup);
 
-  // Add click handlers for tags
-  document.querySelectorAll('.dietary-tag').forEach(tag => {
-    tag.style.cursor = 'pointer';
-    tag.addEventListener('click', function() {
-      const key = this.textContent.toLowerCase().trim();
+  // Add click handlers for tags (using event delegation)
+  document.addEventListener('click', function(e) {
+    if (e.target.classList.contains('dietary-tag')) {
+      const key = e.target.textContent.toLowerCase().trim();
       const content = explanations[key] || 'No information available';
       
       popup.querySelector('p').textContent = content;
       popup.classList.remove('hidden');
-    });
+    }
   });
 
   // Close popup
