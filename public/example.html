@@ -32,7 +32,14 @@
     
     <script>
         // Wait for FarmChef to initialize
-        document.addEventListener('DOMContentLoaded', async () => {
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize everything after SDK loads
+            setTimeout(function() {
+                initializeFarmChef();
+            }, 1000);
+        });
+
+        function initializeFarmChef() {
             try {
                 // Inject default CSS
                 FarmChef.injectCSS();
@@ -48,32 +55,15 @@
                 FarmChef.ui.attachEventListeners(dashboardContainer);
                 
                 // Load and display menu
-                async function loadMenu() {
-                    const { data: menuItems, error } = await FarmChef.menu.getItems();
-                    const menuContainer = document.getElementById('menu-container');
-                    
-                    if (error) {
-                        menuContainer.innerHTML = '<p>Error loading menu: ' + error.message + '</p>';
-                        return;
-                    }
-                    
-                    if (menuItems && menuItems.length > 0) {
-                        menuContainer.innerHTML = FarmChef.ui.generateMenuHTML(menuItems);
-                    } else {
-                        menuContainer.innerHTML = '<p>No menu items available.</p>';
-                    }
-                }
-                
-                // Initial menu load
-                await loadMenu();
+                loadMenu();
                 
                 // Subscribe to real-time menu updates
-                FarmChef.menu.subscribe(() => {
+                FarmChef.menu.subscribe(function() {
                     loadMenu();
                 });
                 
                 // Handle auth state changes for dashboard visibility
-                FarmChef.auth.onAuthStateChange((user) => {
+                FarmChef.auth.onAuthStateChange(function(user) {
                     const dashboardSection = document.getElementById('dashboard-section');
                     if (user) {
                         dashboardSection.style.display = 'block';
@@ -87,7 +77,27 @@
             } catch (error) {
                 console.error('Error initializing FarmChef SDK:', error);
             }
-        });
+        }
+
+        function loadMenu() {
+            FarmChef.menu.getItems().then(function(result) {
+                const menuContainer = document.getElementById('menu-container');
+                
+                if (result.error) {
+                    menuContainer.innerHTML = '<p>Error loading menu: ' + result.error.message + '</p>';
+                    return;
+                }
+                
+                if (result.data && result.data.length > 0) {
+                    menuContainer.innerHTML = FarmChef.ui.generateMenuHTML(result.data);
+                } else {
+                    menuContainer.innerHTML = '<p>No menu items available.</p>';
+                }
+            }).catch(function(error) {
+                console.error('Error loading menu:', error);
+                document.getElementById('menu-container').innerHTML = '<p>Error loading menu</p>';
+            });
+        }
     </script>
 </body>
 </html>

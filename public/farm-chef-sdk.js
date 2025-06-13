@@ -194,7 +194,7 @@
         const menuHTML = menuItems.map(item => `
           <div class="${itemClass}" data-id="${item.id}">
             <div class="menu-item-image">
-              <img src="${item.image_url}" alt="${item.name}" />
+              <img src="${item.image_url || 'https://via.placeholder.com/300x200'}" alt="${item.name}" onerror="this.src='https://via.placeholder.com/300x200'" />
             </div>
             <div class="menu-item-content">
               <div class="menu-item-header">
@@ -226,6 +226,7 @@
                 <input type="email" placeholder="Email" required class="signin-email" />
                 <input type="password" placeholder="Password" required class="signin-password" />
                 <button type="submit">Sign In</button>
+                <div class="auth-message"></div>
               </form>
             ` : ''}
             
@@ -235,6 +236,7 @@
                 <input type="email" placeholder="Email" required class="signup-email" />
                 <input type="password" placeholder="Password" required class="signup-password" />
                 <button type="submit">Sign Up</button>
+                <div class="auth-message"></div>
               </form>
             ` : ''}
             
@@ -268,6 +270,7 @@
                 Available
               </label>
               <button type="submit">Add Item</button>
+              <div class="form-message"></div>
             </form>
             
             <div class="farm-chef-menu-items-list">
@@ -283,18 +286,24 @@
         const signUpForm = container.querySelector('.farm-chef-signup-form');
         const signOutBtn = container.querySelector('.farm-chef-signout');
         const addItemForm = container.querySelector('.farm-chef-add-item-form');
-        const userInfo = container.querySelector('.farm-chef-user-info');
 
         // Sign in form
         if (signInForm) {
           signInForm.addEventListener('submit', async (e) => {
             e.preventDefault();
+            const messageDiv = signInForm.querySelector('.auth-message');
             const email = signInForm.querySelector('.signin-email').value;
             const password = signInForm.querySelector('.signin-password').value;
             
-            const { user, error } = await this.auth.signIn(email, password);
-            if (error) {
-              alert('Sign in failed: ' + error.message);
+            try {
+              const { user, error } = await this.auth.signIn(email, password);
+              if (error) {
+                messageDiv.innerHTML = '<p style="color: red;">Sign in failed: ' + error.message + '</p>';
+              } else {
+                messageDiv.innerHTML = '<p style="color: green;">Signed in successfully!</p>';
+              }
+            } catch (err) {
+              messageDiv.innerHTML = '<p style="color: red;">Sign in error: ' + err.message + '</p>';
             }
           });
         }
@@ -303,14 +312,19 @@
         if (signUpForm) {
           signUpForm.addEventListener('submit', async (e) => {
             e.preventDefault();
+            const messageDiv = signUpForm.querySelector('.auth-message');
             const email = signUpForm.querySelector('.signup-email').value;
             const password = signUpForm.querySelector('.signup-password').value;
             
-            const { user, error } = await this.auth.signUp(email, password);
-            if (error) {
-              alert('Sign up failed: ' + error.message);
-            } else {
-              alert('Sign up successful! Please check your email to confirm.');
+            try {
+              const { user, error } = await this.auth.signUp(email, password);
+              if (error) {
+                messageDiv.innerHTML = '<p style="color: red;">Sign up failed: ' + error.message + '</p>';
+              } else {
+                messageDiv.innerHTML = '<p style="color: green;">Sign up successful! Please check your email to confirm.</p>';
+              }
+            } catch (err) {
+              messageDiv.innerHTML = '<p style="color: red;">Sign up error: ' + err.message + '</p>';
             }
           });
         }
@@ -326,7 +340,7 @@
         if (addItemForm) {
           addItemForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const formData = new FormData(addItemForm);
+            const messageDiv = addItemForm.querySelector('.form-message');
             
             const item = {
               name: addItemForm.querySelector('.item-name').value,
@@ -337,12 +351,16 @@
               is_available: addItemForm.querySelector('.item-available').checked
             };
 
-            const { data, error } = await this.menu.createItem(item);
-            if (error) {
-              alert('Failed to add item: ' + error.message);
-            } else {
-              alert('Item added successfully!');
-              addItemForm.reset();
+            try {
+              const { data, error } = await this.menu.createItem(item);
+              if (error) {
+                messageDiv.innerHTML = '<p style="color: red;">Failed to add item: ' + error.message + '</p>';
+              } else {
+                messageDiv.innerHTML = '<p style="color: green;">Item added successfully!</p>';
+                addItemForm.reset();
+              }
+            } catch (err) {
+              messageDiv.innerHTML = '<p style="color: red;">Error adding item: ' + err.message + '</p>';
             }
           });
         }
@@ -382,6 +400,7 @@
           border-radius: 8px;
           overflow: hidden;
           transition: box-shadow 0.2s;
+          background: white;
         }
         
         .farm-chef-menu-item:hover {
@@ -439,10 +458,14 @@
         
         .farm-chef-auth form {
           margin-bottom: 1rem;
+          padding: 1rem;
+          border: 1px solid #e2e8f0;
+          border-radius: 8px;
         }
         
         .farm-chef-auth h3 {
           margin-bottom: 1rem;
+          margin-top: 0;
         }
         
         .farm-chef-auth input {
@@ -468,6 +491,13 @@
           background: #2563eb;
         }
         
+        .farm-chef-user-info {
+          text-align: center;
+          padding: 1rem;
+          background: #f0f9ff;
+          border-radius: 8px;
+        }
+        
         .farm-chef-dashboard {
           max-width: 800px;
           margin: 0 auto;
@@ -479,6 +509,7 @@
           padding: 1rem;
           border-radius: 8px;
           margin-bottom: 2rem;
+          border: 1px solid #e2e8f0;
         }
         
         .farm-chef-add-item-form input,
@@ -502,6 +533,16 @@
         
         .farm-chef-add-item-form button:hover {
           background: #15803d;
+        }
+        
+        .auth-message, .form-message {
+          margin-top: 0.5rem;
+        }
+        
+        .auth-message p, .form-message p {
+          margin: 0;
+          padding: 0.5rem;
+          border-radius: 4px;
         }
       `;
     }
