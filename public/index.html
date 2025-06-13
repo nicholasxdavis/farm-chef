@@ -214,24 +214,14 @@ h1, h2, h3, h4, p1 {
             
             <!-- Auth Section -->
             <div id="auth-section" class="p-6">
-                <div class="grid md:grid-cols-2 gap-6">
-                    <!-- Login Form -->
+                <div class="max-w-md mx-auto">
+                    <!-- Login Form Only -->
                     <div class="bg-gray-50 p-6 rounded-lg">
-                        <h3 class="text-lg font-semibold mb-4 text-gray-900">Login</h3>
+                        <h3 class="text-lg font-semibold mb-4 text-gray-900">Chef Login</h3>
                         <form id="login-form">
                             <input type="email" id="login-email" placeholder="Email" class="w-full p-3 border border-gray-300 rounded-md mb-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
                             <input type="password" id="login-password" placeholder="Password" class="w-full p-3 border border-gray-300 rounded-md mb-4 focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
                             <button type="submit" class="w-full bg-gray-900 text-white p-3 rounded-md hover:bg-gray-800 transition-colors">Login</button>
-                        </form>
-                    </div>
-                    
-                    <!-- Signup Form -->
-                    <div class="bg-gray-50 p-6 rounded-lg">
-                        <h3 class="text-lg font-semibold mb-4 text-gray-900">Sign Up</h3>
-                        <form id="signup-form">
-                            <input type="email" id="signup-email" placeholder="Email" class="w-full p-3 border border-gray-300 rounded-md mb-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
-                            <input type="password" id="signup-password" placeholder="Password" class="w-full p-3 border border-gray-300 rounded-md mb-4 focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
-                            <button type="submit" class="w-full bg-gray-900 text-white p-3 rounded-md hover:bg-gray-800 transition-colors">Sign Up</button>
                         </form>
                     </div>
                 </div>
@@ -922,7 +912,6 @@ function setupEventListeners() {
 
     // Auth forms
     document.getElementById('login-form').addEventListener('submit', handleLogin);
-    document.getElementById('signup-form').addEventListener('submit', handleSignup);
     document.getElementById('logout-btn').addEventListener('click', handleLogout);
 }
 
@@ -938,26 +927,6 @@ async function handleLogin(e) {
         alert('Login successful!');
     } catch (error) {
         alert('Login failed: ' + error.message);
-    }
-}
-
-async function handleSignup(e) {
-    e.preventDefault();
-    const email = document.getElementById('signup-email').value;
-    const password = document.getElementById('signup-password').value;
-
-    try {
-        const { error } = await supabase.auth.signUp({
-            email,
-            password,
-            options: {
-                emailRedirectTo: window.location.origin
-            }
-        });
-        if (error) throw error;
-        alert('Signup successful! Please check your email for verification.');
-    } catch (error) {
-        alert('Signup failed: ' + error.message);
     }
 }
 
