@@ -14,6 +14,37 @@
 
     <meta name="twitter:card" content="summary_large_image" />
     
+    <!-- Custom fonts with iOS compatibility -->
+    <style>
+      @font-face {
+        font-family: 'Bernard MT Condensed';
+        src: url('data:font/truetype;charset=utf-8;base64,') format('truetype');
+        font-weight: normal;
+        font-style: normal;
+        font-display: swap;
+      }
+      
+      @font-face {
+        font-family: 'Adabi MT Light';
+        src: url('data:font/truetype;charset=utf-8;base64,') format('truetype');
+        font-weight: 300;
+        font-style: normal;
+        font-display: swap;
+      }
+      
+      /* iOS fallback styles */
+      .font-title {
+        font-family: 'Bernard MT Condensed', 'Arial Black', 'Helvetica', sans-serif;
+        font-weight: 900;
+        font-stretch: condensed;
+      }
+      
+      .font-body {
+        font-family: 'Adabi MT Light', 'Helvetica Neue', 'Arial', sans-serif;
+        font-weight: 300;
+      }
+    </style>
+    
     <!-- GitHub Pages SPA redirect script -->
     <script type="text/javascript">
       (function(l) {

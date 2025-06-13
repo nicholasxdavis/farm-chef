@@ -18,11 +18,10 @@ interface AuthModalProps {
 }
 
 const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
-  const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const { signIn, signUp } = useAuth();
+  const { signIn } = useAuth();
   const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -30,12 +29,7 @@ const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
     setLoading(true);
 
     try {
-      let error;
-      if (isLogin) {
-        ({ error } = await signIn(email, password));
-      } else {
-        ({ error } = await signUp(email, password));
-      }
+      const { error } = await signIn(email, password);
 
       if (error) {
         toast({
@@ -46,11 +40,9 @@ const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
       } else {
         toast({
           title: "Success",
-          description: isLogin ? "Signed in successfully!" : "Account created! Please check your email to confirm."
+          description: "Signed in successfully!"
         });
-        if (isLogin) {
-          onClose();
-        }
+        onClose();
       }
     } catch (error) {
       console.error('Auth error:', error);
@@ -68,7 +60,7 @@ const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>{isLogin ? 'Chef Login' : 'Create Chef Account'}</DialogTitle>
+          <DialogTitle>Chef Login</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
@@ -92,17 +84,8 @@ const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
             />
           </div>
           <Button type="submit" className="w-full" disabled={loading}>
-            {loading ? 'Loading...' : (isLogin ? 'Sign In' : 'Create Account')}
+            {loading ? 'Loading...' : 'Sign In'}
           </Button>
-          <div className="text-center">
-            <button
-              type="button"
-              onClick={() => setIsLogin(!isLogin)}
-              className="text-sm text-blue-600 hover:underline"
-            >
-              {isLogin ? 'Need an account? Sign up' : 'Already have an account? Sign in'}
-            </button>
-          </div>
         </form>
       </DialogContent>
     </Dialog>

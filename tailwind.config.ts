@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -18,6 +19,10 @@ export default {
 			}
 		},
 		extend: {
+			fontFamily: {
+				title: ['"Bernard MT Condensed"', 'Arial Black', 'Helvetica', 'sans-serif'],
+				body: ['"Adabi MT Light"', 'Helvetica Neue', 'Arial', 'sans-serif']
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
