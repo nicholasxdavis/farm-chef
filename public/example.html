@@ -1,0 +1,93 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FarmChef SDK Example</title>
+</head>
+<body>
+    <h1>FarmChef SDK Integration Example</h1>
+    
+    <!-- Authentication Section -->
+    <section>
+        <h2>Authentication</h2>
+        <div id="auth-container"></div>
+    </section>
+    
+    <!-- Menu Display Section -->
+    <section>
+        <h2>Menu Display</h2>
+        <div id="menu-container">Loading menu...</div>
+    </section>
+    
+    <!-- Dashboard Section (only visible when authenticated) -->
+    <section id="dashboard-section" style="display: none;">
+        <h2>Dashboard (Chef Only)</h2>
+        <div id="dashboard-container"></div>
+    </section>
+
+    <!-- Load FarmChef SDK -->
+    <script src="./farm-chef-sdk.js"></script>
+    
+    <script>
+        // Wait for FarmChef to initialize
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                // Inject default CSS
+                FarmChef.injectCSS();
+                
+                // Set up authentication UI
+                const authContainer = document.getElementById('auth-container');
+                authContainer.innerHTML = FarmChef.ui.generateAuthHTML();
+                FarmChef.ui.attachEventListeners(authContainer);
+                
+                // Set up dashboard UI
+                const dashboardContainer = document.getElementById('dashboard-container');
+                dashboardContainer.innerHTML = FarmChef.ui.generateDashboardHTML();
+                FarmChef.ui.attachEventListeners(dashboardContainer);
+                
+                // Load and display menu
+                async function loadMenu() {
+                    const { data: menuItems, error } = await FarmChef.menu.getItems();
+                    const menuContainer = document.getElementById('menu-container');
+                    
+                    if (error) {
+                        menuContainer.innerHTML = '<p>Error loading menu: ' + error.message + '</p>';
+                        return;
+                    }
+                    
+                    if (menuItems && menuItems.length > 0) {
+                        menuContainer.innerHTML = FarmChef.ui.generateMenuHTML(menuItems);
+                    } else {
+                        menuContainer.innerHTML = '<p>No menu items available.</p>';
+                    }
+                }
+                
+                // Initial menu load
+                await loadMenu();
+                
+                // Subscribe to real-time menu updates
+                FarmChef.menu.subscribe(() => {
+                    loadMenu();
+                });
+                
+                // Handle auth state changes for dashboard visibility
+                FarmChef.auth.onAuthStateChange((user) => {
+                    const dashboardSection = document.getElementById('dashboard-section');
+                    if (user) {
+                        dashboardSection.style.display = 'block';
+                    } else {
+                        dashboardSection.style.display = 'none';
+                    }
+                });
+                
+                console.log('FarmChef SDK example loaded successfully');
+                
+            } catch (error) {
+                console.error('Error initializing FarmChef SDK:', error);
+            }
+        });
+    </script>
+</body>
+</html>
