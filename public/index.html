@@ -1,0 +1,1104 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FARMesilla | Catering Services | Mesilla, NM</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#f5e7d0',
+            primary2: '#e8d9c0',
+            secondary: '#432f25',
+            accent: '#5c4032'
+          },
+          fontFamily: {
+            title: ['"Bernard MT Condensed"', 'serif'],
+            body: ['"Adabi MT Light"', 'sans-serif']
+          }
+        }
+      }
+    }
+</script>
+
+<style>
+body {
+  background-color: #f5e7d0;
+  background-image: url('https://www.transparenttextures.com/patterns/soft-wallpaper.png');
+  background-repeat: repeat;
+  background-size: auto;
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: url('https://www.transparenttextures.com/patterns/soft-wallpaper.png');
+  opacity: 0.1;
+  pointer-events: none;
+  z-index: 0;
+}
+
+body {
+  font-family: 'Adabi MT Light', sans-serif;
+  letter-spacing: 0.02em;
+}
+
+h1, h2, h3, h4, p1 {
+  font-family: 'Bernard MT Condensed', serif;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.section-content {
+  position: relative;
+  z-index: 2;
+}
+
+.menu-item-image {
+  width: 96px;
+  height: 96px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 2px solid #c8b697;
+}
+
+.portion-btn {
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #f5e7d0;
+  color: #f5e7d0;
+  transition: all 0.2s;
+}
+
+.portion-btn:hover {
+  background-color: #5c4032;
+  color: white;
+}
+
+/* Modal styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 8px;
+  padding: 2rem;
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+.close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.hidden { display: none; }
+
+.editable-item {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background: #f9fafb;
+}
+
+.edit-form input, .edit-form textarea, .edit-form select {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+}
+
+.save-btn, .edit-btn, .delete-btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.save-btn { background: #10b981; color: white; }
+.edit-btn { background: #3b82f6; color: white; }
+.delete-btn { background: #ef4444; color: white; }
+</style>
+</head>
+
+<body class="text-secondary">
+
+<nav class="bg-secondary top-0 z-50 shadow-md">
+    <div class="container mx-auto px-4 sm:px-6 py-3 md:py-4">
+        <div class="flex items-center justify-between">
+            <!-- Logo/Brand -->
+            <div class="flex items-center">
+                <a href="#" class="flex items-center">
+                    <img src="assets/logo.png" alt="FARMesilla" class="h-28 md:h-28">
+                </a>
+            </div>
+
+            <!-- Desktop Navigation -->
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#" class="text-primary text-sm md:text-base tracking-wider hover:text-accent transition duration-300 font-title">HOME</a>
+                <a href="#catering-menu" class="text-primary text-sm md:text-base tracking-wider hover:text-accent transition duration-300 font-title">CATERING</a>
+                <a href="#" class="text-primary text-sm md:text-base tracking-wider hover:text-accent transition duration-300 font-title">MENU</a>
+                <a href="#" class="text-primary text-sm md:text-base tracking-wider hover:text-accent transition duration-300 font-title">ABOUT</a>
+                <a href="#" class="text-primary text-sm md:text-base tracking-wider hover:text-accent transition duration-300 font-title">CONTACT</a>
+                <a href="#catering-form" class="bg-primary text-secondary px-4 py-2 rounded-full hover:bg-accent transition duration-300 text-sm tracking-wider font-title">ORDER NOW</a>
+                
+                <!-- Account Icon -->
+                <button id="account-btn" class="text-primary hover:text-accent transition duration-300">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Mobile menu button -->
+            <div class="md:hidden flex items-center space-x-4">
+                <!-- Mobile Account Icon -->
+                <button id="mobile-account-btn" class="text-primary hover:text-accent transition duration-300">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                    </svg>
+                </button>
+                
+                <button type="button" class="mobile-menu-button text-primary focus:outline-none">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <div class="mobile-menu hidden md:hidden pt-4 pb-2">
+            <div class="flex flex-col items-center justify-center space-y-3 text-center">
+                <a href="#" class="block px-3 py-2 hover:text-accent text-primary text-sm tracking-wider font-title">HOME</a>
+                <a href="#catering-menu" class="block hover:text-accent px-3 py-2 text-primary text-sm tracking-wider font-title">CATERING</a>
+                <a href="#" class="block px-3 py-2 hover:text-accent text-primary text-sm tracking-wider font-title">MENU</a>
+                <a href="#" class="block px-3 py-2 hover:text-accent text-primary text-sm tracking-wider font-title">ABOUT</a>
+                <a href="#" class="block px-3 py-2 hover:text-accent text-primary text-sm tracking-wider font-title">CONTACT</a>
+                <a href="#catering-form" class="block hover:text-accent bg-primary text-secondary text-center px-4 py-2 rounded-full text-sm tracking-wider mt-2 font-title">ORDER NOW</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- Account/Dashboard Modal -->
+<div id="account-modal" class="modal-overlay hidden">
+    <div class="modal-content">
+        <button class="close-btn" onclick="closeAccountModal()">&times;</button>
+        
+        <!-- Authentication Section -->
+        <div id="auth-section">
+            <h2 class="text-2xl font-bold mb-4 text-center">Account Access</h2>
+            <div id="auth-container"></div>
+        </div>
+        
+        <!-- Dashboard Section (hidden initially) -->
+        <div id="dashboard-section" class="hidden">
+            <h2 class="text-2xl font-bold mb-4">Menu Management Dashboard</h2>
+            
+            <!-- Add New Item Form -->
+            <div class="bg-gray-50 p-4 rounded-lg mb-4">
+                <h3 class="text-lg font-semibold mb-3">Add New Menu Item</h3>
+                <div class="edit-form">
+                    <input type="text" id="new-item-name" placeholder="Item name" required>
+                    <textarea id="new-item-description" placeholder="Description" rows="2"></textarea>
+                    <input type="number" id="new-item-price" placeholder="Price" step="0.01" required>
+                    <input type="url" id="new-item-image" placeholder="Image URL">
+                    <select id="new-item-category" required>
+                        <option value="">Select category</option>
+                        <option value="tortas">Tortas & Wraps</option>
+                        <option value="salads">Salads</option>
+                        <option value="bowls">Bowls</option>
+                        <option value="enchiladas">Enchiladas</option>
+                        <option value="sides">Sides</option>
+                        <option value="desserts">Desserts</option>
+                        <option value="beverages">Beverages</option>
+                    </select>
+                    <label class="flex items-center">
+                        <input type="checkbox" id="new-item-available" checked class="mr-2"> Available
+                    </label>
+                    <button onclick="addMenuItem()" class="save-btn">Add Item</button>
+                </div>
+            </div>
+            
+            <!-- Menu Items List -->
+            <div id="menu-items-list">
+                <h3 class="text-lg font-semibold mb-3">Current Menu Items</h3>
+                <div id="editable-menu-items"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Catering Menu Section -->
+<section id="catering-menu" class="py-12 md:py-20 section-curve">
+    <form action="https://formspree.io/f/meogonnn" method="POST" id="catering-form">
+    <div class="container mx-auto px-4 sm:px-6 section-content">
+
+        <!-- Menu Intro -->
+        <div class="max-w-4xl mx-auto mb-12 md:mb-16 text-center">
+            <h1 class="text-3xl md:text-4xl font-display mb-4 md:mb-6 tracking-wider">GATHER YOUR CREW</h1>
+            <p class="mb-4 md:mb-6 text-sm md:text-base">
+                Our <strong>FARM-2-GO</strong> order form is perfect for GROUP ORDERS, offering shared platters of good choices
+                <span class="hidden sm:inline"><br></span>
+                like farm-fresh salads, protein bowls and healthy snacks & desserts, all made from scratch.
+                <img src="assets/leaf.svg" alt="Leaf icon" class="inline-block h-4 w-4 align-text-bottom fill-current text-inherit">
+            </p>
+            <p class="text-xs md:text-sm tracking-wider"><strong>#eatgoodfeelgood &nbsp; #eatgoodworkhappy &nbsp; #FARMesilla</strong></p>
+        </div>
+
+        <div class="text-center mb-8 md:mb-12">
+            <h2 class="text-2xl md:text-3xl mb-3 md:mb-4 tracking-widest">CATERING MENU</h2>
+            <div class="w-20 h-1 bg-accent mx-auto mb-4 md:mb-6"></div>
+            <div class="flex flex-wrap justify-center gap-2 md:gap-4 mb-4 md:mb-6 text-xs md:text-sm">
+                <span class="bg-secondary text-primary px-2 md:px-3 py-1 rounded-full">GF = GLUTEN FREE</span>
+                <span class="bg-secondary text-primary px-2 md:px-3 py-1 rounded-full">V = VEGAN</span>
+                <span class="bg-secondary text-primary px-2 md:px-3 py-1 rounded-full">N = CONTAINS NUTS</span>
+            </div>
+        </div>
+
+        <!-- Portion Size Selector -->
+        <div class="max-w-xs mx-auto mb-10 text-center">
+            <p class="mb-3 font-medium">SELECT PORTION SIZE</p>
+            <div class="relative flex items-center justify-center">
+                <button type="button" class="portion-btn" onclick="adjustPortion(-1)">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z" clip-rule="evenodd" />
+                    </svg>
+                </button>
+                
+                <div class="mx-4 px-6 py-2 border-b-2 border-accent text-center min-w-[120px]">
+                    <span id="portion-size" class="text-2xl font-display">10</span>
+                    <span class="ml-1 text-sm">people</span>
+                </div>
+                
+                <button type="button" class="portion-btn" onclick="adjustPortion(1)">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
+                    </svg>
+                </button>
+            </div>
+            <p class="mt-2 text-xs text-secondary-500">Standard portion sizes: 5, 10 or 20 people</p>
+        </div>
+
+        <!-- Dynamic Menu Items Container -->
+        <div id="dynamic-menu-container">
+            <!-- Menu items will be loaded here from API -->
+        </div>
+
+        <!-- Combined Order Form -->
+        <div class="max-w-4xl mx-auto bg-primary p-4 md:p-8 rounded-lg shadow-md">
+            <div class="mb-6 md:mb-8">
+                <h4 class="text-lg md:text-xl mb-3 md:mb-4 font-bold tracking-wider">YOUR SELECTED ITEMS</h4>
+                <div id="order-items-display" class="border border-secondary/20 rounded-lg p-3 md:p-4 mb-3 md:mb-4 min-h-24 md:min-h-32">
+                    <p class="text-center text-secondary/60 text-sm md:text-base">Your selected items will appear here</p>
+                </div>
+                <div class="flex justify-between items-center">
+                    <div>
+                        <p class="font-bold tracking-wider text-sm md:text-base">SUBTOTAL:</p>
+                        <p class="text-xs md:text-sm">18% PREPARATION FEE WILL BE ADDED</p>
+                    </div>
+                    <p id="subtotal-display" class="text-xl md:text-2xl">$0.00</p>
+                </div>
+                <div class="text-center mt-4 md:mt-6">
+                    <p class="text-xs md:text-sm mb-3 md:mb-4 tracking-wider">DELIVERY RATES ARE CALCULATED PER DISTANCE</p>
+                </div>
+            </div>
+            
+            <h3 class="text-xl md:text-2xl mb-4 md:mb-6 text-center tracking-wider">CLIENT INFORMATION</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-4 md:mb-6">
+                <div>
+                    <label class="block mb-1 md:mb-2 font-bold tracking-wider text-sm md:text-base">CLIENT NAME</label>
+                    <input type="text" name="client_name" class="w-full px-3 md:px-4 py-1 md:py-2 border border-secondary/60 bg-secondary bg-opacity-20 rounded-lg text-sm md:text-base" required>
+                </div>
+                <div>
+                    <label class="block mb-1 md:mb-2 font-bold tracking-wider text-sm md:text-base">CLIENT EMAIL</label>
+                    <input type="email" name="client_email" class="w-full px-3 md:px-4 py-1 md:py-2 border border-secondary/60 bg-secondary bg-opacity-20 rounded-lg text-sm md:text-base" required>
+                </div>
+                <div>
+                    <label class="block mb-1 md:mb-2 font-bold tracking-wider text-sm md:text-base">PHONE #</label>
+                    <input type="tel" name="client_phone" class="w-full px-3 md:px-4 py-1 md:py-2 border border-secondary/60 bg-secondary bg-opacity-20 rounded-lg text-sm md:text-base" required>
+                </div>
+                <div>
+                    <label class="block mb-1 md:mb-2 font-bold tracking-wider text-sm md:text-base">
+                        ORDER DATE 
+                        <span class="text-xs md:text-sm font-normal opacity-60">(Date this form was completed)</span>
+                    </label>
+                    <input type="date" name="order_date" class="w-full px-3 md:px-4 py-1 md:py-2 border border-secondary/60 bg-secondary bg-opacity-20 rounded-lg text-sm md:text-base" required>
+                </div>
+                <div>
+                    <label class="block mb-1 md:mb-2 font-bold tracking-wider text-sm md:text-base">PICK-UP/DELIVERY DATE</label>
+                    <input type="date" name="delivery_date" class="w-full px-3 md:px-4 py-1 md:py-2 border border-secondary/60 bg-secondary bg-opacity-20 rounded-lg text-sm md:text-base" required>
+                </div>
+                <div>
+                    <label class="block mb-1 md:mb-2 font-bold tracking-wider text-sm md:text-base">PICK-UP/DELIVERY TIME</label>
+                    <input type="time" name="delivery_time" class="w-full px-3 md:px-4 py-1 md:py-2 border border-secondary/60 bg-secondary bg-opacity-20 rounded-lg text-sm md:text-base" required>
+                </div>
+            </div>
+            <div class="mb-4 md:mb-6">
+                <label class="block mb-1 md:mb-2 font-bold tracking-wider text-sm md:text-base">
+                    DELIVERY ADDRESS (IF APPLICABLE) 
+                    <span class="text-xs md:text-sm font-normal opacity-60">(FOR PICK-UP LEAVE BLANK)</span>
+                </label>
+                <textarea name="delivery_address" rows="2" class="w-full px-3 md:px-4 py-1 md:py-2 border border-secondary/20 bg-secondary bg-opacity-20 rounded-lg text-sm md:text-base" required></textarea>
+            </div>
+            <div class="text-center">
+                <p class="text-xs md:text-sm mb-4 md:mb-6 tracking-wider">ONCE SUBMITTED, A STAFF MEMBER WILL REVIEW YOUR FORM AND WILL REACH OUT FOR CONFIRMATION.</p>
+                <p class="text-xs md:text-sm mb-4 md:mb-6 tracking-wider">FOR ANY QUESTIONS, EMAIL CHEF@FARMESILLA.COM</p>
+                <button type="submit" class="bg-secondary text-primary px-6 md:px-8 py-2 md:py-3 rounded-full hover:bg-accent transition duration-300 tracking-wider text-sm md:text-base">SUBMIT ORDER</button>
+            </div>
+        </div>
+
+        <!-- PDF Download at Bottom -->
+        <div class="max-w-4xl mx-auto mt-12 md:mt-16 text-center">
+            <a href="assets/farmesilla-catering-menu.pdf" download class="inline-flex items-center bg-secondary text-primary px-4 md:px-6 py-2 md:py-3 rounded-full hover:bg-accent transition duration-300 mx-auto text-sm md:text-base">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 md:h-5 md:w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
+                </svg>
+                DOWNLOAD FULL MENU (PDF)
+            </a>
+        </div>
+    </div>
+    </form>
+</section>
+
+<!-- Include FarmChef SDK -->
+<script src="./farm-chef-sdk.js"></script>
+
+<script>
+// Global variables
+let menuItems = {};
+let selectedItems = [];
+let currentMenuData = [];
+
+// Initialize everything when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    initializeFarmChef();
+    setupAccountModal();
+    setupMobileMenu();
+    setupPortionSelector();
+    setupOrderForm();
+    setupWelcomePopup();
+    setupDietaryPopups();
+});
+
+// Initialize FarmChef SDK
+function initializeFarmChef() {
+    try {
+        // Inject default CSS
+        FarmChef.injectCSS();
+        
+        // Set up authentication UI
+        const authContainer = document.getElementById('auth-container');
+        authContainer.innerHTML = FarmChef.ui.generateAuthHTML();
+        FarmChef.ui.attachEventListeners(authContainer);
+        
+        // Handle auth state changes
+        FarmChef.auth.onAuthStateChange(function(user) {
+            const authSection = document.getElementById('auth-section');
+            const dashboardSection = document.getElementById('dashboard-section');
+            
+            if (user) {
+                authSection.style.display = 'none';
+                dashboardSection.classList.remove('hidden');
+                loadMenuItemsForEditing();
+            } else {
+                authSection.style.display = 'block';
+                dashboardSection.classList.add('hidden');
+            }
+        });
+        
+        // Load and display menu items
+        loadMenuItems();
+        
+        // Subscribe to real-time menu updates
+        FarmChef.menu.subscribe(function() {
+            loadMenuItems();
+            loadMenuItemsForEditing();
+        });
+        
+        console.log('FarmChef SDK initialized successfully');
+        
+    } catch (error) {
+        console.error('Error initializing FarmChef SDK:', error);
+    }
+}
+
+// Load menu items from API
+async function loadMenuItems() {
+    try {
+        const { data: items, error } = await FarmChef.menu.getItems();
+        
+        if (error) {
+            console.error('Error loading menu items:', error);
+            return;
+        }
+        
+        if (items && items.length > 0) {
+            currentMenuData = items;
+            // Group items by category
+            const groupedItems = groupItemsByCategory(items);
+            // Render menu sections
+            renderMenuSections(groupedItems);
+            // Update menu items lookup
+            updateMenuItemsLookup(items);
+        } else {
+            document.getElementById('dynamic-menu-container').innerHTML = '<p class="text-center text-gray-500">No menu items available.</p>';
+        }
+    } catch (error) {
+        console.error('Error loading menu items:', error);
+    }
+}
+
+// Group items by category
+function groupItemsByCategory(items) {
+    const grouped = {};
+    items.forEach(item => {
+        const category = item.category || 'other';
+        if (!grouped[category]) {
+            grouped[category] = [];
+        }
+        grouped[category].push(item);
+    });
+    return grouped;
+}
+
+// Render menu sections
+function renderMenuSections(groupedItems) {
+    const container = document.getElementById('dynamic-menu-container');
+    container.innerHTML = '';
+    
+    const categoryTitles = {
+        'tortas': 'FARMHOUSE TORTAS & WRAPS',
+        'salads': 'FARM-FRESH SALADS',
+        'bowls': 'PROTEIN BOWLS',
+        'enchiladas': 'ENCHILADAS',
+        'sides': 'SIDES & SNACKS',
+        'desserts': 'DESSERTS',
+        'beverages': 'BEVERAGES'
+    };
+    
+    Object.keys(groupedItems).forEach(category => {
+        const items = groupedItems[category];
+        const title = categoryTitles[category] || category.toUpperCase();
+        
+        const sectionHTML = `
+            <div class="max-w-4xl mx-auto mb-12 md:mb-16">
+                <div class="flex items-center mb-3 md:mb-4">
+                    <div class="flex-grow border-t border-secondary/20"></div>
+                    <h3 class="text-xl md:text-2xl mx-2 md:mx-4 tracking-wider whitespace-nowrap cursor-pointer">${title}</h3>
+                    <div class="flex-grow border-t border-secondary/20"></div>
+                </div>
+                <p class="text-center mb-4 md:mb-6 text-xs md:text-sm">(PLATTER SERVES 5)</p>
+                
+                <div class="collapsible-content transition-all duration-300 overflow-hidden" style="max-height: 0;">
+                    <div class="space-y-6">
+                        ${items.map(item => createMenuItemHTML(item)).join('')}
+                    </div>
+                    <p class="text-center mt-4 md:mt-6 text-xs md:text-sm"><strong>COMES with ↣ OUR FAMOUS HABANERO ZUCCHINI PICKLES</strong><br class="hidden sm:inline">(recommend adding sides and/or snacks)</p>
+                    <div class="border-t border-secondary/20 my-6 w-3/4 mx-auto"></div>
+                </div>
+            </div>
+        `;
+        
+        container.innerHTML += sectionHTML;
+    });
+    
+    // Setup collapsible sections and quantity inputs
+    setupCollapsibleSections();
+    setupQuantityInputs();
+}
+
+// Create individual menu item HTML
+function createMenuItemHTML(item) {
+    const dietaryTags = getDietaryTags(item);
+    const imageUrl = item.image_url || 'assets/farm.jpg';
+    
+    return `
+        <div class="flex items-start gap-4">
+            <div class="flex-grow">
+                <div class="flex items-start justify-between">
+                    <div class="flex items-start">
+                        <input type="number" min="0" name="${item.id}_qty" data-item-id="${item.id}" class="quantity-input w-12 md:w-16 mr-3 px-2 py-1 border border-secondary/20 bg-primary2 rounded text-center" placeholder="QTY">
+                        <div>
+                            <p class="font-medium"><span class="font-title">${item.name.toUpperCase()}</span> ↣ ${item.price}</p>
+                            <p class="text-xs md:text-sm mt-1">${item.description || ''}</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-2">
+                        ${dietaryTags}
+                    </div>
+                </div>
+            </div>
+            <img src="${imageUrl}" alt="${item.name}" class="menu-item-image w-24 h-24 object-cover rounded-lg border-2 border-accent">
+        </div>
+    `;
+}
+
+// Get dietary tags for an item
+function getDietaryTags(item) {
+    // This would be based on item properties or description
+    // For now, using placeholder logic
+    let tags = '';
+    if (item.description && item.description.toLowerCase().includes('gluten')) {
+        tags += '<span class="dietary-tag bg-secondary/10 px-2 py-0.5 rounded cursor-pointer">gf</span>';
+    }
+    if (item.description && item.description.toLowerCase().includes('vegan')) {
+        tags += '<span class="dietary-tag bg-secondary/10 px-2 py-0.5 rounded cursor-pointer">v</span>';
+    }
+    if (item.description && item.description.toLowerCase().includes('nut')) {
+        tags += '<span class="dietary-tag bg-secondary/10 px-2 py-0.5 rounded cursor-pointer">n</span>';
+    }
+    return tags;
+}
+
+// Update menu items lookup for order calculations
+function updateMenuItemsLookup(items) {
+    menuItems = {};
+    items.forEach(item => {
+        menuItems[item.name.toUpperCase()] = item.price;
+    });
+}
+
+// Setup collapsible sections
+function setupCollapsibleSections() {
+    const menuSections = document.querySelectorAll('#dynamic-menu-container .max-w-4xl');
+    
+    menuSections.forEach(section => {
+        const headerDiv = section.querySelector('.flex.items-center');
+        if (!headerDiv) return;
+        
+        const header = headerDiv.querySelector('h3');
+        if (!header) return;
+
+        // Add toggle arrow
+        const toggleArrow = document.createElement('span');
+        toggleArrow.innerHTML = ' ↣';
+        toggleArrow.className = 'toggle-arrow inline-block transition-transform duration-300';
+        toggleArrow.style.transform = 'rotate(-90deg)';
+        header.appendChild(toggleArrow);
+
+        const contentContainer = section.querySelector('.collapsible-content');
+        
+        // Toggle function
+        const toggleSection = () => {
+            const isCollapsed = contentContainer.style.maxHeight === '0px';
+            contentContainer.style.maxHeight = isCollapsed ? `${contentContainer.scrollHeight}px` : '0';
+            toggleArrow.style.transform = isCollapsed ? 'rotate(0deg)' : 'rotate(-90deg)';
+        };
+
+        headerDiv.style.cursor = 'pointer';
+        headerDiv.addEventListener('click', toggleSection);
+    });
+}
+
+// Setup quantity inputs
+function setupQuantityInputs() {
+    document.querySelectorAll('.quantity-input').forEach(input => {
+        input.addEventListener('change', function() {
+            if(this.value < 0) this.value = 0;
+            updateSelectedItems();
+            updateOrderSummary();
+            handleOrderNowButton();
+        });
+        input.addEventListener('input', function() {
+            handleOrderNowButton();
+        });
+    });
+}
+
+// Account modal functions
+function setupAccountModal() {
+    const accountBtn = document.getElementById('account-btn');
+    const mobileAccountBtn = document.getElementById('mobile-account-btn');
+    
+    accountBtn.addEventListener('click', openAccountModal);
+    mobileAccountBtn.addEventListener('click', openAccountModal);
+}
+
+function openAccountModal() {
+    document.getElementById('account-modal').classList.remove('hidden');
+}
+
+function closeAccountModal() {
+    document.getElementById('account-modal').classList.add('hidden');
+}
+
+// Load menu items for editing in dashboard
+async function loadMenuItemsForEditing() {
+    try {
+        const { data: menuItems, error } = await FarmChef.menu.getAllItems();
+        
+        if (error) {
+            console.error('Error loading menu items:', error);
+            return;
+        }
+        
+        const container = document.getElementById('editable-menu-items');
+        container.innerHTML = '';
+        
+        if (menuItems && menuItems.length > 0) {
+            menuItems.forEach(item => {
+                const itemElement = createEditableMenuItem(item);
+                container.appendChild(itemElement);
+            });
+        } else {
+            container.innerHTML = '<p class="text-gray-500">No menu items found.</p>';
+        }
+    } catch (error) {
+        console.error('Error loading menu items:', error);
+    }
+}
+
+// Create editable menu item
+function createEditableMenuItem(item) {
+    const div = document.createElement('div');
+    div.className = 'editable-item';
+    div.dataset.itemId = item.id;
+    
+    div.innerHTML = `
+        <div class="view-mode">
+            <h4 class="font-semibold text-lg">${item.name}</h4>
+            <p class="text-gray-600 mb-2">${item.description || ''}</p>
+            <p class="font-bold text-green-600">$${item.price.toFixed(2)}</p>
+            <p class="text-sm text-gray-500">Category: ${item.category}</p>
+            <p class="text-sm ${item.is_available ? 'text-green-600' : 'text-red-600'}">
+                ${item.is_available ? 'Available' : 'Not Available'}
+            </p>
+            <div class="mt-2">
+                <button onclick="toggleEditMode('${item.id}')" class="edit-btn">Edit</button>
+                <button onclick="deleteMenuItem('${item.id}')" class="delete-btn">Delete</button>
+            </div>
+        </div>
+        
+        <div class="edit-mode hidden">
+            <div class="edit-form">
+                <input type="text" class="item-name" value="${item.name}" required>
+                <textarea class="item-description" rows="2">${item.description || ''}</textarea>
+                <input type="number" class="item-price" value="${item.price}" step="0.01" required>
+                <input type="url" class="item-image-url" value="${item.image_url || ''}" placeholder="Image URL">
+                <select class="item-category" required>
+                    <option value="tortas" ${item.category === 'tortas' ? 'selected' : ''}>Tortas & Wraps</option>
+                    <option value="salads" ${item.category === 'salads' ? 'selected' : ''}>Salads</option>
+                    <option value="bowls" ${item.category === 'bowls' ? 'selected' : ''}>Bowls</option>
+                    <option value="enchiladas" ${item.category === 'enchiladas' ? 'selected' : ''}>Enchiladas</option>
+                    <option value="sides" ${item.category === 'sides' ? 'selected' : ''}>Sides</option>
+                    <option value="desserts" ${item.category === 'desserts' ? 'selected' : ''}>Desserts</option>
+                    <option value="beverages" ${item.category === 'beverages' ? 'selected' : ''}>Beverages</option>
+                </select>
+                <label class="flex items-center">
+                    <input type="checkbox" class="item-available" ${item.is_available ? 'checked' : ''}> Available
+                </label>
+                <button onclick="saveMenuItem('${item.id}')" class="save-btn">Save</button>
+                <button onclick="toggleEditMode('${item.id}')" class="edit-btn">Cancel</button>
+            </div>
+        </div>
+    `;
+    
+    return div;
+}
+
+// Dashboard functions
+function toggleEditMode(itemId) {
+    const itemElement = document.querySelector(`[data-item-id="${itemId}"]`);
+    const viewMode = itemElement.querySelector('.view-mode');
+    const editMode = itemElement.querySelector('.edit-mode');
+    
+    viewMode.classList.toggle('hidden');
+    editMode.classList.toggle('hidden');
+}
+
+async function saveMenuItem(itemId) {
+    try {
+        const itemElement = document.querySelector(`[data-item-id="${itemId}"]`);
+        
+        const updates = {
+            name: itemElement.querySelector('.item-name').value,
+            description: itemElement.querySelector('.item-description').value,
+            price: parseFloat(itemElement.querySelector('.item-price').value),
+            image_url: itemElement.querySelector('.item-image-url').value,
+            category: itemElement.querySelector('.item-category').value,
+            is_available: itemElement.querySelector('.item-available').checked
+        };
+        
+        const { error } = await FarmChef.menu.updateItem(itemId, updates);
+        
+        if (error) {
+            alert('Failed to update item: ' + error.message);
+        } else {
+            alert('Item updated successfully!');
+            loadMenuItemsForEditing();
+        }
+    } catch (error) {
+        console.error('Error saving menu item:', error);
+        alert('Error saving item: ' + error.message);
+    }
+}
+
+async function deleteMenuItem(itemId) {
+    if (confirm('Are you sure you want to delete this menu item?')) {
+        try {
+            const { error } = await FarmChef.menu.deleteItem(itemId);
+            
+            if (error) {
+                alert('Failed to delete item: ' + error.message);
+            } else {
+                alert('Item deleted successfully!');
+                loadMenuItemsForEditing();
+            }
+        } catch (error) {
+            console.error('Error deleting menu item:', error);
+            alert('Error deleting item: ' + error.message);
+        }
+    }
+}
+
+async function addMenuItem() {
+    try {
+        const newItem = {
+            name: document.getElementById('new-item-name').value,
+            description: document.getElementById('new-item-description').value,
+            price: parseFloat(document.getElementById('new-item-price').value),
+            image_url: document.getElementById('new-item-image').value,
+            category: document.getElementById('new-item-category').value,
+            is_available: document.getElementById('new-item-available').checked
+        };
+        
+        if (!newItem.name || !newItem.price || !newItem.category) {
+            alert('Please fill in all required fields (name, price, category)');
+            return;
+        }
+        
+        const { error } = await FarmChef.menu.createItem(newItem);
+        
+        if (error) {
+            alert('Failed to add item: ' + error.message);
+        } else {
+            alert('Item added successfully!');
+            // Clear form
+            document.getElementById('new-item-name').value = '';
+            document.getElementById('new-item-description').value = '';
+            document.getElementById('new-item-price').value = '';
+            document.getElementById('new-item-image').value = '';
+            document.getElementById('new-item-category').value = '';
+            document.getElementById('new-item-available').checked = true;
+            
+            loadMenuItemsForEditing();
+        }
+    } catch (error) {
+        console.error('Error adding menu item:', error);
+        alert('Error adding item: ' + error.message);
+    }
+}
+
+// Mobile menu setup
+function setupMobileMenu() {
+    const mobileMenuButton = document.querySelector('.mobile-menu-button');
+    const mobileMenu = document.querySelector('.mobile-menu');
+    
+    mobileMenuButton.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+    });
+}
+
+// Portion selector setup
+function setupPortionSelector() {
+    const portionSizes = [5, 10, 20];
+    let currentIndex = 1;
+
+    window.adjustPortion = function(change) {
+        currentIndex = Math.max(0, Math.min(portionSizes.length - 1, currentIndex + change));
+        document.getElementById('portion-size').textContent = portionSizes[currentIndex];
+        localStorage.setItem('selectedPortion', portionSizes[currentIndex]);
+    }
+
+    const savedSize = localStorage.getItem('selectedPortion');
+    if (savedSize) {
+        const index = portionSizes.indexOf(parseInt(savedSize));
+        if (index !== -1) {
+            currentIndex = index;
+            document.getElementById('portion-size').textContent = savedSize;
+        }
+    }
+}
+
+// Order form functions
+function setupOrderForm() {
+    const cateringForm = document.getElementById('catering-form');
+    if (cateringForm) {
+        cateringForm.addEventListener('submit', function(e) {
+            const formData = new FormData(this);
+            const orderMessage = generateOrderMessage(formData);
+            const messageInput = document.createElement('input');
+            messageInput.type = 'hidden';
+            messageInput.name = 'message';
+            messageInput.value = orderMessage;
+            this.appendChild(messageInput);
+        });
+    }
+}
+
+function updateSelectedItems() {
+    selectedItems = [];
+    document.querySelectorAll('.quantity-input').forEach(input => {
+        const quantity = parseInt(input.value) || 0;
+        if (quantity > 0) {
+            const itemId = input.dataset.itemId;
+            const item = currentMenuData.find(item => item.id === itemId);
+            if (item) {
+                selectedItems.push({
+                    name: item.name,
+                    quantity: quantity,
+                    price: item.price,
+                    total: quantity * item.price
+                });
+            }
+        }
+    });
+}
+
+function formatCurrency(amount) {
+    return '$' + amount.toFixed(2);
+}
+
+function generateOrderMessage(formData) {
+    let message = "=== FARMESILLA CATERING ORDER ===\n\n";
+
+    message += "CLIENT INFORMATION:\n";
+    message += `Name: ${formData.get('client_name')}\n`;
+    message += `Email: ${formData.get('client_email')}\n`;
+    message += `Phone: ${formData.get('client_phone')}\n\n`;
+
+    message += "ORDER DETAILS:\n";
+    message += `Order Date: ${formData.get('order_date')}\n`;
+    message += `Delivery/Pickup Date: ${formData.get('delivery_date')}\n`;
+    message += `Time: ${formData.get('delivery_time')}\n`;
+
+    const deliveryAddress = formData.get('delivery_address');
+    if (deliveryAddress) {
+        message += `Delivery Address: ${deliveryAddress}\n`;
+    } else {
+        message += "Pickup: Yes\n";
+    }
+
+    message += "\nORDER ITEMS:\n";
+    selectedItems.forEach(item => {
+        message += `- ${item.quantity} × ${item.name} (${formatCurrency(item.price)} each) = ${formatCurrency(item.total)}\n`;
+    });
+
+    const subtotal = selectedItems.reduce((sum, item) => sum + item.total, 0);
+    const preparationFee = subtotal * 0.18;
+    const total = subtotal + preparationFee;
+
+    message += "\nORDER SUMMARY:\n";
+    message += `Subtotal: ${formatCurrency(subtotal)}\n`;
+    message += `Preparation Fee (18%): ${formatCurrency(preparationFee)}\n`;
+    message += `TOTAL: ${formatCurrency(total)}\n\n`;
+
+    message += "=== END OF ORDER ===";
+
+    return message;
+}
+
+function updateOrderSummary() {
+    const orderItemsContainer = document.getElementById('order-items-display');
+    const subtotalDisplay = document.getElementById('subtotal-display');
+
+    orderItemsContainer.innerHTML = '';
+
+    if (selectedItems.length === 0) {
+        orderItemsContainer.innerHTML = '<p class="text-center text-secondary/60 text-sm md:text-base">Your selected items will appear here</p>';
+        subtotalDisplay.textContent = '$0.00';
+        return;
+    }
+
+    let subtotal = 0;
+    const itemsList = document.createElement('div');
+    itemsList.className = 'space-y-2';
+
+    selectedItems.forEach(item => {
+        subtotal += item.total;
+
+        const itemElement = document.createElement('div');
+        itemElement.className = 'flex justify-between items-center text-sm md:text-base';
+
+        const itemName = document.createElement('span');
+        itemName.textContent = `${item.quantity} × ${item.name}`;
+
+        const itemTotal = document.createElement('span');
+        itemTotal.textContent = `$${item.total.toFixed(2)}`;
+        itemTotal.className = 'font-medium';
+
+        itemElement.appendChild(itemName);
+        itemElement.appendChild(itemTotal);
+        itemsList.appendChild(itemElement);
+    });
+
+    orderItemsContainer.appendChild(itemsList);
+
+    const preparationFee = subtotal * 0.18;
+    const totalWithTax = subtotal + preparationFee;
+
+    subtotalDisplay.textContent = `$${totalWithTax.toFixed(2)}`;
+}
+
+// Order now button functionality
+function checkSelectedItems() {
+    const quantityInputs = document.querySelectorAll('.quantity-input');
+    let hasSelectedItems = false;
+    
+    quantityInputs.forEach(input => {
+        if (parseInt(input.value) > 0) {
+            hasSelectedItems = true;
+        }
+    });
+    
+    return hasSelectedItems;
+}
+
+function handleOrderNowButton() {
+    const existingButton = document.getElementById('order-now-button');
+    if (existingButton) {
+        existingButton.remove();
+    }
+    
+    if (checkSelectedItems()) {
+        const button = document.createElement('button');
+        button.id = 'order-now-button';
+        button.textContent = 'ORDER NOW';
+        button.className = 'fixed bottom-6 right-6 bg-secondary text-white px-6 py-3 rounded-full hover:bg-accent outline outline-2 outline-primary transition duration-300 tracking-wider shadow-lg z-50';
+
+        button.addEventListener('click', () => {
+            const orderForm = document.querySelector('.max-w-4xl.mx-auto.bg-primary');
+            if (orderForm) {
+                orderForm.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+        
+        document.body.appendChild(button);
+    }
+}
+
+// Welcome popup
+function setupWelcomePopup() {
+    const welcomePopup = document.createElement('div');
+    welcomePopup.className = 'fixed inset-0 flex items-center justify-center bg-black/50 z-50';
+    welcomePopup.innerHTML = `
+        <div class="bg-primary2 border border-secondary/20 rounded-lg p-6 w-80 md:w-[30rem] max-w-[90vw] mx-4 relative">
+            <button class="absolute top-2.5 right-2.5 text-secondary hover:text-accent text-3xl leading-none w-8 h-8 flex items-center justify-center focus:outline-none" id="close-popup">
+                &times;
+            </button>
+            
+            <div class="text-center">
+                <div class="flex justify-center mb-4">
+                    <img src="assets/logo.png" alt="Your Logo" class="h-16 w-auto invert">
+                </div>
+                
+                <h4 class="font-medium text-lg mb-4">Welcome to FARM-2-GO</h4>
+                
+                <p class="text-sm mb-6">Our FARM-2-GO menu is designed for group orders, with each platter serving 5 people by default. Choose from farm-fresh salads, protein bowls, wraps, and healthy snacks!</p>
+
+                <button id="continue-btn" class="bg-secondary text-white hover:bg-accent px-4 py-2 rounded-md transition-colors">Continue</button>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(welcomePopup);
+    
+    const closeBtn = welcomePopup.querySelector('#close-popup');
+    const continueBtn = welcomePopup.querySelector('#continue-btn');
+
+    closeBtn.addEventListener('click', () => welcomePopup.remove());
+    continueBtn.addEventListener('click', () => welcomePopup.remove());
+
+    welcomePopup.addEventListener('click', (e) => {
+        if (e.target === welcomePopup) welcomePopup.remove();
+    });
+}
+
+// Dietary popups
+function setupDietaryPopups() {
+    const explanations = {
+        'gf': 'GLUTEN FREE',
+        'v': 'VEGAN',
+        'n': 'CONTAINS NUTS'
+    };
+
+    const popup = document.createElement('div');
+    popup.className = 'fixed inset-0 flex items-center justify-center bg-black/50 z-50 hidden';
+    popup.innerHTML = `
+        <div class="bg-primary2 border border-secondary/20 rounded-lg p-6 w-80 md:w-[30rem] max-w-[90vw] mx-4 relative">
+            <button class="absolute top-2.5 right-2.5 text-secondary hover:text-accent text-3xl leading-none w-8 h-8 flex items-center justify-center focus:outline-none" id="close-dietary">
+                &times;
+            </button>
+
+            <div class="text-center">
+                <div class="flex justify-center mb-4">
+                    <img src="assets/logo.png" alt="Your Logo" class="h-16 w-auto invert">
+                </div>
+
+                <h4 class="font-medium text-lg mb-4">Dietary Information</h4>
+
+                <p class="text-sm mb-6"></p>
+
+                <button id="continue-dietary" class="bg-secondary text-white hover:bg-accent px-4 py-2 rounded-md transition-colors">Continue</button>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(popup);
+
+    // Event delegation for dynamically added dietary tags
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('dietary-tag')) {
+            const key = e.target.textContent.toLowerCase().trim();
+            const content = explanations[key] || 'No information available';
+            
+            popup.querySelector('p').textContent = content;
+            popup.classList.remove('hidden');
+        }
+    });
+
+    const closeBtn = popup.querySelector('#close-dietary');
+    const continueBtn = popup.querySelector('#continue-dietary');
+
+    closeBtn.addEventListener('click', () => popup.classList.add('hidden'));
+    continueBtn.addEventListener('click', () => popup.classList.add('hidden'));
+
+    popup.addEventListener('click', (e) => {
+        if (e.target === popup) popup.classList.add('hidden');
+    });
+}
+</script>
+
+</body>
+</html>
