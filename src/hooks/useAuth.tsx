@@ -28,20 +28,21 @@ export const useAuth = () => {
     return () => subscription.unsubscribe();
   }, []);
 
-  const signUp = async (email: string, password: string) => {
-    const redirectUrl = `${window.location.origin}/`;
-    
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        emailRedirectTo: redirectUrl
-      }
-    });
-    return { error };
-  };
-
   const signIn = async (email: string, password: string) => {
+    // Check for backup login
+    if (email === 'chef@farmesilla.com' && password === 'FARM1840!') {
+      // Create a mock session for backup login
+      const mockUser = {
+        id: 'backup-chef-user',
+        email: 'chef@farmesilla.com',
+        user_metadata: { role: 'chef' }
+      } as User;
+      
+      setUser(mockUser);
+      setSession({ user: mockUser } as Session);
+      return { error: null };
+    }
+
     const { error } = await supabase.auth.signInWithPassword({
       email,
       password
@@ -50,6 +51,13 @@ export const useAuth = () => {
   };
 
   const signOut = async () => {
+    // Handle backup user logout
+    if (user?.id === 'backup-chef-user') {
+      setUser(null);
+      setSession(null);
+      return { error: null };
+    }
+
     const { error } = await supabase.auth.signOut();
     return { error };
   };
@@ -58,7 +66,6 @@ export const useAuth = () => {
     user,
     session,
     loading,
-    signUp,
     signIn,
     signOut
   };
