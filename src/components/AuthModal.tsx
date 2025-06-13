@@ -10,7 +10,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { useAuth } from '@/hooks/useAuth';
-import { useToast } = from '@/hooks/use-toast';
+import { useToast } from '@/hooks/use-toast';
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -18,10 +18,11 @@ interface AuthModalProps {
 }
 
 const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
+  const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const { signIn } = useAuth();
+  const { signIn, signUp } = useAuth();
   const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -29,7 +30,12 @@ const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
     setLoading(true);
 
     try {
-      const { error } = await signIn(email, password);
+      let error;
+      if (isLogin) {
+        ({ error } = await signIn(email, password));
+      } else {
+        ({ error } = await signUp(email, password));
+      }
 
       if (error) {
         toast({
@@ -40,9 +46,11 @@ const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
       } else {
         toast({
           title: "Success",
-          description: "Signed in successfully!"
+          description: isLogin ? "Signed in successfully!" : "Account created! Please check your email to confirm."
         });
-        onClose();
+        if (isLogin) {
+          onClose();
+        }
       }
     } catch (error) {
       console.error('Auth error:', error);
@@ -60,7 +68,7 @@ const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Chef Login</DialogTitle>
+          <DialogTitle>{isLogin ? 'Chef Login' : 'Create Chef Account'}</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
@@ -84,8 +92,17 @@ const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
             />
           </div>
           <Button type="submit" className="w-full" disabled={loading}>
-            {loading ? 'Loading...' : 'Sign In'}
+            {loading ? 'Loading...' : (isLogin ? 'Sign In' : 'Create Account')}
           </Button>
+          <div className="text-center">
+            <button
+              type="button"
+              onClick={() => setIsLogin(!isLogin)}
+              className="text-sm text-blue-600 hover:underline"
+            >
+              {isLogin ? 'Need an account? Sign up' : 'Already have an account? Sign in'}
+            </button>
+          </div>
         </form>
       </DialogContent>
     </Dialog>
