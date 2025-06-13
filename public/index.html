@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -68,24 +69,6 @@ h1, h2, h3, h4, p1 {
   border: 2px solid #c8b697;
 }
 
-.portion-btn {
-  border-radius: 50%;
-  width: 2rem;
-  height: 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid #f5e7d0;
-  color: #f5e7d0;
-  transition: all 0.2s;
-}
-
-.portion-btn:hover {
-  background-color: #5c4032;
-  color: white;
-}
-
-/* Modal styles */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -137,7 +120,7 @@ h1, h2, h3, h4, p1 {
   margin-bottom: 0.5rem;
 }
 
-.save-btn, .edit-btn, .delete-btn {
+.save-btn, .edit-btn, .delete-btn, .cancel-btn {
   padding: 0.5rem 1rem;
   border: none;
   border-radius: 4px;
@@ -149,6 +132,7 @@ h1, h2, h3, h4, p1 {
 .save-btn { background: #10b981; color: white; }
 .edit-btn { background: #3b82f6; color: white; }
 .delete-btn { background: #ef4444; color: white; }
+.cancel-btn { background: #6b7280; color: white; }
 
 .collapsible-content {
   transition: max-height 0.3s ease-out;
@@ -162,9 +146,6 @@ h1, h2, h3, h4, p1 {
 </style>
 </head>
 
-<body class="text-secondary" style="background-color: #f5dfbf; background-image: url('https://www.transparenttextures.com/patterns/soft-wallpaper.png'); background-repeat: repeat; background-size: auto; background-blend-mode: multiply;">
-
-<!-- Account Icon (added to navigation) -->
 <nav class="bg-secondary top-0 z-50 shadow-md">
     <div class="container mx-auto px-4 sm:px-6 py-3 md:py-4">
         <div class="flex items-center justify-between">
@@ -209,17 +190,18 @@ h1, h2, h3, h4, p1 {
             </div>
         </div>
 
-        <div class="mobile-menu hidden md:hidden pt-4 pb-2">
-            <div class="flex flex-col items-center justify-center space-y-3 text-center">
-                <a href="#" class="block px-3 py-2 hover:text-accent text-primary text-sm tracking-wider font-title">HOME</a>
-                <a href="#catering-menu" class="block hover:text-accent px-3 py-2 text-primary text-sm tracking-wider font-title">CATERING</a>
-                <a href="#" class="block px-3 py-2 hover:text-accent text-primary text-sm tracking-wider font-title">MENU</a>
-                <a href="#" class="block px-3 py-2 hover:text-accent text-primary text-sm tracking-wider font-title">ABOUT</a>
-                <a href="#" class="block px-3 py-2 hover:text-accent text-primary text-sm tracking-wider font-title">CONTACT</a>
-                <a href="#catering-form" class="block hover:text-accent bg-primary text-secondary text-center px-4 py-2 rounded-full text-sm tracking-wider mt-2 font-title">ORDER NOW</a>
-            </div>
-        </div>
+<div class="mobile-menu hidden md:hidden pt-4 pb-2">
+    <div class="flex flex-col items-center justify-center space-y-3 text-center">
+        <a href="#" class="block px-3 py-2 hover:text-accent text-primary text-sm tracking-wider font-title">HOME</a>
+        <a href="#catering-menu" class="block hover:text-accent px-3 py-2 text-primary text-sm tracking-wider font-title">CATERING</a>
+        <a href="#" class="block px-3 py-2 hover:text-accent text-primary text-sm tracking-wider font-title">MENU</a>
+        <a href="#" class="block px-3 py-2 hover:text-accent text-primary text-sm tracking-wider font-title">ABOUT</a>
+        <a href="#" class="block px-3 py-2 hover:text-accent text-primary text-sm tracking-wider font-title">CONTACT</a>
+        <a href="#catering-form" class="block hover:text-accent bg-primary text-secondary text-center px-4 py-2 rounded-full text-sm tracking-wider mt-2 font-title">ORDER NOW</a>
     </div>
+</div>
+
+</div>
 </nav>
 
 <!-- Account/Dashboard Modal -->
@@ -269,8 +251,9 @@ h1, h2, h3, h4, p1 {
                         <h4 class="font-title mb-3">Add New Menu Item</h4>
                         <div class="grid md:grid-cols-2 gap-4">
                             <input type="text" id="new-name" placeholder="Item Name" class="p-2 border rounded">
-                            <input type="number" id="new-price" placeholder="Price" class="p-2 border rounded">
+                            <input type="number" id="new-price" placeholder="Price" step="0.01" class="p-2 border rounded">
                             <textarea id="new-description" placeholder="Description" class="p-2 border rounded"></textarea>
+                            <input type="url" id="new-image-url" placeholder="Image URL" class="p-2 border rounded">
                             <select id="new-category" class="p-2 border rounded">
                                 <option value="">Select Category</option>
                                 <option value="tortas">Tortas & Wraps</option>
@@ -281,6 +264,10 @@ h1, h2, h3, h4, p1 {
                                 <option value="desserts">Desserts</option>
                                 <option value="beverages">Beverages</option>
                             </select>
+                            <div class="flex items-center">
+                                <input type="checkbox" id="new-available" checked class="mr-2">
+                                <label for="new-available">Available</label>
+                            </div>
                         </div>
                         <button id="add-item-btn" class="mt-3 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Add Item</button>
                     </div>
@@ -296,123 +283,152 @@ h1, h2, h3, h4, p1 {
     </div>
 </div>
 
+<body class="text-secondary"
+  style="background-color: #f5dfbf ;
+         background-image: url('https://www.transparenttextures.com/patterns/soft-wallpaper.png');
+         background-repeat: repeat;
+         background-size: auto;
+         background-blend-mode: multiply;">
+
 <!-- Catering Menu Section -->
-<section id="catering-menu" class="py-12 md:py-20">
+<section id="catering-menu" class="py-12 md:py-20 section-curve">
     <form action="https://formspree.io/f/meogonnn" method="POST" id="catering-form">
-        <div class="container mx-auto px-4 sm:px-6 section-content">
-            <!-- Menu Intro -->
-            <div class="max-w-4xl mx-auto mb-12 md:mb-16 text-center">
-                <h1 class="text-3xl md:text-4xl font-display mb-4 md:mb-6 tracking-wider">GATHER YOUR CREW</h1>
-                <p class="mb-4 md:mb-6 text-sm md:text-base">
-                    Our <strong>FARM-2-GO</strong> order form is perfect for GROUP ORDERS, offering shared platters of good choices
-                    <span class="hidden sm:inline"><br></span>
-                    like farm-fresh salads, protein bowls and healthy snacks & desserts, all made from scratch.
-                    <img src="assets/leaf.svg" alt="Leaf icon" class="inline-block h-4 w-4 align-text-bottom fill-current text-inherit">
-                </p>
-                <p class="text-xs md:text-sm tracking-wider"><strong>#eatgoodfeelgood &nbsp; #eatgoodworkhappy &nbsp; #FARMesilla</strong></p>
-            </div>
+    <div class="container mx-auto px-4 sm:px-6 section-content">
+<!-- Menu Intro -->
+<div class="max-w-4xl mx-auto mb-12 md:mb-16 text-center">
+    <h1 class="text-3xl md:text-4xl font-display mb-4 md:mb-6 tracking-wider">GATHER YOUR CREW</h1>
+<p class="mb-4 md:mb-6 text-sm md:text-base text-[your-text-color-class]">
+    Our <strong>FARM-2-GO</strong> order form is perfect for GROUP ORDERS, offering shared platters of good choices
+    <span class="hidden sm:inline"><br></span>
+    like farm-fresh salads, protein bowls and healthy snacks & desserts, all made from scratch.
+    <img src="assets/leaf.svg" alt="Leaf icon" class="inline-block h-4 w-4 align-text-bottom fill-current text-inherit">
+</p>
+    <p class="text-xs md:text-sm tracking-wider"><strong>#eatgoodfeelgood &nbsp; #eatgoodworkhappy &nbsp; #FARMesilla</strong></p>
+</div>
 
-            <div class="text-center mb-8 md:mb-12">
-                <h2 class="text-2xl md:text-3xl mb-3 md:mb-4 tracking-widest">CATERING MENU</h2>
-                <div class="w-20 h-1 bg-accent mx-auto mb-4 md:mb-6"></div>
-                <div class="flex flex-wrap justify-center gap-2 md:gap-4 mb-4 md:mb-6 text-xs md:text-sm">
-                    <span class="bg-secondary text-primary px-2 md:px-3 py-1 rounded-full">GF = GLUTEN FREE</span>
-                    <span class="bg-secondary text-primary px-2 md:px-3 py-1 rounded-full">V = VEGAN</span>
-                    <span class="bg-secondary text-primary px-2 md:px-3 py-1 rounded-full">N = CONTAINS NUTS</span>
-                </div>
-            </div>
+<div class="text-center mb-8 md:mb-12">
+    <h2 class="text-2xl md:text-3xl mb-3 md:mb-4 tracking-widest">CATERING MENU</h2>
+    <div class="w-20 h-1 bg-accent mx-auto mb-4 md:mb-6"></div>
+    <div class="flex flex-wrap justify-center gap-2 md:gap-4 mb-4 md:mb-6 text-xs md:text-sm">
+        <span class="bg-secondary text-primary px-2 md:px-3 py-1 rounded-full">GF = GLUTEN FREE</span>
+        <span class="bg-secondary text-primary px-2 md:px-3 py-1 rounded-full">V = VEGAN</span>
+        <span class="bg-secondary text-primary px-2 md:px-3 py-1 rounded-full">N = CONTAINS NUTS</span>
+    </div>
+</div>
 
-            <!-- Portion Size Selector -->
-            <div class="max-w-xs mx-auto mb-10 text-center">
-                <p class="mb-3 font-medium">SELECT PORTION SIZE</p>
-                <div class="relative flex items-center justify-center">
-                    <button type="button" class="portion-btn" onclick="adjustPortion(-1)">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z" clip-rule="evenodd" />
-                        </svg>
-                    </button>
-                    
-                    <div class="mx-4 px-6 py-2 border-b-2 border-accent text-center min-w-[120px]">
-                        <span id="portion-size" class="text-2xl font-display">10</span>
-                        <span class="ml-1 text-sm">people</span>
-                    </div>
-                    
-                    <button type="button" class="portion-btn" onclick="adjustPortion(1)">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
-                        </svg>
-                    </button>
-                </div>
-                <p class="mt-2 text-xs text-secondary-500">Standard portion sizes: 5, 10 or 20 people</p>
-            </div>
+<!-- Portion Size Selector -->
+<div class="max-w-xs mx-auto mb-10 text-center">
+    <p class="mb-3 font-medium">SELECT PORTION SIZE</p>
+    <div class="relative flex items-center justify-center">
+        <button type="button" class="portion-btn" onclick="adjustPortion(-1)">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z" clip-rule="evenodd" />
+            </svg>
+        </button>
+        
+        <div class="mx-4 px-6 py-2 border-b-2 border-accent text-center min-w-[120px]">
+            <span id="portion-size" class="text-2xl font-display">10</span>
+            <span class="ml-1 text-sm">people</span>
+        </div>
+        
+        <button type="button" class="portion-btn" onclick="adjustPortion(1)">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
+            </svg>
+        </button>
+    </div>
+    <p class="mt-2 text-xs text-secondary-500">Standard portion sizes: 5, 10 or 20 people</p>
+</div>
 
-            <!-- Dynamic Menu Items Container -->
-            <div id="menu-categories-container"></div>
+<style>
+    .portion-btn {
+        @apply rounded-full w-8 h-8 flex items-center justify-center 
+               border border-primary text-primary hover:bg-accent 
+               hover:text-white transition-colors duration-200
+               focus:outline-none focus:ring-2 focus:ring-accent;
+    }
+</style>
 
-            <!-- Order Form -->
-            <div class="max-w-4xl mx-auto bg-primary p-4 md:p-8 rounded-lg shadow-md">
-                <div class="mb-6 md:mb-8">
-                    <h4 class="text-lg md:text-xl mb-3 md:mb-4 font-bold tracking-wider">YOUR SELECTED ITEMS</h4>
-                    <div id="order-items-display" class="border border-secondary/20 rounded-lg p-3 md:p-4 mb-3 md:mb-4 min-h-24 md:min-h-32">
-                        <p class="text-center text-secondary/60 text-sm md:text-base">Your selected items will appear here</p>
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <div>
-                            <p class="font-bold tracking-wider text-sm md:text-base">SUBTOTAL:</p>
-                            <p class="text-xs md:text-sm">18% PREPARATION FEE WILL BE ADDED</p>
-                        </div>
-                        <p id="subtotal-display" class="text-xl md:text-2xl">$0.00</p>
-                    </div>
+<!-- Dynamic Menu Items Container -->
+<div id="menu-categories-container"></div>
+
+        <!-- Combined Order Form -->
+        <div class="max-w-4xl mx-auto bg-primary p-4 md:p-8 rounded-lg shadow-md">
+            <div class="mb-6 md:mb-8">
+                <h4 class="text-lg md:text-xl mb-3 md:mb-4 font-bold tracking-wider">YOUR SELECTED ITEMS</h4>
+                <div id="order-items-display" class="border border-secondary/20 rounded-lg p-3 md:p-4 mb-3 md:mb-4 min-h-24 md:min-h-32">
+                    <p class="text-center text-secondary/60 text-sm md:text-base">Your selected items will appear here</p>
                 </div>
-                
-                <h3 class="text-xl md:text-2xl mb-4 md:mb-6 text-center tracking-wider">CLIENT INFORMATION</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-4 md:mb-6">
+                <div class="flex justify-between items-center">
                     <div>
-                        <label class="block mb-1 md:mb-2 font-bold tracking-wider text-sm md:text-base">CLIENT NAME</label>
-                        <input type="text" name="client_name" class="w-full px-3 md:px-4 py-1 md:py-2 border border-secondary/60 bg-secondary bg-opacity-20 rounded-lg text-sm md:text-base" required>
+                        <p class="font-bold tracking-wider text-sm md:text-base">SUBTOTAL:</p>
+                        <p class="text-xs md:text-sm">18% PREPARATION FEE WILL BE ADDED</p>
                     </div>
-                    <div>
-                        <label class="block mb-1 md:mb-2 font-bold tracking-wider text-sm md:text-base">CLIENT EMAIL</label>
-                        <input type="email" name="client_email" class="w-full px-3 md:px-4 py-1 md:py-2 border border-secondary/60 bg-secondary bg-opacity-20 rounded-lg text-sm md:text-base" required>
-                    </div>
-                    <div>
-                        <label class="block mb-1 md:mb-2 font-bold tracking-wider text-sm md:text-base">PHONE #</label>
-                        <input type="tel" name="client_phone" class="w-full px-3 md:px-4 py-1 md:py-2 border border-secondary/60 bg-secondary bg-opacity-20 rounded-lg text-sm md:text-base" required>
-                    </div>
-                    <div>
-                        <label class="block mb-1 md:mb-2 font-bold tracking-wider text-sm md:text-base">ORDER DATE</label>
-                        <input type="date" name="order_date" class="w-full px-3 md:px-4 py-1 md:py-2 border border-secondary/60 bg-secondary bg-opacity-20 rounded-lg text-sm md:text-base" required>
-                    </div>
-                    <div>
-                        <label class="block mb-1 md:mb-2 font-bold tracking-wider text-sm md:text-base">PICK-UP/DELIVERY DATE</label>
-                        <input type="date" name="delivery_date" class="w-full px-3 md:px-4 py-1 md:py-2 border border-secondary/60 bg-secondary bg-opacity-20 rounded-lg text-sm md:text-base" required>
-                    </div>
-                    <div>
-                        <label class="block mb-1 md:mb-2 font-bold tracking-wider text-sm md:text-base">PICK-UP/DELIVERY TIME</label>
-                        <input type="time" name="delivery_time" class="w-full px-3 md:px-4 py-1 md:py-2 border border-secondary/60 bg-secondary bg-opacity-20 rounded-lg text-sm md:text-base" required>
-                    </div>
+                    <p id="subtotal-display" class="text-xl md:text-2xl">$0.00</p>
                 </div>
-                <div class="mb-4 md:mb-6">
-                    <label class="block mb-1 md:mb-2 font-bold tracking-wider text-sm md:text-base">DELIVERY ADDRESS (IF APPLICABLE)</label>
-                    <textarea name="delivery_address" rows="2" class="w-full px-3 md:px-4 py-1 md:py-2 border border-secondary/20 bg-secondary bg-opacity-20 rounded-lg text-sm md:text-base" required></textarea>
-                </div>
-                <div class="text-center">
-                    <p class="text-xs md:text-sm mb-4 md:mb-6 tracking-wider">ONCE SUBMITTED, A STAFF MEMBER WILL REVIEW YOUR FORM AND WILL REACH OUT FOR CONFIRMATION.</p>
-                    <p class="text-xs md:text-sm mb-4 md:mb-6 tracking-wider">FOR ANY QUESTIONS, EMAIL CHEF@FARMESILLA.COM</p>
-                    <button type="submit" class="bg-secondary text-primary px-6 md:px-8 py-2 md:py-3 rounded-full hover:bg-accent transition duration-300 tracking-wider text-sm md:text-base">SUBMIT ORDER</button>
+                <div class="text-center mt-4 md:mt-6">
+                    <p class="text-xs md:text-sm mb-3 md:mb-4 tracking-wider">DELIVERY RATES ARE CALCULATED PER DISTANCE</p>
                 </div>
             </div>
-
-            <!-- PDF Download -->
-            <div class="max-w-4xl mx-auto mt-12 md:mt-16 text-center">
-                <a href="assets/farmesilla-catering-menu.pdf" download class="inline-flex items-center bg-secondary text-primary px-4 md:px-6 py-2 md:py-3 rounded-full hover:bg-accent transition duration-300 mx-auto text-sm md:text-base">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 md:h-5 md:w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
-                    </svg>
-                    DOWNLOAD FULL MENU (PDF)
-                </a>
+            
+            <h3 class="text-xl md:text-2xl mb-4 md:mb-6 text-center tracking-wider">CLIENT INFORMATION</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-4 md:mb-6">
+                <div>
+                    <label class="block mb-1 md:mb-2 font-bold tracking-wider text-sm md:text-base">CLIENT NAME</label>
+                    <input type="text" name="client_name" class="w-full px-3 md:px-4 py-1 md:py-2 border border-secondary/60 bg-secondary bg-opacity-20 rounded-lg text-sm md:text-base" required>
+                </div>
+                <div>
+                    <label class="block mb-1 md:mb-2 font-bold tracking-wider text-sm md:text-base">CLIENT EMAIL</label>
+                    <input type="email" name="client_email" class="w-full px-3 md:px-4 py-1 md:py-2 border border-secondary/60 bg-secondary bg-opacity-20 rounded-lg text-sm md:text-base" required>
+                </div>
+                <div>
+                    <label class="block mb-1 md:mb-2 font-bold tracking-wider text-sm md:text-base">PHONE #</label>
+                    <input type="tel" name="client_phone" class="w-full px-3 md:px-4 py-1 md:py-2 border border-secondary/60 bg-secondary bg-opacity-20 rounded-lg text-sm md:text-base" required>
+                </div>
+                <div>
+                    <label class="block mb-1 md:mb-2 font-bold tracking-wider text-sm md:text-base">
+                        ORDER DATE 
+                        <span class="text-xs md:text-sm font-normal opacity-60">(Date this form was completed)</span>
+                    </label>
+                    <input type="date" name="order_date" class="w-full px-3 md:px-4 py-1 md:py-2 border border-secondary/60 bg-secondary bg-opacity-20 rounded-lg text-sm md:text-base" required>
+                </div>
+                <div>
+                    <label class="block mb-1 md:mb-2 font-bold tracking-wider text-sm md:text-base">PICK-UP/DELIVERY DATE</label>
+                    <input type="date" name="delivery_date" class="w-full px-3 md:px-4 py-1 md:py-2 border border-secondary/60 bg-secondary bg-opacity-20 rounded-lg text-sm md:text-base" required>
+                </div>
+                <div>
+                    <label class="block mb-1 md:mb-2 font-bold tracking-wider text-sm md:text-base">PICK-UP/DELIVERY TIME</label>
+                    <input type="time" name="delivery_time" class="w-full px-3 md:px-4 py-1 md:py-2 border border-secondary/60 bg-secondary bg-opacity-20 rounded-lg text-sm md:text-base" required>
+                </div>
+            </div>
+            <div class="mb-4 md:mb-6">
+                <label class="block mb-1 md:mb-2 font-bold tracking-wider text-sm md:text-base">
+                    DELIVERY ADDRESS (IF APPLICABLE) 
+                    <span class="text-xs md:text-sm font-normal opacity-60">(FOR PICK-UP LEAVE BLANK)</span>
+                </label>
+                <textarea 
+  name="delivery_address" 
+  rows="2" 
+  class="w-full px-3 md:px-4 py-1 md:py-2 border border-secondary/20 bg-secondary bg-opacity-20 rounded-lg text-sm md:text-base" 
+  required></textarea>
+            </div>
+            <div class="text-center">
+                <p class="text-xs md:text-sm mb-4 md:mb-6 tracking-wider">ONCE SUBMITTED, A STAFF MEMBER WILL REVIEW YOUR FORM AND WILL REACH OUT FOR CONFIRMATION.</p>
+                <p class="text-xs md:text-sm mb-4 md:mb-6 tracking-wider">FOR ANY QUESTIONS, EMAIL CHEF@FARMESILLA.COM</p>
+                <button type="submit" class="bg-secondary text-primary px-6 md:px-8 py-2 md:py-3 rounded-full hover:bg-accent transition duration-300 tracking-wider text-sm md:text-base">SUBMIT ORDER</button>
             </div>
         </div>
+
+        <!-- PDF Download at Bottom -->
+        <div class="max-w-4xl mx-auto mt-12 md:mt-16 text-center">
+            <a href="assets/farmesilla-catering-menu.pdf" download class="inline-flex items-center bg-secondary text-primary px-4 md:px-6 py-2 md:py-3 rounded-full hover:bg-accent transition duration-300 mx-auto text-sm md:text-base">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 md:h-5 md:w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
+                </svg>
+                DOWNLOAD FULL MENU (PDF)
+            </a>
+        </div>
+    </div>
     </form>
 </section>
 
@@ -428,6 +444,7 @@ const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 let currentUser = null;
 let menuItems = [];
+let editingItemId = null;
 
 // Initialize everything
 document.addEventListener('DOMContentLoaded', function() {
@@ -524,8 +541,8 @@ function displayMenuItems() {
         const categoryName = getCategoryDisplayName(categoryKey);
         
         const categoryHTML = `
-            <div class="max-w-4xl mx-auto mb-12 md:mb-16">
-                <div class="flex items-center mb-3 md:mb-4 cursor-pointer category-header">
+            <div class="max-w-4xl mx-auto mb-12 md:mb-16" data-category="${categoryKey}">
+                <div class="flex items-center mb-3 m-b-4 cursor-pointer category-header">
                     <div class="flex-grow border-t border-secondary/20"></div>
                     <h3 class="text-xl md:text-2xl mx-2 md:mx-4 tracking-wider whitespace-nowrap">
                         ${categoryName}
@@ -609,28 +626,113 @@ function displayDashboardItems(items) {
     if (!container) return;
 
     container.innerHTML = items.map(item => `
-        <div class="border p-3 rounded mb-3 bg-gray-50">
-            <div class="flex justify-between items-start">
-                <div>
-                    <h5 class="font-semibold">${item.name}</h5>
-                    <p class="text-sm text-gray-600">${item.description || ''}</p>
-                    <p class="text-sm">Price: $${item.price} | Category: ${item.category}</p>
-                    <p class="text-sm ${item.is_available ? 'text-green-600' : 'text-red-600'}">
-                        ${item.is_available ? 'Available' : 'Not Available'}
-                    </p>
+        <div class="border p-3 rounded mb-3 bg-gray-50 editable-item" data-item-id="${item.id}">
+            <div id="view-${item.id}" class="view-mode">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h5 class="font-semibold">${item.name}</h5>
+                        <p class="text-sm text-gray-600">${item.description || ''}</p>
+                        <p class="text-sm">Price: $${item.price} | Category: ${item.category}</p>
+                        <p class="text-sm ${item.is_available ? 'text-green-600' : 'text-red-600'}">
+                            ${item.is_available ? 'Available' : 'Not Available'}
+                        </p>
+                        ${item.image_url ? `<p class="text-sm">Image: <a href="${item.image_url}" target="_blank" class="text-blue-500">View</a></p>` : ''}
+                    </div>
+                    <div>
+                        <button onclick="editItem('${item.id}')" class="edit-btn">
+                            Edit
+                        </button>
+                        <button onclick="toggleItemAvailability('${item.id}', ${!item.is_available})" 
+                                class="text-sm px-2 py-1 rounded ${item.is_available ? 'bg-red-500 text-white' : 'bg-green-500 text-white'}">
+                            ${item.is_available ? 'Disable' : 'Enable'}
+                        </button>
+                        <button onclick="deleteItem('${item.id}')" class="delete-btn">
+                            Delete
+                        </button>
+                    </div>
                 </div>
-                <div>
-                    <button onclick="toggleItemAvailability('${item.id}', ${!item.is_available})" 
-                            class="text-sm px-2 py-1 rounded ${item.is_available ? 'bg-red-500 text-white' : 'bg-green-500 text-white'}">
-                        ${item.is_available ? 'Disable' : 'Enable'}
-                    </button>
-                    <button onclick="deleteItem('${item.id}')" class="text-sm px-2 py-1 bg-red-500 text-white rounded ml-2">
-                        Delete
-                    </button>
-                </div>
+            </div>
+            
+            <div id="edit-${item.id}" class="edit-mode hidden">
+                <form class="edit-form" onsubmit="saveItem(event, '${item.id}')">
+                    <input type="text" id="edit-name-${item.id}" value="${item.name}" placeholder="Name" required>
+                    <textarea id="edit-description-${item.id}" placeholder="Description">${item.description || ''}</textarea>
+                    <input type="number" id="edit-price-${item.id}" value="${item.price}" step="0.01" placeholder="Price" required>
+                    <input type="url" id="edit-image-url-${item.id}" value="${item.image_url || ''}" placeholder="Image URL">
+                    <select id="edit-category-${item.id}" required>
+                        <option value="">Select Category</option>
+                        <option value="tortas" ${item.category === 'tortas' ? 'selected' : ''}>Tortas & Wraps</option>
+                        <option value="salads" ${item.category === 'salads' ? 'selected' : ''}>Salads</option>
+                        <option value="bowls" ${item.category === 'bowls' ? 'selected' : ''}>Bowls</option>
+                        <option value="enchiladas" ${item.category === 'enchiladas' ? 'selected' : ''}>Enchiladas</option>
+                        <option value="sides" ${item.category === 'sides' ? 'selected' : ''}>Sides</option>
+                        <option value="desserts" ${item.category === 'desserts' ? 'selected' : ''}>Desserts</option>
+                        <option value="beverages" ${item.category === 'beverages' ? 'selected' : ''}>Beverages</option>
+                    </select>
+                    <div>
+                        <input type="checkbox" id="edit-available-${item.id}" ${item.is_available ? 'checked' : ''}>
+                        <label for="edit-available-${item.id}">Available</label>
+                    </div>
+                    <div>
+                        <button type="submit" class="save-btn">Save</button>
+                        <button type="button" onclick="cancelEdit('${item.id}')" class="cancel-btn">Cancel</button>
+                    </div>
+                </form>
             </div>
         </div>
     `).join('');
+}
+
+// Edit functionality
+function editItem(itemId) {
+    editingItemId = itemId;
+    document.getElementById(`view-${itemId}`).classList.add('hidden');
+    document.getElementById(`edit-${itemId}`).classList.remove('hidden');
+}
+
+function cancelEdit(itemId) {
+    editingItemId = null;
+    document.getElementById(`view-${itemId}`).classList.remove('hidden');
+    document.getElementById(`edit-${itemId}`).classList.add('hidden');
+}
+
+async function saveItem(event, itemId) {
+    event.preventDefault();
+    
+    const name = document.getElementById(`edit-name-${itemId}`).value;
+    const description = document.getElementById(`edit-description-${itemId}`).value;
+    const price = parseFloat(document.getElementById(`edit-price-${itemId}`).value);
+    const imageUrl = document.getElementById(`edit-image-url-${itemId}`).value;
+    const category = document.getElementById(`edit-category-${itemId}`).value;
+    const isAvailable = document.getElementById(`edit-available-${itemId}`).checked;
+
+    try {
+        const { error } = await supabase
+            .from('menu_items')
+            .update({
+                name,
+                description,
+                price,
+                image_url: imageUrl,
+                category,
+                is_available: isAvailable,
+                updated_at: new Date().toISOString()
+            })
+            .eq('id', itemId);
+
+        if (error) throw error;
+
+        alert('Item updated successfully!');
+        editingItemId = null;
+        
+        // Reload both dashboard and menu display
+        loadMenuItemsForDashboard();
+        loadMenuItems();
+        
+    } catch (error) {
+        console.error('Error updating item:', error);
+        alert('Failed to update item: ' + error.message);
+    }
 }
 
 // Event listeners setup
@@ -705,7 +807,9 @@ async function handleAddItem() {
     const name = document.getElementById('new-name').value;
     const price = parseFloat(document.getElementById('new-price').value);
     const description = document.getElementById('new-description').value;
+    const imageUrl = document.getElementById('new-image-url').value;
     const category = document.getElementById('new-category').value;
+    const isAvailable = document.getElementById('new-available').checked;
 
     if (!name || !price || !category) {
         alert('Please fill in all required fields');
@@ -719,8 +823,9 @@ async function handleAddItem() {
                 name,
                 price,
                 description,
+                image_url: imageUrl,
                 category,
-                is_available: true
+                is_available: isAvailable
             }]);
 
         if (error) throw error;
@@ -731,7 +836,9 @@ async function handleAddItem() {
         document.getElementById('new-name').value = '';
         document.getElementById('new-price').value = '';
         document.getElementById('new-description').value = '';
+        document.getElementById('new-image-url').value = '';
         document.getElementById('new-category').value = '';
+        document.getElementById('new-available').checked = true;
         
         // Reload items
         loadMenuItemsForDashboard();
@@ -909,14 +1016,260 @@ function showWelcomePopup() {
 }
 </script>
 
-<style>
-.portion-btn {
-    @apply rounded-full w-8 h-8 flex items-center justify-center 
-           border border-primary text-primary hover:bg-accent 
-           hover:text-white transition-colors duration-200
-           focus:outline-none focus:ring-2 focus:ring-accent;
+<script>
+// Set current year in copyright
+document.getElementById('current-year')?.textContent = new Date().getFullYear();
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Menu items with their prices (this will be dynamic now)
+    let selectedItems = [];
+
+    // This will be set up when menu items load
+    function setupQuantityInputs() {
+        document.querySelectorAll('input[type="number"]').forEach(input => {
+            input.addEventListener('change', function() {
+                if(this.value < 0) this.value = 0;
+                updateSelectedItems();
+                updateOrderSummary();
+            });
+        });
+    }
+
+    function updateSelectedItems() {
+        selectedItems = [];
+        document.querySelectorAll('.menu-qty-input').forEach(input => {
+            const quantity = parseInt(input.value) || 0;
+            if (quantity > 0) {
+                const itemName = input.dataset.name;
+                const itemPrice = parseFloat(input.dataset.price);
+                selectedItems.push({
+                    name: itemName,
+                    quantity: quantity,
+                    price: itemPrice,
+                    total: quantity * itemPrice
+                });
+            }
+        });
+    }
+
+    function formatCurrency(amount) {
+        return '$' + amount.toFixed(2);
+    }
+
+    function generateOrderMessage(formData) {
+        let message = "=== FARMESILLA CATERING ORDER ===\n\n";
+
+        message += "CLIENT INFORMATION:\n";
+        message += `Name: ${formData.get('client_name')}\n`;
+        message += `Email: ${formData.get('client_email')}\n`;
+        message += `Phone: ${formData.get('client_phone')}\n\n`;
+
+        message += "ORDER DETAILS:\n";
+        message += `Order Date: ${formData.get('order_date')}\n`;
+        message += `Delivery/Pickup Date: ${formData.get('delivery_date')}\n`;
+        message += `Time: ${formData.get('delivery_time')}\n`;
+
+        const deliveryAddress = formData.get('delivery_address');
+        if (deliveryAddress) {
+            message += `Delivery Address: ${deliveryAddress}\n`;
+        } else {
+            message += "Pickup: Yes\n";
+        }
+
+        message += "\nORDER ITEMS:\n";
+        selectedItems.forEach(item => {
+            message += `- ${item.quantity} × ${item.name} (${formatCurrency(item.price)} each) = ${formatCurrency(item.total)}\n`;
+        });
+
+        const subtotal = selectedItems.reduce((sum, item) => sum + item.total, 0);
+        const preparationFee = subtotal * 0.18;
+        const total = subtotal + preparationFee;
+
+        message += "\nORDER SUMMARY:\n";
+        message += `Subtotal: ${formatCurrency(subtotal)}\n`;
+        message += `Preparation Fee (18%): ${formatCurrency(preparationFee)}\n`;
+        message += `TOTAL: ${formatCurrency(total)}\n\n`;
+
+        message += "=== END OF ORDER ===";
+
+        return message;
+    }
+
+    function updateOrderSummary() {
+        const orderItemsContainer = document.getElementById('order-items-display');
+        const subtotalDisplay = document.getElementById('subtotal-display');
+
+        orderItemsContainer.innerHTML = '';
+
+        if (selectedItems.length === 0) {
+            orderItemsContainer.innerHTML = '<p class="text-center text-secondary/60 text-sm md:text-base">Your selected items will appear here</p>';
+            subtotalDisplay.textContent = '$0.00';
+            return;
+        }
+
+        let subtotal = 0;
+        const itemsList = document.createElement('div');
+        itemsList.className = 'space-y-2';
+
+        selectedItems.forEach(item => {
+            subtotal += item.total;
+
+            const itemElement = document.createElement('div');
+            itemElement.className = 'flex justify-between items-center text-sm md:text-base';
+
+            const itemName = document.createElement('span');
+            itemName.textContent = `${item.quantity} × ${item.name}`;
+
+            const itemTotal = document.createElement('span');
+            itemTotal.textContent = `$${item.total.toFixed(2)}`;
+            itemTotal.className = 'font-medium';
+
+            itemElement.appendChild(itemName);
+            itemElement.appendChild(itemTotal);
+            itemsList.appendChild(itemElement);
+        });
+
+        orderItemsContainer.appendChild(itemsList);
+
+        const preparationFee = subtotal * 0.18;
+        const totalWithTax = subtotal + preparationFee;
+
+        // Display updated price including 18% tax
+        subtotalDisplay.textContent = `$${totalWithTax.toFixed(2)}`;
+    }
+
+    document.getElementById('catering-form').addEventListener('submit', function(e) {
+        const formData = new FormData(this);
+        const orderMessage = generateOrderMessage(formData);
+        const messageInput = document.createElement('input');
+        messageInput.type = 'hidden';
+        messageInput.name = 'message';
+        messageInput.value = orderMessage;
+        this.appendChild(messageInput);
+    });
+
+    // Set up initial calculation
+    updateOrderSummary();
+});
+</script>
+
+<script>
+// Function to check if any items are selected
+function checkSelectedItems() {
+    const quantityInputs = document.querySelectorAll('input[type="number"]');
+    let hasSelectedItems = false;
+    
+    quantityInputs.forEach(input => {
+        if (parseInt(input.value) > 0) {
+            hasSelectedItems = true;
+        }
+    });
+    
+    return hasSelectedItems;
 }
-</style>
+
+// Function to handle the ORDER NOW button
+function handleOrderNowButton() {
+    // Remove existing button if it exists
+    const existingButton = document.getElementById('order-now-button');
+    if (existingButton) {
+        existingButton.remove();
+    }
+    
+    // If items are selected, add the button
+    if (checkSelectedItems()) {
+        const button = document.createElement('button');
+        button.id = 'order-now-button';
+        button.textContent = 'ORDER NOW';
+        button.className = 'fixed bottom-6 right-6 bg-secondary text-white px-6 py-3 rounded-full hover:bg-accent outline outline-2 outline-primary transition duration-300 tracking-wider shadow-lg z-50';
+
+        button.addEventListener('click', () => {
+            const orderForm = document.querySelector('.max-w-4xl.mx-auto.bg-primary');
+            if (orderForm) {
+                orderForm.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+        
+        document.body.appendChild(button);
+    }
+}
+
+// Set up event listeners for all quantity inputs (will be called after menu loads)
+function setupOrderNowButton() {
+    document.querySelectorAll('input[type="number"]').forEach(input => {
+        input.addEventListener('change', handleOrderNowButton);
+        input.addEventListener('input', handleOrderNowButton);
+    });
+}
+
+// Initial check in case items are already selected
+document.addEventListener('DOMContentLoaded', handleOrderNowButton);
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const explanations = {
+    'gf': 'GLUTEN FREE',
+    'v': 'VEGAN',
+    'n': 'CONTAINS NUTS'
+  };
+
+  // Create popup element
+  const popup = document.createElement('div');
+  popup.className = 'fixed inset-0 flex items-center justify-center bg-black/50 z-50 hidden';
+  popup.innerHTML = `
+    <div class="bg-primary2 border border-secondary/20 rounded-lg p-6 w-80 md:w-[30rem] max-w-[90vw] mx-4 relative">
+      <!-- Close button -->
+      <button class="absolute top-2.5 right-2.5 text-secondary hover:text-accent text-3xl leading-none w-8 h-8 flex items-center justify-center focus:outline-none" id="close-dietary">
+        &times;
+      </button>
+
+      <!-- Content container -->
+      <div class="text-center">
+        <!-- Logo with inversion filter -->
+        <div class="flex justify-center mb-4">
+          <img src="assets/logo.png" alt="Your Logo" class="h-16 w-auto invert">
+        </div>
+
+        <!-- Title -->
+        <h4 class="font-medium text-lg mb-4">Dietary Information</h4>
+
+        <!-- Content -->
+        <p class="text-sm mb-6"></p>
+
+        <!-- Continue button -->
+        <button id="continue-dietary" class="bg-secondary text-white hover:bg-accent px-4 py-2 rounded-md transition-colors">Continue</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(popup);
+
+  // Add click handlers for tags
+  document.querySelectorAll('.dietary-tag').forEach(tag => {
+    tag.style.cursor = 'pointer';
+    tag.addEventListener('click', function() {
+      const key = this.textContent.toLowerCase().trim();
+      const content = explanations[key] || 'No information available';
+      
+      popup.querySelector('p').textContent = content;
+      popup.classList.remove('hidden');
+    });
+  });
+
+  // Close popup
+  const closeBtn = popup.querySelector('#close-dietary');
+  const continueBtn = popup.querySelector('#continue-dietary');
+
+  closeBtn.addEventListener('click', () => popup.classList.add('hidden'));
+  continueBtn.addEventListener('click', () => popup.classList.add('hidden'));
+
+  popup.addEventListener('click', (e) => {
+    if (e.target === popup) popup.classList.add('hidden');
+  });
+});
+</script>
 
 </body>
 </html>
