@@ -619,7 +619,8 @@ function displayMenuItems() {
     Object.keys(categories).forEach(categoryKey => {
         const items = categories[categoryKey];
         const categoryName = getCategoryDisplayName(categoryKey);
-        
+
+        // Replace the static (PLATTER SERVES 5) with a span that gets updated by JS
         const categoryHTML = `
             <div class="max-w-4xl mx-auto mb-12 md:mb-16" data-category="${categoryKey}">
                 <div class="flex items-center mb-3 m-b-4 cursor-pointer category-header">
@@ -631,93 +632,38 @@ function displayMenuItems() {
                     <div class="flex-grow border-t border-secondary/20"></div>
                 </div>
                 <div class="collapsible-content transition-all duration-300 overflow-hidden" style="max-height: 0;">
-                    <p class="text-center mb-4 md:mb-6 text-xs md:text-sm">(PLATTER SERVES 5)</p>
+                    <p class="text-center mb-4 md:mb-6 text-xs md:text-sm">
+                        (<span class="portion-label">PLATTER SERVES ${getPortionLabel()}</span>)
+                    </p>
                     <div class="space-y-6">
                         ${items.map(item => createMenuItemHTML(item)).join('')}
                     </div>
                 </div>
             </div>
         `;
-        
+
         container.insertAdjacentHTML('beforeend', categoryHTML);
     });
 
     // Setup collapsible functionality
     setupCollapsibleSections();
     setupOrderCalculation();
+
+    // Update all (PLATTER SERVES ...) labels after menu is shown
+    updatePortionLabels();
 }
 
-function getCategoryDisplayName(category) {
-    const categoryNames = {
-        'tortas': 'FARMHOUSE TORTAS & WRAPS',
-        'salads': 'FRESH SALADS',
-        'bowls': 'PROTEIN BOWLS',
-        'enchiladas': 'ENCHILADAS',
-        'sides': 'SIDES & SNACKS',
-        'desserts': 'DESSERTS',
-        'beverages': 'BEVERAGES',
-        'other': 'OTHER ITEMS'
-    };
-    
-    // If it's a predefined category, use the mapping
-    if (categoryNames[category]) {
-        return categoryNames[category];
-    }
-    
-    // For custom categories, convert underscores back to spaces and uppercase
-    return category.replace(/_/g, ' ').toUpperCase();
+// Utility for label text based on selection
+function getPortionLabel() {
+    const size = parseInt(document.getElementById('portion-size')?.textContent || '5', 10);
+    return `${size}`;
 }
 
-function createMenuItemHTML(item) {
-    const addons = item.addons || [];
-    const dietaryTags = item.dietary_tags || [];
-    const multiplier = getPortionMultiplier();
-    const adjustedPrice = (item.price * multiplier).toFixed(2);
-    
-    let addonHTML = '';
-    if (addons.length > 0) {
-        addonHTML = `
-            <div class="mt-2">
-                <select name="${item.id}_addons" class="text-xs p-1 border border-secondary/20 rounded bg-primary2 addon-select" data-item-id="${item.id}">
-                    <option value="">Add extras (+$0)</option>
-                    ${addons.map(addon => {
-                        const addonPrice = (addon.price * multiplier).toFixed(2);
-                        return `<option value="${addon.name}" data-price="${addonPrice}">${addon.name} (+$${addonPrice})</option>`;
-                    }).join('')}
-                </select>
-            </div>
-        `;
-    }
-    
-    let tagsHTML = '';
-    if (dietaryTags.length > 0) {
-        tagsHTML = `
-            <div class="flex gap-2">
-                ${dietaryTags.map(tag => `<span class="dietary-tag bg-secondary/10 px-2 py-0.5 rounded text-xs">${tag}</span>`).join('')}
-            </div>
-        `;
-    }
-
-    return `
-        <div class="flex items-start gap-4">
-            <div class="flex-grow">
-                <div class="flex items-start justify-between">
-                    <div class="flex items-start">
-                        <input type="number" min="0" name="${item.id}_qty" class="w-12 md:w-16 mr-3 px-2 py-1 border border-secondary/20 bg-primary2 rounded text-center menu-qty-input" placeholder="QTY" data-price="${adjustedPrice}" data-base-price="${item.price}" data-name="${item.name}" data-item-id="${item.id}">
-                        <div>
-                            <p class="font-medium">
-                                <span class="font-title">${item.name}</span> ↣ $${adjustedPrice}
-                            </p>
-                            <p class="text-xs md:text-sm mt-1">${item.description || ''}</p>
-                            ${addonHTML}
-                        </div>
-                    </div>
-                    ${tagsHTML}
-                </div>
-            </div>
-            <img src="${item.image_url || 'assets/farm.jpg'}" alt="${item.name}" class="menu-item-image w-24 h-24 object-cover rounded-lg border-2 border-accent">
-        </div>
-    `;
+function updatePortionLabels() {
+    const size = getPortionLabel();
+    document.querySelectorAll('.portion-label').forEach(el => {
+        el.textContent = `PLATTER SERVES ${size}`;
+    });
 }
 
 // Dashboard functions
@@ -788,7 +734,7 @@ function displayDashboardItems(items) {
                             Edit
                         </button>
                         <button onclick="toggleItemAvailability('${item.id}', ${!item.is_available})" 
-                                class="px-4 py-2 rounded-md text-sm transition-colors ${item.is_available ? 'bg-black hover:bg-gray-800 text-white' : 'bg-black hover:bg-gray-800 text-white'}">
+                                class="px-4 py-2 rounded-md text-sm transition-colors ${item.is_available ? 'bg-black hover:bg-gray-800 text-white' : 'bg-black hover:bg-gray-800 text-white}">
                             ${item.is_available ? 'Disable' : 'Enable'}
                         </button>
                         <button onclick="deleteItem('${item.id}')" class="bg-black text-white px-4 py-2 rounded-md hover:bg-gray-800 transition-colors text-sm">
@@ -1144,9 +1090,11 @@ function setupPortionSelector() {
         currentIndex = Math.max(0, Math.min(portionSizes.length - 1, currentIndex + change));
         document.getElementById('portion-size').textContent = portionSizes[currentIndex];
         localStorage.setItem('selectedPortion', portionSizes[currentIndex]);
-        
-        // Refresh menu display with new prices
+
         displayMenuItems();
+
+        // Update all (PLATTER SERVES ...) labels after menu is shown
+        updatePortionLabels();
     }
 
     const savedSize = localStorage.getItem('selectedPortion');
@@ -1258,12 +1206,19 @@ function setupOrderCalculation() {
 
         selectedItems.forEach(item => {
             subtotal += item.total;
+
             const itemElement = document.createElement('div');
             itemElement.className = 'flex justify-between items-center text-sm md:text-base';
-            itemElement.innerHTML = `
-                <span>${item.quantity} × ${item.name}</span>
-                <span class="font-medium">$${item.total.toFixed(2)}</span>
-            `;
+
+            const itemName = document.createElement('span');
+            itemName.textContent = `${item.quantity} × ${item.name}`;
+
+            const itemTotal = document.createElement('span');
+            itemTotal.textContent = `$${item.total.toFixed(2)}`;
+            itemTotal.className = 'font-medium';
+
+            itemElement.appendChild(itemName);
+            itemElement.appendChild(itemTotal);
             itemsList.appendChild(itemElement);
         });
 
@@ -1272,8 +1227,24 @@ function setupOrderCalculation() {
 
         const preparationFee = subtotal * 0.18;
         const totalWithTax = subtotal + preparationFee;
+
+        // Display updated price including 18% tax
         subtotalDisplay.textContent = `$${totalWithTax.toFixed(2)}`;
     }
+
+    document.getElementById('catering-form').addEventListener('submit', function(e) {
+        updateSelectedItems();
+        const formData = new FormData(this);
+        const orderMessage = generateOrderMessage(formData);
+        const messageInput = document.createElement('input');
+        messageInput.type = 'hidden';
+        messageInput.name = 'message';
+        messageInput.value = orderMessage;
+        this.appendChild(messageInput);
+    });
+
+    // Set up initial calculation
+    updateOrderSummary();
 }
 
 function showWelcomePopup() {
